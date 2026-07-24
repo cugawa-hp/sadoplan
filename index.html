@@ -1,0 +1,807 @@
+<!--
+  佐渡島 夏旅 2026 しおり
+  構成：index.html + images/ フォルダ（GitHub Pages公開想定）
+
+  修正のヒント：
+  ・文章や時間はHTML内のテキストをそのまま書き換えればOK。
+  ・写真は images/ フォルダの中のファイルを <img src="images/ファイル名"> で
+    直接読み込んでいます。差し替えたいときは、images フォルダに新しい画像を
+    追加し、該当する img タグの src を新しいファイル名に書き換えてください。
+  ・セクションの境目には大きな見出しコメント（=====）を入れてあります。
+    目的のセクションはブラウザのコード内検索（Ctrl+F）で見出し名を探すと早いです。
+-->
+<title>佐渡島 夏旅 2026</title>
+<style>
+  /* ---------- 配色・フォント・共通トークン ---------- */
+  :root{
+    --sea:#1c7fc0;
+    --sea-deep:#0f5a90;
+    --sky:#63c7e8;
+    --sky-pale:#e4f4fa;
+    --sand:#f7ecd2;
+    --sand-deep:#ecd9a8;
+    --white:#ffffff;
+    --sun:#ff9750;
+    --sun-deep:#e97a2e;
+    --ink:#173047;
+    --ink-soft:#587188;
+    --night:#0b2338;
+    --star:#ffe9b8;
+    --line:rgba(23,48,71,0.12);
+    --shadow:0 12px 26px -14px rgba(23,72,110,0.35);
+    --radius:20px;
+    /* 見出し用：整った丸ゴシック（かわいく読みやすい） */
+    --font-heading:"Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
+    --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:linear-gradient(180deg,#eaf7fc 0%, var(--sky-pale) 18%, #fbf4e2 55%, var(--sand) 100%);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16.5px;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.75;
+  }
+  h1,h2,h3,.font-heading{ font-family:var(--font-heading); font-weight:700; }
+  ::selection{ background:var(--sun); color:#fff; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:480px; margin:0 auto; position:relative; padding-bottom:64px; }
+
+  /* ---------- 固定ナビ ---------- */
+  .topnav{
+    position:sticky; top:0; z-index:30;
+    background:rgba(255,252,244,0.9); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .brand{
+    display:flex; align-items:center; gap:8px; padding:12px 18px 4px;
+    font-family:var(--font-heading); font-weight:700; font-size:1rem; color:var(--sea-deep);
+  }
+  .topnav .brand .ic{ width:17px; height:17px; color:var(--sun); }
+  .navlinks{ display:flex; gap:7px; overflow-x:auto; padding:2px 16px 12px; scrollbar-width:none; }
+  .navlinks::-webkit-scrollbar{ display:none; }
+  .navlinks a{
+    flex:0 0 auto; text-decoration:none; font-size:0.8rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--sea-deep); background:var(--sky-pale); padding:9px 15px; border-radius:999px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .navlinks a.active{ background:var(--sea); color:#fff; }
+  section[id]{ scroll-margin-top:96px; }
+
+  /* ---------- ヒーロー ---------- */
+  .hero{ position:relative; height:80vw; max-height:420px; min-height:300px; overflow:hidden; }
+  .hero img{ width:100%; height:100%; object-fit:cover; }
+  .hero::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(10,50,80,0.12) 0%, rgba(8,40,66,0.15) 45%, rgba(6,28,48,0.8) 100%);
+  }
+  .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 24px 24px; color:#fff; text-align:center; }
+  .hero-text .eyebrow{ font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--star); margin-bottom:10px; }
+  .hero-text h1{ font-size:clamp(2rem,9vw,2.7rem); margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
+  .hero-text .sub{ font-size:0.95rem; color:#f2f8fb; opacity:0.95; }
+
+  /* ---------- 見出し共通 ---------- */
+  .section{ padding:42px 20px 6px; }
+  .section-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:16px; }
+  .section-head h2{ font-size:1.4rem; color:var(--sea-deep); margin:0; }
+  .section-head .tag{ font-size:0.68rem; letter-spacing:0.14em; color:var(--sun-deep); text-transform:uppercase; font-weight:700; }
+  .section-note{ color:var(--ink-soft); font-size:0.86rem; margin:-8px 0 18px; }
+
+  /* ---------- 旅行基本情報カード ---------- */
+  .overview-card{
+    margin:0 20px; background:var(--white); border-radius:22px; padding:20px 20px 18px;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; gap:16px;
+    border:1px solid rgba(23,48,71,0.06);
+  }
+  .ov-row{ display:flex; align-items:flex-start; gap:13px; }
+  .ov-row .ic{ width:21px; height:21px; color:var(--sea); flex:0 0 auto; margin-top:2px; }
+  .ov-row .k{ font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.06em; margin-bottom:2px; }
+  .ov-row .v{ font-size:0.98rem; font-weight:700; color:var(--ink); }
+  .stay-card{
+    margin:14px 20px 0; background:var(--white); border-radius:20px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); display:flex; align-items:center; gap:14px;
+    padding-right:16px;
+  }
+  .stay-card img{ width:104px; height:88px; object-fit:cover; flex:0 0 auto; }
+  .stay-card .k{ font-size:0.7rem; color:var(--ink-soft); letter-spacing:0.06em; }
+  .stay-card .v{ font-size:0.96rem; font-weight:700; color:var(--ink); }
+
+  /* ---------- ハイライト ---------- */
+  .hl-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 4px; }
+  .hl-card{ background:var(--white); border-radius:18px; padding:16px 14px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
+  .hl-card .ic{ width:23px; height:23px; color:var(--sea); margin-bottom:9px; }
+  .hl-card h3{ font-size:0.98rem; margin:0 0 5px; color:var(--ink); }
+  .hl-card p{ font-size:0.78rem; color:var(--ink-soft); margin:0; line-height:1.55; }
+
+  /* ---------- DAY バナー・見出し ---------- */
+  .day-banner{ position:relative; margin:8px 20px 0; border-radius:22px; overflow:hidden; height:150px; box-shadow:var(--shadow); }
+  .day-banner img{ width:100%; height:100%; object-fit:cover; }
+  .day-banner::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,50,80,0.1), rgba(6,28,48,0.74)); }
+  .day-banner .txt{ position:absolute; left:18px; bottom:14px; color:#fff; }
+  .day-banner .badge{ display:inline-block; font-size:0.7rem; font-weight:800; letter-spacing:0.14em; background:var(--sun); color:#fff; padding:3px 11px; border-radius:999px; margin-bottom:7px; }
+  .day-banner .ttl{ font-family:var(--font-heading); font-size:1.2rem; font-weight:700; }
+
+  .day-head{ display:flex; align-items:center; gap:11px; padding:22px 20px 4px; }
+  .day-badge{ font-family:var(--font-heading); font-weight:700; font-size:0.86rem; color:#fff; background:var(--sea); padding:6px 13px; border-radius:999px; }
+  .day-badge.d2{ background:var(--sun); }
+  .day-head h2{ margin:0; font-size:1.28rem; color:var(--ink); }
+  .day-sub{ padding:0 20px 10px; color:var(--ink-soft); font-size:0.85rem; }
+
+  /* ---------- 出発前のポイント（Tipカード） ---------- */
+  .tip-card{
+    margin:6px 20px 0; background:linear-gradient(180deg,#fff7e6,var(--sand)); border:1px solid var(--sand-deep);
+    border-radius:20px; padding:18px 18px 16px; box-shadow:var(--shadow);
+  }
+  .tip-card .tip-head{ display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+  .tip-card .tip-head .ic{ width:20px; height:20px; color:var(--sun-deep); }
+  .tip-card .tip-head h3{ margin:0; font-size:1.02rem; color:var(--ink); }
+  .tip-card p{ margin:0 0 10px; font-size:0.86rem; color:var(--ink); }
+  .tip-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .tip-tags span{ font-size:0.74rem; font-weight:700; background:#fff; border:1px solid var(--sand-deep); color:var(--sea-deep); padding:5px 11px; border-radius:999px; }
+
+  /* ---------- タイムライン ---------- */
+  .timeline{ position:relative; padding:24px 20px 4px 20px; }
+  .timeline::before{
+    content:""; position:absolute; left:52px; top:6px; bottom:14px; width:1px;
+    background:linear-gradient(180deg, var(--sun), var(--sea) 55%, transparent);
+    opacity:0.5;
+  }
+  .stop{ position:relative; display:grid; grid-template-columns:44px 1fr; column-gap:14px; margin-bottom:26px; }
+  .stop .time{ text-align:right; font-weight:700; font-size:0.94rem; color:var(--sea-deep); font-variant-numeric:tabular-nums; padding-top:16px; white-space:nowrap; }
+  .stop .time small{ display:block; font-weight:500; font-size:0.64rem; color:var(--ink-soft); }
+  .stop .dot{ position:absolute; left:52px; top:21px; width:10px; height:10px; margin-left:-5px; border-radius:50%; background:var(--sun); box-shadow:0 0 0 4px rgba(255,151,80,0.18); }
+  .stop.minor .dot{ background:var(--sea); box-shadow:0 0 0 4px rgba(28,127,192,0.16); width:8px; height:8px; margin-left:-4px; }
+  .stop.minor .time{ color:var(--ink-soft); font-size:0.8rem; padding-top:11px; }
+
+  .card{ background:var(--white); border-radius:var(--radius); padding:18px 18px 17px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
+  .card h3{ margin:0 0 4px; font-size:1.08rem; display:flex; align-items:center; gap:8px; }
+  .card h3 .ic{ width:18px; height:18px; color:var(--sun-deep); flex:0 0 auto; }
+  .card .place-en{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:11px; }
+  .card.night{ background:var(--night); border-color:rgba(255,233,184,0.12); }
+  .card.night h3{ color:var(--star); }
+  .card.night h3 .ic{ color:var(--star); }
+  .card.night .place-en{ color:#9fc3da; }
+  .card.night .list{ color:#eaf3f8; }
+  .card.night .list li::before{ color:var(--sun); }
+  .card.night .chip{ background:rgba(255,233,184,0.14); color:var(--star); }
+
+  .meta-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+  .chip{ display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; font-weight:700; background:var(--sky-pale); color:var(--sea-deep); padding:6px 12px; border-radius:999px; }
+  .chip .ic{ width:14px; height:14px; }
+  .list{ margin:0 0 11px; padding-left:0; list-style:none; font-size:0.92rem; color:var(--ink); }
+  .list li{ position:relative; padding-left:16px; margin-bottom:5px; }
+  .list li::before{ content:"·"; position:absolute; left:2px; color:var(--sea); font-weight:900; }
+  .note{ display:flex; gap:9px; background:#fdebdc; color:#8a4113; border-radius:14px; padding:12px 13px; font-size:0.82rem; margin-top:11px; align-items:flex-start; }
+  .note .ic{ width:16px; height:16px; flex:0 0 auto; margin-top:1px; color:#b5561c; }
+  .maplink{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; margin-right:8px; font-size:0.8rem; font-weight:700; color:var(--sea-deep); text-decoration:none; border:1px solid var(--sea); padding:9px 14px; border-radius:999px; }
+  .maplink .ic{ width:14px; height:14px; }
+  .maplink:active{ background:var(--sea); color:#fff; }
+  .card.night .maplink{ color:var(--star); border-color:rgba(255,233,184,0.5); }
+
+  .roles{ display:flex; gap:8px; flex-wrap:wrap; margin-top:11px; }
+  .role-chip{ font-size:0.76rem; font-weight:700; color:#7a3b06; background:linear-gradient(180deg,#ffd9ad,#ff9750); padding:7px 12px; border-radius:999px; }
+
+  .subcards{ display:flex; flex-direction:column; gap:9px; margin-top:6px; }
+  .subcard{ background:var(--sky-pale); border-radius:14px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .subcard .row{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .subcard .row img{ width:46px; height:46px; border-radius:10px; object-fit:cover; flex:0 0 auto; }
+  .subcard .name{ font-weight:700; font-size:0.92rem; }
+  .subcard .open{ font-size:0.74rem; color:var(--ink-soft); }
+  .subcard a.maplink{ margin:0; padding:6px 12px; font-size:0.72rem; flex:0 0 auto; }
+
+  .or-divider{ display:flex; align-items:center; gap:10px; margin:16px 0 12px; color:var(--ink-soft); font-size:0.74rem; letter-spacing:0.1em; }
+  .or-divider::before,.or-divider::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+  .plan-card{ background:var(--white); border-radius:var(--radius); padding:18px 18px 17px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
+  .plan-tag{ display:inline-block; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; color:#fff; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--sea); }
+  .plan-tag.b{ background:var(--sun); }
+  .plan-card h3{ margin:11px 0 4px; font-size:1.06rem; color:var(--ink); }
+  .route-photos{ display:flex; gap:8px; margin:10px 0; }
+  .route-photos img{ width:50%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; }
+  .plan-card .route{ display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin:8px 0 4px; font-size:0.88rem; font-weight:600; color:var(--ink); }
+  .plan-card .route .arrow{ color:var(--sea); font-weight:400; }
+  .route-note{ font-size:0.76rem; color:var(--ink-soft); margin:0 0 10px; }
+  .feature-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .feature-tags span{ font-size:0.73rem; background:var(--sky-pale); color:var(--sea-deep); padding:5px 10px; border-radius:999px; font-weight:600; }
+
+  .bonus-box{ background:rgba(255,255,255,0.06); border-radius:16px; padding:13px 14px; margin-top:14px; }
+  .bonus-box .lbl{ font-size:0.7rem; font-weight:800; color:var(--sun); letter-spacing:0.08em; margin-bottom:8px; }
+  .bonus-box img{ width:100%; height:120px; object-fit:cover; border-radius:12px; margin-bottom:10px; }
+  .bonus-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .bonus-tags span{ font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,233,184,0.3); color:var(--star); padding:6px 11px; border-radius:999px; font-weight:600; }
+
+  .thumb{ width:100%; border-radius:16px; overflow:hidden; margin-bottom:13px; aspect-ratio:16/9; }
+  .thumb img{ width:100%; height:100%; object-fit:cover; }
+
+  .connector{ text-align:center; color:var(--ink-soft); font-size:0.76rem; margin:2px 0 20px 66px; display:flex; align-items:center; gap:8px; }
+  .connector .ic{ width:14px; height:14px; color:var(--sea); }
+
+  /* ---------- 持ち物チェックリスト ---------- */
+  .checklist-wrap{ background:var(--white); border-radius:24px; padding:20px 18px 8px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
+  .progress{ display:flex; align-items:center; gap:11px; margin-bottom:18px; }
+  .progress-track{ flex:1; height:7px; border-radius:999px; background:var(--sky-pale); overflow:hidden; }
+  .progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,var(--sea),var(--sun)); transition:width .3s ease; }
+  .progress-label{ font-size:0.78rem; font-weight:800; color:var(--sea-deep); white-space:nowrap; font-variant-numeric:tabular-nums; }
+
+  .check-group{ margin-bottom:6px; }
+  .check-group .gname{ font-size:0.74rem; font-weight:800; letter-spacing:0.08em; color:var(--sun-deep); text-transform:uppercase; padding:12px 4px 5px; }
+  .check-item{ display:flex; align-items:center; gap:13px; padding:12px 4px; border-bottom:1px solid var(--line); cursor:pointer; user-select:none; min-height:26px; }
+  .check-group:last-child .check-item:last-child{ border-bottom:0; }
+  .check-item .ic{ width:20px; height:20px; color:var(--sea-deep); flex:0 0 auto; }
+  .check-item .label{ flex:1; font-size:0.94rem; font-weight:600; }
+  .check-item .box{ width:23px; height:23px; border-radius:8px; border:1.8px solid #b9c7d2; flex:0 0 auto; display:flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease; }
+  .check-item .box svg{ width:14px; height:14px; opacity:0; transition:opacity .15s ease; }
+  .check-item.checked .box{ background:var(--sea); border-color:var(--sea); }
+  .check-item.checked .box svg{ opacity:1; color:#fff; }
+  .check-item.checked .label{ color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--ink-soft); }
+  .check-note{ display:flex; gap:9px; background:var(--sky-pale); color:var(--sea-deep); border-radius:14px; padding:11px 13px; font-size:0.8rem; margin:8px 0 6px; }
+  .check-note .ic{ width:15px; height:15px; flex:0 0 auto; margin-top:1px; }
+
+  /* ---------- 補足カード・フッター ---------- */
+  .info-card{ background:var(--white); border:1px solid rgba(23,48,71,0.06); border-radius:18px; padding:17px 18px; box-shadow:var(--shadow); }
+  .info-card h3{ color:var(--ink); font-size:1rem; margin:0 0 9px; }
+
+  footer{ text-align:center; padding:40px 24px 10px; color:var(--ink-soft); }
+  footer .fmark{ font-family:var(--font-heading); font-size:1.15rem; color:var(--sea-deep); margin-bottom:7px; }
+  footer p{ font-size:0.8rem; opacity:0.9; margin:5px 0; }
+
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
+</style>
+
+<!-- ---------- アイコン（SVGスプライト） ---------- -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 2"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5l1.4-5A2 2 0 0 1 7.3 9h9.4a2 2 0 0 1 1.9 1.5l1.4 5"/><rect x="3" y="15.5" width="18" height="4.2" rx="1.3"/><circle cx="7.5" cy="19.7" r="1.2"/><circle cx="16.5" cy="19.7" r="1.2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-6.1-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.9-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.3"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 9c1.6-1.6 3.4-1.6 5 0s3.4 1.6 5 0 3.4-1.6 5 0 3.4 1.6 5 0"/><path d="M2 15c1.6-1.6 3.4-1.6 5 0s3.4 1.6 5 0 3.4-1.6 5 0 3.4 1.6 5 0"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11M18 3c-2 0-3 2-3 5s1 3 3 3v10"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 9.5v4.2M12 16.7h.01"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1.4 1.4 0 0 1 1.4 1.4v9.2A1.4 1.4 0 0 1 20 20H4a1.4 1.4 0 0 1-1.4-1.4V9.4A1.4 1.4 0 0 1 4 8z"/><circle cx="12" cy="13.4" r="3.4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 6.2a3 3 0 0 1 0 5.8M21 20c0-2.7-1.9-4.7-4.5-5.3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.5"/></symbol>
+    <symbol id="i-boat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h18l-2.2 5H5.2z"/><path d="M6 15V6h2.5l5 4.2M12 4v11"/></symbol>
+    <symbol id="i-bottle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v3.3l2 2.4V21H8V8.7l2-2.4z"/><path d="M9 12h6"/></symbol>
+    <symbol id="i-spray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h6v12H8z"/><path d="M11 9V5h3l2-2M17 5h3M16.5 8h3M16 11.2h2.6"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="16" height="8" rx="1.6"/><path d="M21 10.5v3"/><path d="M5.5 11v2M8.5 11v2M11.5 11v2"/></symbol>
+    <symbol id="i-jacket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 12 5.3 15 3l4 3v4l-2.5-1V21h-9V9L5 10V6z"/></symbol>
+    <symbol id="i-towel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M4 9.5h16M4 14.5h16"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 12.5H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4 4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-2z"/></symbol>
+    <symbol id="i-glasses" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="13" r="3.2"/><circle cx="17.5" cy="13" r="3.2"/><path d="M9.7 12h4.6M3.3 12l1-3.5M20.7 12l-1-3.5"/></symbol>
+    <symbol id="i-hat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 15.5c3-1 16-1 19 0"/><path d="M7 15c0-4.5 2.5-7.5 5-7.5s5 3 5 7.5"/></symbol>
+    <symbol id="i-sandal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="7.5" ry="8.5"/><path d="M9 6.5 12 10l3-3.5"/></symbol>
+    <symbol id="i-mask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="10" rx="4"/><path d="M16 10h3.5a1.5 1.5 0 0 1 0 3H16M8.5 4v3M8.5 4h3"/></symbol>
+    <symbol id="i-shell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15c0-6 4-10.5 8-10.5S20 9 20 15"/><path d="M4 15h16M12 4.5V15M8 8.5v6.5M16 8.5v6.5"/></symbol>
+    <symbol id="i-ruins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M4 20V9.5l8-5 8 5V20"/><path d="M9 20v-7M15 20v-7"/></symbol>
+    <symbol id="i-sake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M8 3v4l-3 5v9h14v-9l-3-5V3"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-flower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="5.5" r="2.6"/><circle cx="12" cy="18.5" r="2.6"/><circle cx="5.5" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="2.6"/></symbol>
+    <symbol id="i-sock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v9.5L4.8 17a3 3 0 0 0 2 5.2h6.6a3 3 0 0 0 2.9-3.7L14 12V3"/><path d="M9 3h5"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v5M16 3v5M6 8h12v4a6 6 0 0 1-12 0V8z"/><path d="M12 18v3"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M7.5 3.2c0 1-1 1-1 2M11.5 3.2c0 1-1 1-1 2"/></symbol>
+    <symbol id="i-camera2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1.4 1.4 0 0 1 1.4 1.4v9.2A1.4 1.4 0 0 1 20 20H4a1.4 1.4 0 0 1-1.4-1.4V9.4A1.4 1.4 0 0 1 4 8z"/><circle cx="12" cy="13.4" r="3.4"/></symbol>
+    <symbol id="i-pouch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a8 8 0 0 1 16 0v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <!-- =====================
+    ナビゲーション
+  ===================== -->
+  <nav class="topnav">
+    <div class="brand"><svg class="ic"><use href="#i-wave"/></svg>佐渡島 夏旅 2026</div>
+    <div class="navlinks" id="navlinks">
+      <a href="#overview">概要</a>
+      <a href="#highlights">ハイライト</a>
+      <a href="#day1">DAY1</a>
+      <a href="#day2">DAY2</a>
+      <a href="#checklist">持ち物</a>
+    </div>
+  </nav>
+
+  <!-- =====================
+    ヒーロー
+  ===================== -->
+  <div class="hero">
+    <img src="images/二ツ亀.jpeg" alt="二ツ亀">
+    <div class="hero-text">
+      <div class="eyebrow">Sado Island · Summer Trip</div>
+      <h1>佐渡島 夏旅 2026</h1>
+      <div class="sub">海・絶景・BBQ・星空・日本酒を楽しむ2日間</div>
+    </div>
+  </div>
+
+  <!-- =====================
+    旅行基本情報
+  ===================== -->
+  <section class="section" id="overview">
+    <div class="section-head"><h2>旅行概要</h2></div>
+    <div class="overview-card">
+      <div class="ov-row">
+        <svg class="ic"><use href="#i-clock"/></svg>
+        <div><div class="k">日程</div><div class="v">2026年8月12日（水）〜8月13日（木）</div></div>
+      </div>
+      <div class="ov-row">
+        <svg class="ic"><use href="#i-users"/></svg>
+        <div><div class="k">メンバー</div><div class="v">おたけ &amp; みき ／ こうき &amp; あかりん</div></div>
+      </div>
+      <div class="ov-row">
+        <svg class="ic"><use href="#i-car"/></svg>
+        <div><div class="k">移動</div><div class="v">レンタカー（24レンタカー佐渡両津港店）</div></div>
+      </div>
+    </div>
+    <!-- 宿泊先カード：写真を差し替える場合は img src のbase64を変更 -->
+    <div class="stay-card">
+      <img src="images/asahi.jpeg" alt="旅荘あさひ荘 Casa ORITO">
+      <div>
+        <div class="k"><svg class="ic" style="width:14px;height:14px;color:var(--sea);vertical-align:-2px;"><use href="#i-home"/></svg> 宿泊</div>
+        <div class="v">旅荘あさひ荘 Casa ORITO</div>
+        <a class="maplink" style="margin-top:9px; padding:6px 12px; font-size:0.72rem;" href="https://www.google.com/maps/search/?api=1&query=旅荘あさひ荘 Casa ORITO 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宿泊場所を見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+    旅のハイライト
+  ===================== -->
+  <section class="section" id="highlights">
+    <div class="section-head"><h2>旅のハイライト</h2></div>
+    <div class="hl-grid">
+      <div class="hl-card"><svg class="ic"><use href="#i-wave"/></svg><h3>二ツ亀・大野亀の絶景</h3><p>佐渡北部を代表する海岸線。</p></div>
+      <div class="hl-card"><svg class="ic"><use href="#i-shell"/></svg><h3>サザエ・アワビ素潜り</h3><p>宇川家前で本格的な海遊び。</p></div>
+      <div class="hl-card"><svg class="ic"><use href="#i-food"/></svg><h3>宇川家BBQ</h3><p>浜辺で夕食と団らんの時間。</p></div>
+      <div class="hl-card"><svg class="ic"><use href="#i-moon"/></svg><h3>流星群観察</h3><p>南片辺付近で星空観察。</p></div>
+      <div class="hl-card"><svg class="ic"><use href="#i-sake"/></svg><h3>酒蔵見学</h3><p>尾畑酒造 学校蔵で日本酒文化体験。</p></div>
+      <div class="hl-card"><svg class="ic"><use href="#i-car"/></svg><h3>北部・西側ドライブ</h3><p>佐渡らしい海沿いの絶景ルート。</p></div>
+    </div>
+  </section>
+
+  <!-- =====================
+    DAY1 スケジュール
+  ===================== -->
+  <section id="day1">
+    <div class="day-head"><span class="day-badge">DAY 1</span><h2>8/12（水）</h2></div>
+    <div class="day-sub">両津港到着 → 北部絶景 → 海遊び → BBQ → 流星群</div>
+
+    <!-- 出発前のポイント -->
+    <div class="tip-card">
+      <div class="tip-head"><svg class="ic"><use href="#i-bag"/></svg><h3>出発前のポイント</h3></div>
+      <p>チェックイン前のため、当日使うもの、特に水着類は別バッグに入れておくと便利。取り出しやすくまとめておきましょう。</p>
+      <div class="tip-tags"><span>水着</span><span>タオル</span><span>着替え</span><span>海遊び用品</span></div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- 両津港到着 -->
+      <div class="stop">
+        <div class="time">10:47</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-boat"/></svg>両津港 到着</h3>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=両津港 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- レンタカー -->
+      <div class="stop">
+        <div class="time">11:20<small>頃</small></div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-car"/></svg>24レンタカー佐渡両津港店 到着</h3>
+          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>両津港から徒歩約18分。荷物を持っての移動になるため、余裕を持って向かいましょう。</div>
+          <ul class="list" style="margin-top:11px;">
+            <li>レンタカー手続き</li>
+            <li>荷物整理</li>
+            <li>トイレ休憩</li>
+          </ul>
+          <div class="roles">
+            <span class="role-chip">🚗 手続き担当</span>
+            <span class="role-chip">🍣 ランチ確保担当</span>
+          </div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=24レンタカー佐渡両津港店" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- ランチ候補（DAY1） -->
+      <div class="stop">
+        <div class="time">昼食</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
+          <div class="place-en">予約不可・当日の混雑状況で決定</div>
+          <div class="subcards">
+            <div class="subcard">
+              <div class="row"><img src="images/いしはら寿し.jpeg" alt="いしはら寿司"><div><div class="name">① いしはら寿司</div><div class="open">11:00 OPEN</div></div></div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=いしはら寿司 佐渡" target="_blank" rel="noopener">地図</a>
+            </div>
+            <div class="subcard">
+              <div class="row"><div><div class="name">② 味処 天國</div><div class="open">11:30 OPEN</div></div></div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=味処天國 佐渡" target="_blank" rel="noopener">地図</a>
+            </div>
+            <div class="subcard">
+              <div class="row"><div><div class="name">③ すしの魚秀</div><div class="open">8:00 OPEN</div></div></div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=すしの魚秀 佐渡" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"><svg class="ic"><use href="#i-car"/></svg>12:40 両津出発 → 約50分ドライブ</div>
+
+      <!-- 二ツ亀までのドライブ準備（注意事項） -->
+      <div class="stop minor">
+        <div class="time">途中</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-car"/></svg>二ツ亀までのドライブ準備</h3>
+          <div class="place-en">二ツ亀までの道中は、コンビニ等が少ない可能性があります。</div>
+          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>出発前にトイレを済ませておくのがおすすめです。</div>
+        </div>
+      </div>
+
+      <!-- ドライブのお供（コーヒー休憩候補） -->
+      <div class="stop minor">
+        <div class="time">途中</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-coffee"/></svg>ドライブのお供</h3>
+          <div class="place-en">コーヒーなどをテイクアウトして、佐渡ドライブを楽しむ。</div>
+          <div class="subcards">
+            <div class="subcard"><div class="row"><div><div class="name">① ローソン 佐渡原黒店</div></div></div><a class="maplink" href="https://www.google.com/maps/search/?api=1&query=ローソン佐渡原黒店" target="_blank" rel="noopener">地図</a></div>
+            <div class="subcard"><div class="row"><div><div class="name">② maSanicoffee</div></div></div><a class="maplink" href="https://www.google.com/maps/search/?api=1&query=maSanicoffee 佐渡" target="_blank" rel="noopener">地図</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 二ツ亀 -->
+      <div class="stop">
+        <div class="time">13:30</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-pin"/></svg>二ツ亀海水浴場 到着</h3>
+          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約20分</span></div>
+          <ul class="list"><li>海岸散策</li><li>写真撮影</li><li>絶景を楽しむ</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=二ツ亀海水浴場" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- 大野亀 -->
+      <div class="stop">
+        <div class="time">14:00</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-sun"/></svg>大野亀</h3>
+          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約30分</span></div>
+          <ul class="list"><li>散策</li><li>写真撮影</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=大野亀 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- 宇川家 海遊びタイム -->
+      <div class="stop">
+        <div class="time">15:30<small>頃</small></div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-shell"/></svg>宇川家 海遊び</h3>
+          <div class="place-en">15:30〜17:00頃</div>
+          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-mask"/></svg>素潜り</span></div>
+          <ul class="list"><li>着替え</li><li>素潜り</li></ul>
+          <div class="meta-row"><span class="chip">🐚 サザエ</span><span class="chip">🐚 アワビ</span></div>
+          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>シャワー：藻浦崎利用可否を確認予定</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=宇川家 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宇川家の地図</a>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=藻浦崎 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>藻浦崎の地図</a>
+        </div>
+      </div>
+
+      <!-- BBQ -->
+      <div class="stop">
+        <div class="time">17:30<small>頃〜</small></div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-food"/></svg>宇川家前 BBQ</h3>
+          <ul class="list"><li>夕食</li><li>団らん</li></ul>
+        </div>
+      </div>
+
+      <!-- 流星群観察（第一候補） -->
+      <div class="stop minor">
+        <div class="time">夜<small>プラン</small></div>
+        <div class="dot"></div>
+        <div class="card night">
+          <div class="chip" style="margin-bottom:9px;">第一候補</div>
+          <h3><svg class="ic"><use href="#i-moon"/></svg>流星群観察</h3>
+          <div class="place-en">場所：片辺山越え方面／住所：南片辺付近</div>
+          <ul class="list"><li>虫よけ</li><li>羽織り（夜は肌寒い可能性あり）</li></ul>
+          <div class="note" style="background:rgba(255,151,80,0.16); color:var(--star);"><svg class="ic" style="color:var(--sun);"><use href="#i-alert"/></svg>夜は肌寒い可能性があるため、羽織りは必須です。</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=南片辺 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る（南片辺付近）</a>
+
+          <!-- 追加候補：北沢浮遊選鉱場跡 -->
+          <div class="bonus-box">
+            <div class="lbl">元気があれば・追加候補</div>
+            <img src="images/北沢.jpeg" alt="北沢浮遊選鉱場跡">
+            <h3 style="font-size:0.96rem; margin-bottom:6px;"><svg class="ic"><use href="#i-ruins"/></svg>国史跡 北沢浮遊選鉱場跡</h3>
+            <div class="place-en">ライトアップ鑑賞</div>
+            <div class="bonus-tags" style="margin-top:9px;">
+              <span>候補① チェックイン前に立ち寄る</span>
+              <span>候補② 2日目朝に行く</span>
+            </div>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=北沢浮遊選鉱場跡 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- チェックイン -->
+      <div class="stop minor">
+        <div class="time">—</div>
+        <div class="dot"></div>
+        <div class="card"><h3><svg class="ic"><use href="#i-home"/></svg>旅荘あさひ荘 Casa ORITO</h3><div class="place-en">チェックイン・1日目終了、おつかれさまでした</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================
+    DAY2 スケジュール
+  ===================== -->
+  <section id="day2">
+    <div class="day-banner">
+      <img src="images/尖閣湾.jpeg" alt="尖閣湾">
+      <div class="txt"><span class="badge">DAY 2</span><div class="ttl">佐渡観光 → 酒蔵 → スイーツ → 両津港</div></div>
+    </div>
+    <div class="day-head"><span class="day-badge d2">DAY 2</span><h2>8/13（木）</h2></div>
+    <div class="day-sub">午前は2プランから選択・午後は酒蔵とスイーツで帰路へ</div>
+
+    <!-- 午前プラン A案・B案 -->
+    <div class="section" style="padding-top:6px;">
+      <div class="section-head"><h2 style="font-size:1.08rem;">午前の過ごし方</h2><span class="tag">2案から選択</span></div>
+
+      <div class="plan-card">
+        <span class="plan-tag">A案</span>
+        <h3><svg class="ic" style="width:16px;height:16px;color:var(--sea);vertical-align:-2px;"><use href="#i-flower"/></svg> 自然を楽しむプラン</h3>
+        <div class="route-photos"><img src="images/ひまわり.jpeg" alt="小川のひまわり畑"><img src="images/尖閣湾.jpeg" alt="尖閣湾揚島遊園"></div>
+        <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園<span class="arrow">→</span>あめやの桟橋<span class="arrow">→</span>ランチ</div>
+        <div class="route-note">※途中カフェ休憩なし</div>
+        <div class="feature-tags"><span>夏らしい景色</span><span>海沿いドライブ</span><span>写真スポット</span></div>
+      </div>
+
+      <div class="or-divider">当日の天候・気分で選択</div>
+
+      <div class="plan-card">
+        <span class="plan-tag b">B案</span>
+        <h3><svg class="ic" style="width:16px;height:16px;color:var(--sun-deep);vertical-align:-2px;"><use href="#i-ruins"/></svg> 歴史を楽しむプラン</h3>
+        <div class="route-photos"><img src="images/北沢.jpeg" alt="北沢浮遊選鉱場跡" style="width:100%;"></div>
+        <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山<span class="arrow">→</span>あめやの桟橋<span class="arrow">→</span>ランチ</div>
+        <div class="feature-tags"><span>佐渡の歴史</span><span>世界遺産エリア散策</span></div>
+      </div>
+    </div>
+
+    <div class="timeline" style="padding-top:16px;">
+
+      <!-- あめやの桟橋（A案・B案共通、ランチ前に立ち寄り） -->
+      <div class="stop">
+        <div class="time">ランチ前</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-camera2"/></svg>あめやの桟橋</h3>
+          <div class="thumb"><img src="images/あめやの桟橋.jpeg" alt="あめやの桟橋"></div>
+          <ul class="list"><li>写真撮影</li><li>佐渡らしい海の景色を楽しむ</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=あめやの桟橋 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- ランチ候補（DAY2） -->
+      <div class="stop">
+        <div class="time">昼食</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
+          <div class="subcards">
+            <div class="subcard">
+              <div class="row"><img src="images/しまふうみ.jpg" alt="しまふうみ"><div><div class="name">① しまふうみ</div><div class="open">海を眺めながらランチ</div></div></div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=しまふうみ 佐渡" target="_blank" rel="noopener">地図</a>
+            </div>
+            <div class="subcard">
+              <div class="row"><div><div class="name">② 長浜荘</div><div class="open">海鮮料理</div></div></div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=長浜荘 佐渡" target="_blank" rel="noopener">地図</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"><svg class="ic"><use href="#i-car"/></svg>移動 約10分</div>
+
+      <!-- 学校蔵 -->
+      <div class="stop">
+        <div class="time">午後</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-sake"/></svg>尾畑酒造株式会社 学校蔵</h3>
+          <div class="thumb"><img src="images/学校蔵.jpeg" alt="尾畑酒造 学校蔵"></div>
+          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約1時間</span></div>
+          <ul class="list"><li>酒蔵見学</li><li>日本酒文化体験</li><li>お土産購入</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=尾畑酒造 学校蔵" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+        </div>
+      </div>
+
+      <!-- スイーツ休憩 -->
+      <div class="stop">
+        <div class="time">休憩</div>
+        <div class="dot"></div>
+        <div class="card">
+          <h3><svg class="ic"><use href="#i-camera"/></svg>スイーツ休憩</h3>
+          <div class="meta-row"><span class="chip">⏱ 時間を見て決定</span></div>
+          <div class="subcards">
+            <div class="subcard" style="flex-direction:column; align-items:stretch; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div><div class="name">タガヤス堂ドーナツ</div><div class="open">学校蔵→約10分／両津まで約1時間・テイクアウト向き</div></div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=タガヤス堂ドーナツ 佐渡" target="_blank" rel="noopener">地図</a>
+              </div>
+            </div>
+            <div class="subcard" style="flex-direction:column; align-items:stretch; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div><div class="name">フルーツカフェさいとう</div><div class="open">学校蔵→約30分／両津まで約15分・フルーツ削り/パフェ/イートイン</div></div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=フルーツカフェさいとう 佐渡" target="_blank" rel="noopener">地図</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 帰路 -->
+      <div class="stop">
+        <div class="time">15:15<small>頃</small></div>
+        <div class="dot"></div>
+        <div class="card"><h3><svg class="ic"><use href="#i-car"/></svg>24レンタカー佐渡両津港店</h3><ul class="list"><li>レンタカー返却</li><li>荷物整理</li></ul></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">15:45<small>頃</small></div>
+        <div class="dot"></div>
+        <div class="card"><h3><svg class="ic"><use href="#i-pin"/></svg>両津港</h3><ul class="list"><li>お土産購入</li><li>乗船準備</li></ul></div>
+      </div>
+
+      <div class="stop">
+        <div class="time">16:25</div>
+        <div class="dot"></div>
+        <div class="card"><h3><svg class="ic"><use href="#i-boat"/></svg>フェリー出発</h3><div class="place-en">旅行終了・お疲れさまでした</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================
+    持ち物チェックリスト
+  ===================== -->
+  <section class="section" id="checklist">
+    <div class="section-head"><h2>持ち物チェックリスト</h2></div>
+    <div class="checklist-wrap">
+      <div class="progress">
+        <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="progress-label" id="progress-label">0/18</div>
+      </div>
+      <div id="checklist"></div>
+    </div>
+  </section>
+
+  <!-- レンタカー補足 -->
+  <section class="section">
+    <div class="info-card">
+      <h3>レンタカー</h3>
+      <p style="margin:0 0 10px; font-size:0.86rem; color:var(--ink-soft);">24レンタカー佐渡両津港店（両津港すぐ）</p>
+      <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=24レンタカー佐渡両津港店" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+    </div>
+  </section>
+
+  <!-- =====================
+    フッター
+  ===================== -->
+  <footer>
+    <div class="fmark">佐渡島 夏旅 2026</div>
+    <p>おたけ・みき・こうき・あかりん、4人でのんびり楽しみましょう。</p>
+    <p>この しおり はブラウザにブックマークすると便利です。</p>
+  </footer>
+
+</div>
+
+<!-- =====================
+  スクリプト（チェックリスト保存・ナビのハイライト）
+===================== -->
+<script>
+  // 持ち物チェックリストのデータ。項目や注記を変えたい場合はここを編集。
+  const GROUPS = [
+    {name:'海遊び', items:[
+      {key:'swim', label:'水着', icon:'i-wave'},
+      {key:'towel', label:'タオル', icon:'i-towel'},
+      {key:'rashguard', label:'水着の上に着るTシャツ', icon:'i-shirt'},
+      {key:'shorts', label:'水着の上に着る短パン', icon:'i-shirt'},
+      {key:'socks', label:'靴下（あると安全）', icon:'i-sock'},
+      {key:'snorkelset', label:'水中眼鏡＆シュノーケル', icon:'i-mask'},
+      {key:'wetbag', label:'濡れたもの入れ（大きめのごみ袋でもOK）', icon:'i-bag'},
+    ], note:'男性陣2人分は準備あり'},
+    {name:'夏対策', items:[
+      {key:'hat', label:'帽子', icon:'i-hat'},
+      {key:'sunglasses', label:'サングラス', icon:'i-glasses'},
+      {key:'sandal', label:'ビーサン', icon:'i-sandal'},
+      {key:'sunscreen', label:'日焼け止め', icon:'i-bottle'},
+      {key:'bugspray', label:'虫よけ', icon:'i-spray'},
+    ]},
+    {name:'旅行用品', items:[
+      {key:'charger', label:'充電器', icon:'i-plug'},
+      {key:'battery', label:'モバイルバッテリー', icon:'i-battery'},
+      {key:'toiletries', label:'洗面用具・コスメ等', icon:'i-pouch'},
+      {key:'underwear', label:'下着', icon:'i-shirt'},
+      {key:'clothes', label:'着替え', icon:'i-shirt'},
+    ]},
+    {name:'夜', items:[
+      {key:'jacket', label:'長袖の羽織り', icon:'i-jacket'},
+    ]},
+  ];
+  const STORE_KEY = 'sado2026-checklist-v4';
+  let state = {};
+  try{ state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ state = {}; }
+
+  const listEl = document.getElementById('checklist');
+  let total = 0;
+  GROUPS.forEach(group=>{
+    const gname = document.createElement('div');
+    gname.className = 'gname';
+    gname.textContent = group.name;
+    const wrap = document.createElement('div');
+    wrap.className = 'check-group';
+    wrap.appendChild(gname);
+    group.items.forEach(item=>{
+      total++;
+      const row = document.createElement('div');
+      row.className = 'check-item' + (state[item.key] ? ' checked' : '');
+      row.setAttribute('role','checkbox');
+      row.setAttribute('aria-checked', !!state[item.key]);
+      row.tabIndex = 0;
+      row.innerHTML = `<svg class="ic"><use href="#${item.icon}"/></svg><div class="label">${item.label}</div><div class="box"><svg><use href="#i-check"/></svg></div>`;
+      function toggle(){
+        state[item.key] = !state[item.key];
+        row.classList.toggle('checked', state[item.key]);
+        row.setAttribute('aria-checked', !!state[item.key]);
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+        updateProgress();
+      }
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+      wrap.appendChild(row);
+    });
+    if(group.note){
+      const note = document.createElement('div');
+      note.className = 'check-note';
+      note.innerHTML = `<svg class="ic"><use href="#i-alert"/></svg><div>${group.note}</div>`;
+      wrap.appendChild(note);
+    }
+    listEl.appendChild(wrap);
+  });
+
+  function updateProgress(){
+    const done = Object.values(state).filter(Boolean).length;
+    document.getElementById('progress-bar').style.width = (done/total*100) + '%';
+    document.getElementById('progress-label').textContent = done + '/' + total;
+  }
+  updateProgress();
+
+  // 固定ナビ：今見ているセクションのリンクを自動でハイライト
+  const navLinks = Array.from(document.querySelectorAll('#navlinks a'));
+  const targets = navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')===id));
+      }
+    });
+  }, { rootMargin: '-100px 0px -70% 0px' });
+  targets.forEach(t=> t && io.observe(t));
+</script>
