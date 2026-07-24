@@ -99,6 +99,8 @@
     background:rgba(255,253,247,0.65); border:1px solid rgba(255,255,255,0.5);
     transform:rotate(-6deg); box-shadow:0 3px 6px rgba(40,30,15,0.18);
   }
+  .hero-stamp{ position:absolute; top:20px; right:22px; width:78px; height:78px; z-index:2; transform:rotate(6deg); filter:drop-shadow(0 3px 5px rgba(20,20,10,0.3)); }
+  .hero-stamp svg{ width:100%; height:100%; display:block; }
   .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 24px 26px; color:#fff; text-align:center; }
   .hero-text .eyebrow{ font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--star); margin-bottom:10px; }
   .hero-text h1{ font-size:clamp(2.1rem,9.5vw,2.85rem); margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
@@ -267,15 +269,21 @@
     transform:rotate(-6deg); box-shadow:0 2px 5px rgba(60,50,30,0.16); pointer-events:none;
   }
 
-  /* ---------- 宇川家メンバー紹介（家族紹介カード） ---------- */
+  /* ---------- 宇川家メンバー紹介（家族アルバム風プロフィールカード） ---------- */
   .family-card{ background:linear-gradient(180deg,#fff8ea,var(--sand)); border:1px solid var(--sand-deep); }
-  .family-group{ display:flex; flex-direction:column; gap:12px; margin-top:11px; }
-  .family-row{ display:flex; flex-direction:column; gap:2px; }
-  .family-row .fname{ font-weight:700; font-size:1rem; color:var(--ink); }
-  .family-row .fnote{ font-size:0.84rem; color:var(--ink-soft); }
-  .family-sub-head{ margin:20px 0 11px; font-weight:800; font-size:0.86rem; color:var(--sun-deep); letter-spacing:0.03em; }
-  .family-kids{ display:flex; flex-direction:column; gap:10px; }
-  .kids-fam-name{ font-size:0.8rem; font-weight:800; color:var(--sea-deep); background:var(--white); display:inline-block; padding:5px 12px; border-radius:999px; margin-top:9px; width:fit-content; }
+  .family-group{ display:flex; flex-direction:column; margin-top:12px; }
+  .family-sub-head{ margin:18px 0 4px; font-weight:800; font-size:0.86rem; color:var(--sun-deep); letter-spacing:0.03em; }
+  .family-kids{ display:flex; flex-direction:column; }
+  .kids-fam-name{ font-size:0.8rem; font-weight:800; color:var(--sea-deep); background:var(--white); display:inline-block; padding:5px 12px; border-radius:999px; margin:12px 0 2px; width:fit-content; }
+
+  .profile-row{ display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-bottom:1px dashed var(--sand-deep); }
+  .family-group .profile-row:last-child,.family-kids .profile-row:last-child{ border-bottom:0; }
+  .profile-pic{ width:58px; height:58px; border-radius:50%; object-fit:cover; flex:0 0 auto; border:3px solid var(--white); box-shadow:0 3px 8px rgba(60,50,30,0.25); }
+  .profile-pic.placeholder{ display:flex; align-items:center; justify-content:center; background:var(--sky-pale); font-size:1.5rem; }
+  .profile-info{ flex:1; min-width:0; padding-top:3px; }
+  .profile-name{ font-weight:700; font-size:1.04rem; color:var(--ink); }
+  .profile-nick{ font-size:0.82rem; color:var(--sun-deep); font-weight:700; margin:2px 0 6px; }
+  .profile-comment{ font-size:0.9rem; color:var(--ink-soft); line-height:1.65; }
 
   /* ---------- 持ち物チェックリスト ---------- */
   .checklist-wrap{ background:var(--white); border-radius:26px; padding:22px 20px 10px; box-shadow:var(--shadow); }
@@ -368,6 +376,21 @@
   ===================== -->
   <div class="hero">
     <img src="images/二ツ亀.jpeg" alt="二ツ亀">
+    <!-- 旅ノート風のスタンプ飾り（太陽・波・船） -->
+    <div class="hero-stamp" aria-hidden="true">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#fdf8ec" stroke-width="2" stroke-dasharray="3 6" opacity="0.85"/>
+        <circle cx="60" cy="40" r="9" fill="#fdf8ec" opacity="0.9"/>
+        <g stroke="#fdf8ec" stroke-width="1.6" stroke-linecap="round" opacity="0.85">
+          <path d="M60 24v-5M75 31l4-4M45 31l-4-4M86 40h5M34 40h-5"/>
+        </g>
+        <path d="M20 72q6-6 12 0t12 0 12 0t12 0t12 0" fill="none" stroke="#fdf8ec" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+        <path d="M20 82q6-6 12 0t12 0 12 0t12 0t12 0" fill="none" stroke="#fdf8ec" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+        <path d="M46 64h20l-3 8H49z" fill="#fdf8ec" opacity="0.9"/>
+        <path d="M56 64v-8" stroke="#fdf8ec" stroke-width="1.6"/>
+        <text x="60" y="102" text-anchor="middle" font-size="9" fill="#fdf8ec" font-weight="700" letter-spacing="1" opacity="0.9">SADO 2026</text>
+      </svg>
+    </div>
     <div class="hero-text">
       <div class="eyebrow">Sado Island · Summer Trip</div>
       <h1>佐渡島 夏旅 2026</h1>
@@ -440,11 +463,10 @@
         <div class="dot"></div>
         <div class="card">
           <h3><svg class="ic"><use href="#i-car"/></svg>24レンタカー佐渡両津港店 到着</h3>
-          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>両津港から徒歩約18分。荷物を持っての移動になるため、余裕を持って向かいましょう。</div>
+          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>両津港から徒歩約18分。荷物を持っての移動になるため、余裕を持って向かいましょう。<br>※こうきガンバ！💪</div>
           <ul class="list" style="margin-top:11px;">
             <li>レンタカー手続き</li>
             <li>荷物整理</li>
-            <li>トイレ休憩</li>
           </ul>
           <div class="roles">
             <span class="role-chip">🚗 手続き担当</span>
@@ -526,7 +548,7 @@
           <h3>📍 二ツ亀海水浴場 到着</h3>
           <div class="meta-row"><span class="chip">🕒 滞在 約20分</span></div>
           <div class="fun-label">✨ 楽しみ方</div>
-          <ul class="list"><li>海岸散策</li><li>写真撮影</li><li>絶景を楽しむ</li></ul>
+          <ul class="list"><li>海岸散策</li><li>写真撮影</li></ul>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=二ツ亀海水浴場" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
       </div>
@@ -540,7 +562,7 @@
           <h3>📍 大野亀</h3>
           <div class="meta-row"><span class="chip">🕒 滞在 約30分</span></div>
           <div class="fun-label">✨ 楽しみ方</div>
-          <ul class="list"><li>散策</li><li>写真撮影</li><li>絶景を楽しむ</li></ul>
+          <ul class="list"><li>散策</li><li>写真撮影</li></ul>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=大野亀 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
       </div>
@@ -550,6 +572,7 @@
         <div class="time">15:30<small>頃</small></div>
         <div class="dot"></div>
         <div class="card">
+          <div class="thumb"><img src="images/ugawa1.jpeg" alt="宇川家"></div>
           <h3><svg class="ic"><use href="#i-shell"/></svg>宇川家 海遊び</h3>
           <div class="place-en">15:30〜17:00頃</div>
           <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-mask"/></svg>素潜り</span></div>
@@ -559,6 +582,7 @@
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=宇川家 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宇川家の地図</a>
           <div class="thumb" style="margin-top:12px;"><img src="images/藻浦崎.jpeg" alt="藻浦崎"></div>
           <div class="place-en">シャワー候補：藻浦崎</div>
+          <div class="note"><svg class="ic"><use href="#i-alert"/></svg>赤ちゃん＋子供4人をBBQ前にお風呂に入れないといけないため、宇川家は混雑見込み。</div>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=藻浦崎 佐渡" target="_blank" rel="noopener">🗺 藻浦崎の地図</a>
         </div>
       </div>
@@ -568,6 +592,7 @@
         <div class="time">17:30<small>頃〜</small></div>
         <div class="dot"></div>
         <div class="card">
+          <div class="thumb"><img src="images/BBQ.jpeg" alt="宇川家前BBQ"></div>
           <h3><svg class="ic"><use href="#i-food"/></svg>宇川家前 BBQ</h3>
           <ul class="list"><li>夕食</li><li>団らん</li></ul>
         </div>
@@ -578,24 +603,97 @@
         <div class="time">紹介</div>
         <div class="dot"></div>
         <div class="card family-card">
-          <h3>🏠 宇川家メンバー情報</h3>
+          <h3>🏠 宇川家メンバー紹介</h3>
           <div class="family-group">
-            <div class="family-row"><span class="fname">父　修一（71）</span><span class="fnote">しゅー</span></div>
-            <div class="family-row"><span class="fname">母　孝子（70）</span><span class="fnote">疲労困憊<br>ビールか冷えた日本酒を注いであげてください🍺🍶</span></div>
-            <div class="family-row"><span class="fname">長女　まるし（39）</span><span class="fnote">まるし・おそらく疲労困憊</span></div>
-            <div class="family-row"><span class="fname">長男　よしき（38）</span><span class="fnote">よーたん・当日不在</span></div>
-            <div class="family-row"><span class="fname">次女　さおり（36）</span><span class="fnote">さりさん・出産後のため体力回復中</span></div>
-            <div class="family-row"><span class="fname">次男　かずし（33）</span><span class="fnote">かっしぇ丸・元気いっぱい</span></div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/修一.jpeg" alt="修一">
+              <div class="profile-info">
+                <div class="profile-name">修一（71）</div>
+                <div class="profile-nick">しゅー</div>
+                <div class="profile-comment">口癖：「やってますかぁ？」（飲んでますか）<br>黒くて夜は見えない可能性あり</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="profile-pic placeholder">👩</div>
+              <div class="profile-info">
+                <div class="profile-name">孝子（70）</div>
+                <div class="profile-comment">宇川家のマリア様。<br>疲労困憊のため、冷たいビールか日本酒を注いであげてください🍺🍶</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/まるし.jpeg" alt="まるし">
+              <div class="profile-info">
+                <div class="profile-name">まるし（39）</div>
+                <div class="profile-comment">ズッ友。<br>おそらく疲労困憊。</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/よーたん.jpeg" alt="よしき">
+              <div class="profile-info">
+                <div class="profile-name">よしき（38）</div>
+                <div class="profile-nick">よーたん</div>
+                <div class="profile-comment">13日から帰省のため不在。<br>髪型が孝子さんと一緒。</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/さおり.jpeg" alt="さおり">
+              <div class="profile-info">
+                <div class="profile-name">さおり（36）</div>
+                <div class="profile-nick">さりさん</div>
+                <div class="profile-comment">出産後のため体力回復中</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="profile-pic placeholder">👨</div>
+              <div class="profile-info">
+                <div class="profile-name">かずし（33）</div>
+                <div class="profile-nick">かっしぇ丸</div>
+                <div class="profile-comment">連日の素潜り＆ゴルフでお酒の進みが早いと予想。</div>
+              </div>
+            </div>
           </div>
           <div class="family-sub-head">👶 子ども情報</div>
           <div class="family-kids">
             <div class="kids-fam-name">よしき家</div>
-            <div class="family-row"><span class="fname">かなと（8）</span><span class="fnote">小学3年生・8/25で9歳</span></div>
-            <div class="family-row"><span class="fname">まりん（7）</span><span class="fnote">小学1年生</span></div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/かなと.jpeg" alt="かなと">
+              <div class="profile-info">
+                <div class="profile-name">かなと（8）</div>
+                <div class="profile-comment">小学3年生。<br>孝子さんのことが世界一大好き。</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/まりん.jpeg" alt="まりん">
+              <div class="profile-info">
+                <div class="profile-name">まりん（7）</div>
+                <div class="profile-nick">まぁちゃん</div>
+                <div class="profile-comment">小学1年生。<br>おっとりしていてやさしい。</div>
+              </div>
+            </div>
             <div class="kids-fam-name">さおり家</div>
-            <div class="family-row"><span class="fname">ほのか（4）</span><span class="fnote">ぽっぽちゃん・10月で5歳</span></div>
-            <div class="family-row"><span class="fname">なの（3）</span><span class="fnote">なのちゅけ・8/12誕生日</span></div>
-            <div class="family-row"><span class="fname">とうま（0）</span><span class="fnote">6/18生まれ・ほやほやボーイ</span></div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/ほのか.jpeg" alt="ほのか">
+              <div class="profile-info">
+                <div class="profile-name">ほのか（4）</div>
+                <div class="profile-nick">ぽっぽちゃん</div>
+                <div class="profile-comment">やさしい。<br>誰よりも女子。</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/なの.jpeg" alt="なの">
+              <div class="profile-info">
+                <div class="profile-name">なの（3）</div>
+                <div class="profile-nick">なのちゅけ</div>
+                <div class="profile-comment">8/12誕生日。<br>わんぱくでギャグセン高め。</div>
+              </div>
+            </div>
+            <div class="profile-row">
+              <img class="profile-pic" src="images/とうま.jpg" alt="とうま">
+              <div class="profile-info">
+                <div class="profile-name">とうま（0）</div>
+                <div class="profile-comment">6/18生まれ・ほやほやボーイ</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -609,7 +707,6 @@
           <h3><svg class="ic"><use href="#i-moon"/></svg>流星群観察</h3>
           <div class="place-en">場所：片辺山越え方面／住所：南片辺付近</div>
           <ul class="list"><li>虫よけ</li><li>羽織り（夜は肌寒い可能性あり）</li></ul>
-          <div class="note" style="background:rgba(255,151,80,0.16); color:var(--star);"><svg class="ic" style="color:var(--sun);"><use href="#i-alert"/></svg>夜は肌寒い可能性があるため、羽織りは必須です。</div>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=南片辺 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る（南片辺付近）</a>
 
           <!-- 追加候補：北沢浮遊選鉱場跡 -->
@@ -832,6 +929,14 @@
       <h3>レンタカー</h3>
       <p style="margin:0 0 10px; font-size:0.86rem; color:var(--ink-soft);">24レンタカー佐渡両津港店（両津港すぐ）</p>
       <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=24レンタカー佐渡両津港店" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+    </div>
+  </section>
+
+  <!-- 佐渡旅行のポイント -->
+  <section class="section">
+    <div class="info-card">
+      <h3>📌 佐渡旅行のポイント</h3>
+      <p style="margin:0; font-size:0.9rem; color:var(--ink-soft);">※佐渡のお店は気まぐれな性質のため、行く前に電話で営業確認をするのがおすすめ。</p>
     </div>
   </section>
 
