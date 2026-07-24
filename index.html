@@ -12,24 +12,27 @@
 -->
 <title>佐渡島 夏旅 2026</title>
 <style>
-  /* ---------- 配色・フォント・共通トークン ---------- */
+  /* ---------- 配色・フォント・共通トークン ----------
+     夏の佐渡らしい、少し柔らかい色合いに調整
+     （海のブルー / 砂浜のベージュ / 自然のグリーン / アプリコット） */
   :root{
-    --sea:#1c7fc0;
-    --sea-deep:#0f5a90;
-    --sky:#63c7e8;
-    --sky-pale:#e4f4fa;
-    --sand:#f7ecd2;
-    --sand-deep:#ecd9a8;
-    --white:#ffffff;
-    --sun:#ff9750;
-    --sun-deep:#e97a2e;
-    --ink:#173047;
-    --ink-soft:#587188;
-    --night:#0b2338;
-    --star:#ffe9b8;
-    --line:rgba(23,48,71,0.12);
-    --shadow:0 12px 26px -14px rgba(23,72,110,0.35);
-    --radius:20px;
+    --sea:#4f93a3;
+    --sea-deep:#2f6c7c;
+    --sky-pale:#eef6f3;
+    --sand:#f3e9d2;
+    --sand-deep:#e0cd9d;
+    --leaf:#7fa06a;
+    --leaf-deep:#5d7d4c;
+    --white:#fffdf8;
+    --sun:#e2925c;
+    --sun-deep:#c66f3a;
+    --ink:#3c3226;
+    --ink-soft:#8a7d68;
+    --night:#243530;
+    --star:#f3e3b8;
+    --line:rgba(60,50,38,0.09);
+    --shadow:0 14px 28px -16px rgba(90,68,40,0.3);
+    --radius:22px;
     /* 見出し用：整った丸ゴシック（かわいく読みやすい） */
     --font-heading:"Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
     --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
@@ -38,12 +41,12 @@
   html{scroll-behavior:smooth;}
   html,body{margin:0;padding:0;}
   body{
-    background:linear-gradient(180deg,#eaf7fc 0%, var(--sky-pale) 18%, #fbf4e2 55%, var(--sand) 100%);
+    background:linear-gradient(180deg,#f8f9f1 0%, var(--sky-pale) 20%, #fbf4e4 55%, var(--sand) 100%);
     color:var(--ink);
     font-family:var(--font-body);
-    font-size:16.5px;
+    font-size:17.5px;
     -webkit-font-smoothing:antialiased;
-    line-height:1.75;
+    line-height:1.8;
   }
   h1,h2,h3,.font-heading{ font-family:var(--font-heading); font-weight:700; }
   ::selection{ background:var(--sun); color:#fff; }
@@ -51,203 +54,257 @@
   img{ max-width:100%; display:block; }
   .wrap{ max-width:480px; margin:0 auto; position:relative; padding-bottom:64px; }
 
+  /* ---------- 波線ディバイダー（旅ノート風の仕切り） ---------- */
+  .wave-divider{ padding:6px 22px; color:var(--sea); opacity:0.55; }
+  .wave-divider svg{ width:100%; height:14px; display:block; }
+
+  /* ---------- 見出しの手書き風アンダーライン ---------- */
+  .section-head h2{ position:relative; display:inline-block; }
+  .section-head h2::after{
+    content:""; position:absolute; left:1px; right:1px; bottom:-7px; height:7px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 8'%3E%3Cpath d='M0,4 Q7.5,0 15,4 T30,4 T45,4 T60,4' fill='none' stroke='%23e2925c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+    background-size:30px 7px; opacity:0.75;
+  }
+
   /* ---------- 固定ナビ ---------- */
   .topnav{
     position:sticky; top:0; z-index:30;
-    background:rgba(255,252,244,0.9); backdrop-filter:blur(8px);
+    background:rgba(255,253,248,0.92); backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
   .topnav .brand{
-    display:flex; align-items:center; gap:8px; padding:12px 18px 4px;
-    font-family:var(--font-heading); font-weight:700; font-size:1rem; color:var(--sea-deep);
+    display:flex; align-items:center; gap:8px; padding:13px 18px 5px;
+    font-family:var(--font-heading); font-weight:700; font-size:1.04rem; color:var(--sea-deep);
   }
   .topnav .brand .ic{ width:17px; height:17px; color:var(--sun); }
-  .navlinks{ display:flex; gap:7px; overflow-x:auto; padding:2px 16px 12px; scrollbar-width:none; }
+  .navlinks{ display:flex; gap:7px; overflow-x:auto; padding:2px 16px 13px; scrollbar-width:none; }
   .navlinks::-webkit-scrollbar{ display:none; }
   .navlinks a{
-    flex:0 0 auto; text-decoration:none; font-size:0.8rem; font-weight:700; letter-spacing:0.02em;
-    color:var(--sea-deep); background:var(--sky-pale); padding:9px 15px; border-radius:999px;
+    flex:0 0 auto; text-decoration:none; font-size:0.84rem; font-weight:700; letter-spacing:0.02em;
+    color:var(--sea-deep); background:var(--sky-pale); padding:10px 17px; border-radius:999px;
     transition:background .2s ease, color .2s ease;
   }
   .navlinks a.active{ background:var(--sea); color:#fff; }
-  section[id]{ scroll-margin-top:96px; }
+  section[id]{ scroll-margin-top:98px; }
 
   /* ---------- ヒーロー ---------- */
-  .hero{ position:relative; height:80vw; max-height:420px; min-height:300px; overflow:hidden; }
+  .hero{ position:relative; height:82vw; max-height:440px; min-height:300px; overflow:hidden; }
   .hero img{ width:100%; height:100%; object-fit:cover; }
   .hero::after{
     content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(10,50,80,0.12) 0%, rgba(8,40,66,0.15) 45%, rgba(6,28,48,0.8) 100%);
+    background:linear-gradient(180deg, rgba(40,50,30,0.1) 0%, rgba(30,40,30,0.16) 45%, rgba(20,26,22,0.82) 100%);
   }
-  .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 24px 24px; color:#fff; text-align:center; }
+  .hero::before{
+    content:""; position:absolute; top:18px; left:24px; width:58px; height:20px; z-index:2;
+    background:rgba(255,253,247,0.65); border:1px solid rgba(255,255,255,0.5);
+    transform:rotate(-6deg); box-shadow:0 3px 6px rgba(40,30,15,0.18);
+  }
+  .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 24px 26px; color:#fff; text-align:center; }
   .hero-text .eyebrow{ font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--star); margin-bottom:10px; }
-  .hero-text h1{ font-size:clamp(2rem,9vw,2.7rem); margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
-  .hero-text .sub{ font-size:0.95rem; color:#f2f8fb; opacity:0.95; }
+  .hero-text h1{ font-size:clamp(2.1rem,9.5vw,2.85rem); margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
+  .hero-text .sub{ font-size:0.98rem; color:#f5f7ec; opacity:0.95; }
 
   /* ---------- 見出し共通 ---------- */
-  .section{ padding:42px 20px 6px; }
-  .section-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:16px; }
-  .section-head h2{ font-size:1.4rem; color:var(--sea-deep); margin:0; }
-  .section-head .tag{ font-size:0.68rem; letter-spacing:0.14em; color:var(--sun-deep); text-transform:uppercase; font-weight:700; }
-  .section-note{ color:var(--ink-soft); font-size:0.86rem; margin:-8px 0 18px; }
+  .section{ padding:46px 18px 8px; }
+  .section-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:22px; }
+  .section-head h2{ font-size:1.52rem; color:var(--sea-deep); margin:0; }
+  .section-head .tag{ font-size:0.7rem; letter-spacing:0.14em; color:var(--sun-deep); text-transform:uppercase; font-weight:700; }
+  .section-note{ color:var(--ink-soft); font-size:0.88rem; margin:-8px 0 18px; }
 
   /* ---------- 旅行基本情報カード ---------- */
   .overview-card{
-    margin:0 20px; background:var(--white); border-radius:22px; padding:20px 20px 18px;
-    box-shadow:var(--shadow); display:flex; flex-direction:column; gap:16px;
-    border:1px solid rgba(23,48,71,0.06);
+    margin:0 18px; background:var(--white); border-radius:24px; padding:22px 22px 20px;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; gap:18px;
   }
-  .ov-row{ display:flex; align-items:flex-start; gap:13px; }
-  .ov-row .ic{ width:21px; height:21px; color:var(--sea); flex:0 0 auto; margin-top:2px; }
-  .ov-row .k{ font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.06em; margin-bottom:2px; }
-  .ov-row .v{ font-size:0.98rem; font-weight:700; color:var(--ink); }
+  .ov-row{ display:flex; align-items:flex-start; gap:14px; }
+  .ov-row .ic{ width:22px; height:22px; color:var(--sea); flex:0 0 auto; margin-top:2px; }
+  .ov-row .k{ font-size:0.74rem; color:var(--ink-soft); letter-spacing:0.06em; margin-bottom:3px; }
+  .ov-row .v{ font-size:1.02rem; font-weight:700; color:var(--ink); }
   .stay-card{
-    margin:14px 20px 0; background:var(--white); border-radius:20px; overflow:hidden;
-    box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); display:flex; align-items:center; gap:14px;
+    margin:16px 18px 0; background:var(--white); border-radius:22px; overflow:hidden;
+    box-shadow:var(--shadow); display:flex; align-items:center; gap:14px;
     padding-right:16px;
   }
-  .stay-card img{ width:104px; height:88px; object-fit:cover; flex:0 0 auto; }
-  .stay-card .k{ font-size:0.7rem; color:var(--ink-soft); letter-spacing:0.06em; }
-  .stay-card .v{ font-size:0.96rem; font-weight:700; color:var(--ink); }
-
-  /* ---------- ハイライト ---------- */
-  .hl-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 4px; }
-  .hl-card{ background:var(--white); border-radius:18px; padding:16px 14px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
-  .hl-card .ic{ width:23px; height:23px; color:var(--sea); margin-bottom:9px; }
-  .hl-card h3{ font-size:0.98rem; margin:0 0 5px; color:var(--ink); }
-  .hl-card p{ font-size:0.78rem; color:var(--ink-soft); margin:0; line-height:1.55; }
+  .stay-card img{ width:112px; height:96px; object-fit:cover; flex:0 0 auto; }
+  .stay-card .k{ font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.06em; }
+  .stay-card .v{ font-size:1rem; font-weight:700; color:var(--ink); }
 
   /* ---------- DAY バナー・見出し ---------- */
-  .day-banner{ position:relative; margin:8px 20px 0; border-radius:22px; overflow:hidden; height:150px; box-shadow:var(--shadow); }
+  .day-banner{ position:relative; margin:8px 18px 0; border-radius:24px; overflow:hidden; height:165px; box-shadow:var(--shadow); }
   .day-banner img{ width:100%; height:100%; object-fit:cover; }
-  .day-banner::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,50,80,0.1), rgba(6,28,48,0.74)); }
-  .day-banner .txt{ position:absolute; left:18px; bottom:14px; color:#fff; }
-  .day-banner .badge{ display:inline-block; font-size:0.7rem; font-weight:800; letter-spacing:0.14em; background:var(--sun); color:#fff; padding:3px 11px; border-radius:999px; margin-bottom:7px; }
-  .day-banner .ttl{ font-family:var(--font-heading); font-size:1.2rem; font-weight:700; }
+  .day-banner::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(30,40,30,0.08), rgba(20,26,22,0.76)); }
+  .day-banner::before{
+    content:""; position:absolute; top:14px; left:20px; width:54px; height:19px; z-index:2;
+    background:rgba(255,253,247,0.6); border:1px solid rgba(255,255,255,0.5);
+    transform:rotate(-5deg); box-shadow:0 2px 5px rgba(40,30,15,0.16);
+  }
+  .day-banner .txt{ position:absolute; left:20px; bottom:16px; color:#fff; }
+  .day-banner .badge{ display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.14em; background:var(--sun); color:#fff; padding:4px 12px; border-radius:999px; margin-bottom:8px; }
+  .day-banner .ttl{ font-family:var(--font-heading); font-size:1.26rem; font-weight:700; }
 
-  .day-head{ display:flex; align-items:center; gap:11px; padding:22px 20px 4px; }
-  .day-badge{ font-family:var(--font-heading); font-weight:700; font-size:0.86rem; color:#fff; background:var(--sea); padding:6px 13px; border-radius:999px; }
+  .day-head{ display:flex; align-items:center; gap:12px; padding:24px 18px 5px; }
+  .day-badge{ font-family:var(--font-heading); font-weight:700; font-size:0.9rem; color:#fff; background:var(--sea); padding:7px 14px; border-radius:999px; }
   .day-badge.d2{ background:var(--sun); }
-  .day-head h2{ margin:0; font-size:1.28rem; color:var(--ink); }
-  .day-sub{ padding:0 20px 10px; color:var(--ink-soft); font-size:0.85rem; }
+  .day-head h2{ margin:0; font-size:1.36rem; color:var(--ink); }
+  .day-sub{ padding:0 18px 12px; color:var(--ink-soft); font-size:0.9rem; }
 
   /* ---------- 出発前のポイント（Tipカード） ---------- */
   .tip-card{
-    margin:6px 20px 0; background:linear-gradient(180deg,#fff7e6,var(--sand)); border:1px solid var(--sand-deep);
-    border-radius:20px; padding:18px 18px 16px; box-shadow:var(--shadow);
+    margin:8px 18px 0; background:linear-gradient(180deg,#fff8ea,var(--sand)); border:1px solid var(--sand-deep);
+    border-radius:22px; padding:20px 20px 18px; box-shadow:var(--shadow);
   }
-  .tip-card .tip-head{ display:flex; align-items:center; gap:9px; margin-bottom:8px; }
-  .tip-card .tip-head .ic{ width:20px; height:20px; color:var(--sun-deep); }
-  .tip-card .tip-head h3{ margin:0; font-size:1.02rem; color:var(--ink); }
-  .tip-card p{ margin:0 0 10px; font-size:0.86rem; color:var(--ink); }
-  .tip-tags{ display:flex; flex-wrap:wrap; gap:7px; }
-  .tip-tags span{ font-size:0.74rem; font-weight:700; background:#fff; border:1px solid var(--sand-deep); color:var(--sea-deep); padding:5px 11px; border-radius:999px; }
+  .tip-card .tip-head{ display:flex; align-items:center; gap:9px; margin-bottom:9px; }
+  .tip-card .tip-head .ic{ width:21px; height:21px; color:var(--sun-deep); }
+  .tip-card .tip-head h3{ margin:0; font-size:1.08rem; color:var(--ink); }
+  .tip-card p{ margin:0 0 11px; font-size:0.9rem; color:var(--ink); }
+  .tip-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tip-tags span{ font-size:0.78rem; font-weight:700; background:#fff; border:1px solid var(--sand-deep); color:var(--sea-deep); padding:6px 12px; border-radius:999px; }
 
   /* ---------- タイムライン ---------- */
-  .timeline{ position:relative; padding:24px 20px 4px 20px; }
+  .timeline{ position:relative; padding:26px 18px 4px 18px; }
   .timeline::before{
-    content:""; position:absolute; left:52px; top:6px; bottom:14px; width:1px;
+    content:""; position:absolute; left:52px; top:6px; bottom:14px; width:2px;
     background:linear-gradient(180deg, var(--sun), var(--sea) 55%, transparent);
-    opacity:0.5;
+    opacity:0.45; border-radius:2px;
   }
-  .stop{ position:relative; display:grid; grid-template-columns:44px 1fr; column-gap:14px; margin-bottom:26px; }
-  .stop .time{ text-align:right; font-weight:700; font-size:0.94rem; color:var(--sea-deep); font-variant-numeric:tabular-nums; padding-top:16px; white-space:nowrap; }
-  .stop .time small{ display:block; font-weight:500; font-size:0.64rem; color:var(--ink-soft); }
-  .stop .dot{ position:absolute; left:52px; top:21px; width:10px; height:10px; margin-left:-5px; border-radius:50%; background:var(--sun); box-shadow:0 0 0 4px rgba(255,151,80,0.18); }
-  .stop.minor .dot{ background:var(--sea); box-shadow:0 0 0 4px rgba(28,127,192,0.16); width:8px; height:8px; margin-left:-4px; }
-  .stop.minor .time{ color:var(--ink-soft); font-size:0.8rem; padding-top:11px; }
+  .stop{ position:relative; display:grid; grid-template-columns:46px 1fr; column-gap:15px; margin-bottom:30px; }
+  .stop .time{ text-align:right; font-weight:700; font-size:0.98rem; color:var(--sea-deep); font-variant-numeric:tabular-nums; padding-top:18px; white-space:nowrap; }
+  .stop .time small{ display:block; font-weight:500; font-size:0.66rem; color:var(--ink-soft); }
+  .stop .dot{ position:absolute; left:52px; top:23px; width:11px; height:11px; margin-left:-5.5px; border-radius:50%; background:var(--sun); box-shadow:0 0 0 4px rgba(226,146,92,0.2); }
+  .stop.minor .dot{ background:var(--sea); box-shadow:0 0 0 4px rgba(79,147,163,0.18); width:9px; height:9px; margin-left:-4.5px; }
+  .stop.minor .time{ color:var(--ink-soft); font-size:0.84rem; padding-top:13px; }
 
-  .card{ background:var(--white); border-radius:var(--radius); padding:18px 18px 17px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
-  .card h3{ margin:0 0 4px; font-size:1.08rem; display:flex; align-items:center; gap:8px; }
-  .card h3 .ic{ width:18px; height:18px; color:var(--sun-deep); flex:0 0 auto; }
-  .card .place-en{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:11px; }
-  .card.night{ background:var(--night); border-color:rgba(255,233,184,0.12); }
+  .card{ background:var(--white); border-radius:var(--radius); padding:21px 20px 20px; box-shadow:var(--shadow); }
+  .card h3{ margin:0 0 5px; font-size:1.14rem; display:flex; align-items:center; gap:8px; }
+  .card h3 .ic{ width:19px; height:19px; color:var(--sun-deep); flex:0 0 auto; }
+  .card .place-en{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:12px; }
+  .card.night{ background:var(--night); }
   .card.night h3{ color:var(--star); }
   .card.night h3 .ic{ color:var(--star); }
-  .card.night .place-en{ color:#9fc3da; }
-  .card.night .list{ color:#eaf3f8; }
+  .card.night .place-en{ color:#b9d4c8; }
+  .card.night .list{ color:#eaf3ee; }
   .card.night .list li::before{ color:var(--sun); }
-  .card.night .chip{ background:rgba(255,233,184,0.14); color:var(--star); }
+  .card.night .chip{ background:rgba(243,227,184,0.14); color:var(--star); }
 
-  .meta-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
-  .chip{ display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; font-weight:700; background:var(--sky-pale); color:var(--sea-deep); padding:6px 12px; border-radius:999px; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:9px; margin-bottom:13px; }
+  .chip{ display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; font-weight:700; background:var(--sky-pale); color:var(--sea-deep); padding:7px 13px; border-radius:999px; }
   .chip .ic{ width:14px; height:14px; }
-  .list{ margin:0 0 11px; padding-left:0; list-style:none; font-size:0.92rem; color:var(--ink); }
-  .list li{ position:relative; padding-left:16px; margin-bottom:5px; }
-  .list li::before{ content:"·"; position:absolute; left:2px; color:var(--sea); font-weight:900; }
-  .note{ display:flex; gap:9px; background:#fdebdc; color:#8a4113; border-radius:14px; padding:12px 13px; font-size:0.82rem; margin-top:11px; align-items:flex-start; }
-  .note .ic{ width:16px; height:16px; flex:0 0 auto; margin-top:1px; color:#b5561c; }
-  .maplink{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; margin-right:8px; font-size:0.8rem; font-weight:700; color:var(--sea-deep); text-decoration:none; border:1px solid var(--sea); padding:9px 14px; border-radius:999px; }
-  .maplink .ic{ width:14px; height:14px; }
+  .list{ margin:0 0 12px; padding-left:0; list-style:none; font-size:0.97rem; color:var(--ink); }
+  .list li{ position:relative; padding-left:17px; margin-bottom:6px; }
+  .list li::before{ content:"·"; position:absolute; left:2px; color:var(--leaf-deep); font-weight:900; }
+  .note{ display:flex; gap:9px; background:#fbead9; color:#8a4b1e; border-radius:16px; padding:13px 14px; font-size:0.86rem; margin-top:12px; align-items:flex-start; }
+  .note .ic{ width:16px; height:16px; flex:0 0 auto; margin-top:1px; color:#b5651c; }
+  .maplink{ display:inline-flex; align-items:center; gap:7px; margin-top:13px; margin-right:8px; font-size:0.86rem; font-weight:700; color:var(--sea-deep); text-decoration:none; border:1.5px solid var(--sea); padding:12px 18px; border-radius:999px; min-height:26px; }
+  .maplink .ic{ width:15px; height:15px; }
   .maplink:active{ background:var(--sea); color:#fff; }
-  .card.night .maplink{ color:var(--star); border-color:rgba(255,233,184,0.5); }
+  .card.night .maplink{ color:var(--star); border-color:rgba(243,227,184,0.5); }
 
-  .roles{ display:flex; gap:8px; flex-wrap:wrap; margin-top:11px; }
-  .role-chip{ font-size:0.76rem; font-weight:700; color:#7a3b06; background:linear-gradient(180deg,#ffd9ad,#ff9750); padding:7px 12px; border-radius:999px; }
+  .roles{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .role-chip{ font-size:0.8rem; font-weight:700; color:#7a4413; background:linear-gradient(180deg,#ffdcb0,var(--sun)); padding:8px 13px; border-radius:999px; }
 
-  .subcards{ display:flex; flex-direction:column; gap:9px; margin-top:6px; }
-  .subcard{ background:var(--sky-pale); border-radius:14px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .subcards{ display:flex; flex-direction:column; gap:10px; margin-top:7px; }
+  .subcard{ background:var(--sky-pale); border-radius:16px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
   .subcard .row{ display:flex; align-items:center; gap:10px; min-width:0; }
-  .subcard .row img{ width:46px; height:46px; border-radius:10px; object-fit:cover; flex:0 0 auto; }
-  .subcard .name{ font-weight:700; font-size:0.92rem; }
-  .subcard .open{ font-size:0.74rem; color:var(--ink-soft); }
-  .subcard a.maplink{ margin:0; padding:6px 12px; font-size:0.72rem; flex:0 0 auto; }
+  .subcard .row img{ width:48px; height:48px; border-radius:12px; object-fit:cover; flex:0 0 auto; }
+  .subcard .name{ font-weight:700; font-size:0.96rem; }
+  .subcard .open{ font-size:0.78rem; color:var(--ink-soft); }
+  .subcard a.maplink{ margin:0; padding:7px 13px; font-size:0.76rem; flex:0 0 auto; min-height:auto; }
 
-  .or-divider{ display:flex; align-items:center; gap:10px; margin:16px 0 12px; color:var(--ink-soft); font-size:0.74rem; letter-spacing:0.1em; }
+  .or-divider{ display:flex; align-items:center; gap:10px; margin:18px 0 14px; color:var(--ink-soft); font-size:0.76rem; letter-spacing:0.1em; }
   .or-divider::before,.or-divider::after{ content:""; flex:1; height:1px; background:var(--line); }
 
-  .plan-card{ background:var(--white); border-radius:var(--radius); padding:18px 18px 17px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
-  .plan-tag{ display:inline-block; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; color:#fff; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--sea); }
+  .plan-card{ background:var(--white); border-radius:var(--radius); padding:21px 20px 20px; box-shadow:var(--shadow); }
+  .plan-tag{ display:inline-block; font-size:0.7rem; font-weight:800; letter-spacing:0.08em; color:#fff; text-transform:uppercase; padding:5px 12px; border-radius:999px; background:var(--sea); }
   .plan-tag.b{ background:var(--sun); }
-  .plan-card h3{ margin:11px 0 4px; font-size:1.06rem; color:var(--ink); }
-  .route-photos{ display:flex; gap:8px; margin:10px 0; }
-  .route-photos img{ width:50%; aspect-ratio:4/3; object-fit:cover; border-radius:12px; }
-  .plan-card .route{ display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin:8px 0 4px; font-size:0.88rem; font-weight:600; color:var(--ink); }
-  .plan-card .route .arrow{ color:var(--sea); font-weight:400; }
-  .route-note{ font-size:0.76rem; color:var(--ink-soft); margin:0 0 10px; }
-  .feature-tags{ display:flex; flex-wrap:wrap; gap:7px; }
-  .feature-tags span{ font-size:0.73rem; background:var(--sky-pale); color:var(--sea-deep); padding:5px 10px; border-radius:999px; font-weight:600; }
+  .plan-card h3{ margin:12px 0 5px; font-size:1.1rem; color:var(--ink); }
+  .route-photos{ display:flex; gap:10px; margin:12px 2px 14px; }
+  .route-photos img{ width:50%; aspect-ratio:4/3; object-fit:cover; border-radius:14px; box-shadow:0 6px 14px -8px rgba(60,50,30,0.35); }
+  .route-photos img:nth-child(1){ transform:rotate(-2deg); }
+  .route-photos img:nth-child(2){ transform:rotate(2deg); }
+  .plan-card .route{ display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin:8px 0 4px; font-size:0.92rem; font-weight:600; color:var(--ink); }
+  .plan-card .route .arrow{ color:var(--leaf-deep); font-weight:400; }
+  .route-note{ font-size:0.8rem; color:var(--ink-soft); margin:0 0 10px; }
+  .feature-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .feature-tags span{ font-size:0.77rem; background:var(--sky-pale); color:var(--sea-deep); padding:6px 11px; border-radius:999px; font-weight:600; }
 
-  .bonus-box{ background:rgba(255,255,255,0.06); border-radius:16px; padding:13px 14px; margin-top:14px; }
-  .bonus-box .lbl{ font-size:0.7rem; font-weight:800; color:var(--sun); letter-spacing:0.08em; margin-bottom:8px; }
-  .bonus-box img{ width:100%; height:120px; object-fit:cover; border-radius:12px; margin-bottom:10px; }
-  .bonus-tags{ display:flex; flex-wrap:wrap; gap:7px; }
-  .bonus-tags span{ font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,233,184,0.3); color:var(--star); padding:6px 11px; border-radius:999px; font-weight:600; }
+  /* ---------- ルート地図（手描き風ミニマップ＋Google Mapボタン） ---------- */
+  .route-map{ margin-top:16px; background:var(--sky-pale); border-radius:18px; padding:16px 16px 18px; }
+  .route-map-label{ font-size:0.84rem; font-weight:800; color:var(--sea-deep); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+  .route-map svg{ width:100%; height:auto; display:block; margin-bottom:12px; }
+  .route-map .maplink{ width:100%; justify-content:center; margin:0; }
 
-  .thumb{ width:100%; border-radius:16px; overflow:hidden; margin-bottom:13px; aspect-ratio:16/9; }
+  .bonus-box{ background:rgba(255,255,255,0.07); border-radius:18px; padding:15px 16px; margin-top:16px; }
+  .bonus-box .lbl{ font-size:0.72rem; font-weight:800; color:var(--sun); letter-spacing:0.08em; margin-bottom:9px; }
+  .bonus-box img{ width:100%; height:135px; object-fit:cover; border-radius:14px; margin-bottom:11px; }
+  .bonus-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .bonus-tags span{ font-size:0.78rem; background:rgba(255,255,255,0.08); border:1px solid rgba(243,227,184,0.3); color:var(--star); padding:7px 12px; border-radius:999px; font-weight:600; }
+
+  .thumb{ width:100%; border-radius:18px; overflow:hidden; margin-bottom:15px; aspect-ratio:4/3; position:relative; }
   .thumb img{ width:100%; height:100%; object-fit:cover; }
 
-  .connector{ text-align:center; color:var(--ink-soft); font-size:0.76rem; margin:2px 0 20px 66px; display:flex; align-items:center; gap:8px; }
-  .connector .ic{ width:14px; height:14px; color:var(--sea); }
+  .connector{ text-align:center; color:var(--ink-soft); font-size:0.8rem; margin:2px 0 22px 68px; display:flex; align-items:center; gap:8px; }
+  .connector .ic{ width:15px; height:15px; color:var(--sea); }
+
+  /* ---------- 楽しみ方ラベル（統一スポットカード用） ---------- */
+  .fun-label{ font-size:0.82rem; font-weight:700; color:var(--sun-deep); margin:3px 0 8px; }
+
+  /* ---------- 候補カード（写真つき・ランチ/スイーツ候補などで使用） ---------- */
+  .pcard-list{ display:flex; flex-direction:column; gap:14px; margin-top:9px; }
+  .pcard{ background:var(--sky-pale); border-radius:18px; overflow:hidden; }
+  .pcard-thumb{ width:100%; aspect-ratio:4/3; overflow:hidden; position:relative; }
+  .pcard-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .pcard-body{ padding:14px 16px 16px; }
+  .pcard-name{ font-weight:700; font-size:1.02rem; color:var(--ink); margin-bottom:6px; }
+  .pcard-meta{ font-size:0.84rem; color:var(--ink-soft); margin-bottom:4px; }
+  .pcard-body .maplink{ margin-top:10px; }
+  .pcard-list .pcard:nth-child(odd){ transform:rotate(-0.5deg); }
+  .pcard-list .pcard:nth-child(even){ transform:rotate(0.5deg); }
+
+  /* 写真つきカードのワッシャーテープ風アクセント */
+  .thumb::before,.pcard-thumb::before{
+    content:""; position:absolute; top:10px; left:16px; width:50px; height:18px; z-index:2;
+    background:rgba(255,253,247,0.62); border:1px solid rgba(255,255,255,0.5);
+    transform:rotate(-6deg); box-shadow:0 2px 5px rgba(60,50,30,0.16); pointer-events:none;
+  }
+
+  /* ---------- 宇川家メンバー紹介（家族紹介カード） ---------- */
+  .family-card{ background:linear-gradient(180deg,#fff8ea,var(--sand)); border:1px solid var(--sand-deep); }
+  .family-group{ display:flex; flex-direction:column; gap:12px; margin-top:11px; }
+  .family-row{ display:flex; flex-direction:column; gap:2px; }
+  .family-row .fname{ font-weight:700; font-size:1rem; color:var(--ink); }
+  .family-row .fnote{ font-size:0.84rem; color:var(--ink-soft); }
+  .family-sub-head{ margin:20px 0 11px; font-weight:800; font-size:0.86rem; color:var(--sun-deep); letter-spacing:0.03em; }
+  .family-kids{ display:flex; flex-direction:column; gap:10px; }
+  .kids-fam-name{ font-size:0.8rem; font-weight:800; color:var(--sea-deep); background:var(--white); display:inline-block; padding:5px 12px; border-radius:999px; margin-top:9px; width:fit-content; }
 
   /* ---------- 持ち物チェックリスト ---------- */
-  .checklist-wrap{ background:var(--white); border-radius:24px; padding:20px 18px 8px; box-shadow:var(--shadow); border:1px solid rgba(23,48,71,0.06); }
-  .progress{ display:flex; align-items:center; gap:11px; margin-bottom:18px; }
-  .progress-track{ flex:1; height:7px; border-radius:999px; background:var(--sky-pale); overflow:hidden; }
+  .checklist-wrap{ background:var(--white); border-radius:26px; padding:22px 20px 10px; box-shadow:var(--shadow); }
+  .progress{ display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .progress-track{ flex:1; height:8px; border-radius:999px; background:var(--sky-pale); overflow:hidden; }
   .progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,var(--sea),var(--sun)); transition:width .3s ease; }
-  .progress-label{ font-size:0.78rem; font-weight:800; color:var(--sea-deep); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .progress-label{ font-size:0.82rem; font-weight:800; color:var(--sea-deep); white-space:nowrap; font-variant-numeric:tabular-nums; }
 
   .check-group{ margin-bottom:6px; }
-  .check-group .gname{ font-size:0.74rem; font-weight:800; letter-spacing:0.08em; color:var(--sun-deep); text-transform:uppercase; padding:12px 4px 5px; }
-  .check-item{ display:flex; align-items:center; gap:13px; padding:12px 4px; border-bottom:1px solid var(--line); cursor:pointer; user-select:none; min-height:26px; }
+  .check-group .gname{ font-size:0.78rem; font-weight:800; letter-spacing:0.08em; color:var(--sun-deep); text-transform:uppercase; padding:14px 4px 6px; }
+  .check-item{ display:flex; align-items:center; gap:14px; padding:14px 4px; border-bottom:1px solid var(--line); cursor:pointer; user-select:none; min-height:30px; }
   .check-group:last-child .check-item:last-child{ border-bottom:0; }
-  .check-item .ic{ width:20px; height:20px; color:var(--sea-deep); flex:0 0 auto; }
-  .check-item .label{ flex:1; font-size:0.94rem; font-weight:600; }
-  .check-item .box{ width:23px; height:23px; border-radius:8px; border:1.8px solid #b9c7d2; flex:0 0 auto; display:flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease; }
-  .check-item .box svg{ width:14px; height:14px; opacity:0; transition:opacity .15s ease; }
+  .check-item .ic{ width:21px; height:21px; color:var(--sea-deep); flex:0 0 auto; }
+  .check-item .label{ flex:1; font-size:0.99rem; font-weight:600; }
+  .check-item .box{ width:27px; height:27px; border-radius:9px; border:2px solid #c7bda5; flex:0 0 auto; display:flex; align-items:center; justify-content:center; transition:background .18s ease, border-color .18s ease; }
+  .check-item .box svg{ width:15px; height:15px; opacity:0; transition:opacity .15s ease; }
   .check-item.checked .box{ background:var(--sea); border-color:var(--sea); }
   .check-item.checked .box svg{ opacity:1; color:#fff; }
   .check-item.checked .label{ color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--ink-soft); }
-  .check-note{ display:flex; gap:9px; background:var(--sky-pale); color:var(--sea-deep); border-radius:14px; padding:11px 13px; font-size:0.8rem; margin:8px 0 6px; }
+  .check-note{ display:flex; gap:9px; background:var(--sky-pale); color:var(--sea-deep); border-radius:16px; padding:12px 14px; font-size:0.84rem; margin:8px 0 6px; }
   .check-note .ic{ width:15px; height:15px; flex:0 0 auto; margin-top:1px; }
 
   /* ---------- 補足カード・フッター ---------- */
-  .info-card{ background:var(--white); border:1px solid rgba(23,48,71,0.06); border-radius:18px; padding:17px 18px; box-shadow:var(--shadow); }
-  .info-card h3{ color:var(--ink); font-size:1rem; margin:0 0 9px; }
+  .info-card{ background:var(--white); border-radius:20px; padding:19px 20px; box-shadow:var(--shadow); }
+  .info-card h3{ color:var(--ink); font-size:1.04rem; margin:0 0 10px; }
 
-  footer{ text-align:center; padding:40px 24px 10px; color:var(--ink-soft); }
-  footer .fmark{ font-family:var(--font-heading); font-size:1.15rem; color:var(--sea-deep); margin-bottom:7px; }
-  footer p{ font-size:0.8rem; opacity:0.9; margin:5px 0; }
+  footer{ text-align:center; padding:44px 24px 12px; color:var(--ink-soft); }
+  footer .fmark{ font-family:var(--font-heading); font-size:1.2rem; color:var(--sea-deep); margin-bottom:8px; }
+  footer p{ font-size:0.84rem; opacity:0.9; margin:5px 0; }
 
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
 </style>
@@ -300,7 +357,6 @@
     <div class="brand"><svg class="ic"><use href="#i-wave"/></svg>佐渡島 夏旅 2026</div>
     <div class="navlinks" id="navlinks">
       <a href="#overview">概要</a>
-      <a href="#highlights">ハイライト</a>
       <a href="#day1">DAY1</a>
       <a href="#day2">DAY2</a>
       <a href="#checklist">持ち物</a>
@@ -349,20 +405,7 @@
     </div>
   </section>
 
-  <!-- =====================
-    旅のハイライト
-  ===================== -->
-  <section class="section" id="highlights">
-    <div class="section-head"><h2>旅のハイライト</h2></div>
-    <div class="hl-grid">
-      <div class="hl-card"><svg class="ic"><use href="#i-wave"/></svg><h3>二ツ亀・大野亀の絶景</h3><p>佐渡北部を代表する海岸線。</p></div>
-      <div class="hl-card"><svg class="ic"><use href="#i-shell"/></svg><h3>サザエ・アワビ素潜り</h3><p>宇川家前で本格的な海遊び。</p></div>
-      <div class="hl-card"><svg class="ic"><use href="#i-food"/></svg><h3>宇川家BBQ</h3><p>浜辺で夕食と団らんの時間。</p></div>
-      <div class="hl-card"><svg class="ic"><use href="#i-moon"/></svg><h3>流星群観察</h3><p>南片辺付近で星空観察。</p></div>
-      <div class="hl-card"><svg class="ic"><use href="#i-sake"/></svg><h3>酒蔵見学</h3><p>尾畑酒造 学校蔵で日本酒文化体験。</p></div>
-      <div class="hl-card"><svg class="ic"><use href="#i-car"/></svg><h3>北部・西側ドライブ</h3><p>佐渡らしい海沿いの絶景ルート。</p></div>
-    </div>
-  </section>
+  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     DAY1 スケジュール
@@ -385,8 +428,9 @@
         <div class="time">10:47</div>
         <div class="dot"></div>
         <div class="card">
-          <h3><svg class="ic"><use href="#i-boat"/></svg>両津港 到着</h3>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=両津港 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+          <div class="thumb"><img src="images/ジェットフォイル.jpeg" alt="ジェットフォイル"></div>
+          <h3>📍 両津港 到着</h3>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=両津港 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
       </div>
 
@@ -417,18 +461,30 @@
         <div class="card">
           <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
           <div class="place-en">予約不可・当日の混雑状況で決定</div>
-          <div class="subcards">
-            <div class="subcard">
-              <div class="row"><img src="images/いしはら寿し.jpeg" alt="いしはら寿司"><div><div class="name">① いしはら寿司</div><div class="open">11:00 OPEN</div></div></div>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=いしはら寿司 佐渡" target="_blank" rel="noopener">地図</a>
+          <div class="pcard-list">
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/いしはら寿し.jpeg" alt="いしはら寿司"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 ① いしはら寿司</div>
+                <div class="pcard-meta">🕒 11:00 OPEN</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=いしはら寿司 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
+              </div>
             </div>
-            <div class="subcard">
-              <div class="row"><div><div class="name">② 味処 天國</div><div class="open">11:30 OPEN</div></div></div>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=味処天國 佐渡" target="_blank" rel="noopener">地図</a>
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/天國.jpeg" alt="味処 天國"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 ② 味処 天國</div>
+                <div class="pcard-meta">🕒 11:30 OPEN</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=味処天國 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
+              </div>
             </div>
-            <div class="subcard">
-              <div class="row"><div><div class="name">③ すしの魚秀</div><div class="open">8:00 OPEN</div></div></div>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=すしの魚秀 佐渡" target="_blank" rel="noopener">地図</a>
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/すしの魚秀.jpeg" alt="すしの魚秀"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 ③ すしの魚秀</div>
+                <div class="pcard-meta">🕒 8:00 OPEN</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=すしの魚秀 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
+              </div>
             </div>
           </div>
         </div>
@@ -466,10 +522,12 @@
         <div class="time">13:30</div>
         <div class="dot"></div>
         <div class="card">
-          <h3><svg class="ic"><use href="#i-pin"/></svg>二ツ亀海水浴場 到着</h3>
-          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約20分</span></div>
+          <div class="thumb"><img src="images/二ツ亀.jpeg" alt="二ツ亀海水浴場"></div>
+          <h3>📍 二ツ亀海水浴場 到着</h3>
+          <div class="meta-row"><span class="chip">🕒 滞在 約20分</span></div>
+          <div class="fun-label">✨ 楽しみ方</div>
           <ul class="list"><li>海岸散策</li><li>写真撮影</li><li>絶景を楽しむ</li></ul>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=二ツ亀海水浴場" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=二ツ亀海水浴場" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
       </div>
 
@@ -478,10 +536,12 @@
         <div class="time">14:00</div>
         <div class="dot"></div>
         <div class="card">
-          <h3><svg class="ic"><use href="#i-sun"/></svg>大野亀</h3>
-          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約30分</span></div>
-          <ul class="list"><li>散策</li><li>写真撮影</li></ul>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=大野亀 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
+          <div class="thumb"><img src="images/大野亀.jpeg" alt="大野亀"></div>
+          <h3>📍 大野亀</h3>
+          <div class="meta-row"><span class="chip">🕒 滞在 約30分</span></div>
+          <div class="fun-label">✨ 楽しみ方</div>
+          <ul class="list"><li>散策</li><li>写真撮影</li><li>絶景を楽しむ</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=大野亀 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
       </div>
 
@@ -497,7 +557,9 @@
           <div class="meta-row"><span class="chip">🐚 サザエ</span><span class="chip">🐚 アワビ</span></div>
           <div class="note"><svg class="ic"><use href="#i-alert"/></svg>シャワー：藻浦崎利用可否を確認予定</div>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=宇川家 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宇川家の地図</a>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=藻浦崎 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>藻浦崎の地図</a>
+          <div class="thumb" style="margin-top:12px;"><img src="images/藻浦崎.jpeg" alt="藻浦崎"></div>
+          <div class="place-en">シャワー候補：藻浦崎</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=藻浦崎 佐渡" target="_blank" rel="noopener">🗺 藻浦崎の地図</a>
         </div>
       </div>
 
@@ -508,6 +570,33 @@
         <div class="card">
           <h3><svg class="ic"><use href="#i-food"/></svg>宇川家前 BBQ</h3>
           <ul class="list"><li>夕食</li><li>団らん</li></ul>
+        </div>
+      </div>
+
+      <!-- 宇川家メンバー情報（家族紹介） -->
+      <div class="stop">
+        <div class="time">紹介</div>
+        <div class="dot"></div>
+        <div class="card family-card">
+          <h3>🏠 宇川家メンバー情報</h3>
+          <div class="family-group">
+            <div class="family-row"><span class="fname">父　修一（71）</span><span class="fnote">しゅー</span></div>
+            <div class="family-row"><span class="fname">母　孝子（70）</span><span class="fnote">疲労困憊<br>ビールか冷えた日本酒を注いであげてください🍺🍶</span></div>
+            <div class="family-row"><span class="fname">長女　まるし（39）</span><span class="fnote">まるし・おそらく疲労困憊</span></div>
+            <div class="family-row"><span class="fname">長男　よしき（38）</span><span class="fnote">よーたん・当日不在</span></div>
+            <div class="family-row"><span class="fname">次女　さおり（36）</span><span class="fnote">さりさん・出産後のため体力回復中</span></div>
+            <div class="family-row"><span class="fname">次男　かずし（33）</span><span class="fnote">かっしぇ丸・元気いっぱい</span></div>
+          </div>
+          <div class="family-sub-head">👶 子ども情報</div>
+          <div class="family-kids">
+            <div class="kids-fam-name">よしき家</div>
+            <div class="family-row"><span class="fname">かなと（8）</span><span class="fnote">小学3年生・8/25で9歳</span></div>
+            <div class="family-row"><span class="fname">まりん（7）</span><span class="fnote">小学1年生</span></div>
+            <div class="kids-fam-name">さおり家</div>
+            <div class="family-row"><span class="fname">ほのか（4）</span><span class="fnote">ぽっぽちゃん・10月で5歳</span></div>
+            <div class="family-row"><span class="fname">なの（3）</span><span class="fnote">なのちゅけ・8/12誕生日</span></div>
+            <div class="family-row"><span class="fname">とうま（0）</span><span class="fnote">6/18生まれ・ほやほやボーイ</span></div>
+          </div>
         </div>
       </div>
 
@@ -548,6 +637,8 @@
     </div>
   </section>
 
+  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
   <!-- =====================
     DAY2 スケジュール
   ===================== -->
@@ -567,9 +658,21 @@
         <span class="plan-tag">A案</span>
         <h3><svg class="ic" style="width:16px;height:16px;color:var(--sea);vertical-align:-2px;"><use href="#i-flower"/></svg> 自然を楽しむプラン</h3>
         <div class="route-photos"><img src="images/ひまわり.jpeg" alt="小川のひまわり畑"><img src="images/尖閣湾.jpeg" alt="尖閣湾揚島遊園"></div>
-        <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園<span class="arrow">→</span>あめやの桟橋<span class="arrow">→</span>ランチ</div>
-        <div class="route-note">※途中カフェ休憩なし</div>
+        <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園</div>
         <div class="feature-tags"><span>夏らしい景色</span><span>海沿いドライブ</span><span>写真スポット</span></div>
+        <div class="route-map">
+          <div class="route-map-label">🗺 自然満喫ルート</div>
+          <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+            <path d="M90,70 Q200,10 310,70" fill="none" style="stroke:var(--leaf)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+            <circle cx="90" cy="70" r="16" style="fill:var(--sea)"/>
+            <text x="90" y="75" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">1</text>
+            <text x="90" y="100" text-anchor="middle" style="fill:var(--ink)" font-size="11.5">小川のひまわり畑</text>
+            <circle cx="310" cy="70" r="16" style="fill:var(--sun)"/>
+            <text x="310" y="75" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">2</text>
+            <text x="310" y="100" text-anchor="middle" style="fill:var(--ink)" font-size="11.5">尖閣湾揚島遊園</text>
+          </svg>
+          <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=小川のひまわり畑 佐渡&destination=尖閣湾揚島遊園 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
+        </div>
       </div>
 
       <div class="or-divider">当日の天候・気分で選択</div>
@@ -577,9 +680,25 @@
       <div class="plan-card">
         <span class="plan-tag b">B案</span>
         <h3><svg class="ic" style="width:16px;height:16px;color:var(--sun-deep);vertical-align:-2px;"><use href="#i-ruins"/></svg> 歴史を楽しむプラン</h3>
-        <div class="route-photos"><img src="images/北沢.jpeg" alt="北沢浮遊選鉱場跡" style="width:100%;"></div>
-        <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山<span class="arrow">→</span>あめやの桟橋<span class="arrow">→</span>ランチ</div>
+        <div class="route-photos"><img src="images/北沢昼.jpeg" alt="北沢浮遊選鉱場跡"><img src="images/金山.jpeg" alt="相川金山"></div>
+        <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山</div>
         <div class="feature-tags"><span>佐渡の歴史</span><span>世界遺産エリア散策</span></div>
+        <div class="route-map">
+          <div class="route-map-label">🗺 歴史探訪ルート</div>
+          <svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+            <path d="M75,110 Q140,30 200,40 Q265,50 325,110" fill="none" style="stroke:var(--leaf)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+            <circle cx="75" cy="110" r="15" style="fill:var(--sea)"/>
+            <text x="75" y="115" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">1</text>
+            <text x="75" y="140" text-anchor="middle" style="fill:var(--ink)" font-size="11">きらりうむ佐渡</text>
+            <circle cx="200" cy="40" r="15" style="fill:var(--sun)"/>
+            <text x="200" y="45" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">2</text>
+            <text x="200" y="70" text-anchor="middle" style="fill:var(--ink)" font-size="11">北沢浮遊選鉱場跡</text>
+            <circle cx="325" cy="110" r="15" style="fill:var(--leaf-deep)"/>
+            <text x="325" y="115" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">3</text>
+            <text x="325" y="140" text-anchor="middle" style="fill:var(--ink)" font-size="11">相川金山</text>
+          </svg>
+          <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=きらりうむ佐渡 佐渡&destination=相川金山 佐渡&waypoints=北沢浮遊選鉱場跡 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
+        </div>
       </div>
     </div>
 
@@ -603,14 +722,22 @@
         <div class="dot"></div>
         <div class="card">
           <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
-          <div class="subcards">
-            <div class="subcard">
-              <div class="row"><img src="images/しまふうみ.jpg" alt="しまふうみ"><div><div class="name">① しまふうみ</div><div class="open">海を眺めながらランチ</div></div></div>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=しまふうみ 佐渡" target="_blank" rel="noopener">地図</a>
+          <div class="pcard-list">
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/しまふうみ.jpg" alt="しまふうみ"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 ① しまふうみ</div>
+                <div class="pcard-meta">✨ 海を眺めながらランチ</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=しまふうみ 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
+              </div>
             </div>
-            <div class="subcard">
-              <div class="row"><div><div class="name">② 長浜荘</div><div class="open">海鮮料理</div></div></div>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=長浜荘 佐渡" target="_blank" rel="noopener">地図</a>
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/長浜荘.jpeg" alt="長浜荘"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 ② 長浜荘</div>
+                <div class="pcard-meta">✨ 海鮮料理</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=長浜荘 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
+              </div>
             </div>
           </div>
         </div>
@@ -638,17 +765,23 @@
         <div class="card">
           <h3><svg class="ic"><use href="#i-camera"/></svg>スイーツ休憩</h3>
           <div class="meta-row"><span class="chip">⏱ 時間を見て決定</span></div>
-          <div class="subcards">
-            <div class="subcard" style="flex-direction:column; align-items:stretch; gap:6px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div><div class="name">タガヤス堂ドーナツ</div><div class="open">学校蔵→約10分／両津まで約1時間・テイクアウト向き</div></div>
-                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=タガヤス堂ドーナツ 佐渡" target="_blank" rel="noopener">地図</a>
+          <div class="pcard-list">
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/タガヤス堂.jpeg" alt="タガヤス堂ドーナツ"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 タガヤス堂ドーナツ</div>
+                <div class="pcard-meta">🚗 学校蔵→約10分／両津まで約1時間</div>
+                <div class="pcard-meta">✨ テイクアウト向き</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=タガヤス堂ドーナツ 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
-            <div class="subcard" style="flex-direction:column; align-items:stretch; gap:6px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div><div class="name">フルーツカフェさいとう</div><div class="open">学校蔵→約30分／両津まで約15分・フルーツ削り/パフェ/イートイン</div></div>
-                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=フルーツカフェさいとう 佐渡" target="_blank" rel="noopener">地図</a>
+            <div class="pcard">
+              <div class="pcard-thumb"><img src="images/フルーツカフェさいとう.jpeg" alt="フルーツカフェさいとう"></div>
+              <div class="pcard-body">
+                <div class="pcard-name">📍 フルーツカフェさいとう</div>
+                <div class="pcard-meta">🚗 学校蔵→約30分／両津まで約15分</div>
+                <div class="pcard-meta">✨ フルーツ削り・パフェ・イートイン</div>
+                <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=フルーツカフェさいとう 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
           </div>
@@ -676,6 +809,8 @@
 
     </div>
   </section>
+
+  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     持ち物チェックリスト
