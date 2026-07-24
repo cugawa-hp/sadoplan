@@ -38,6 +38,8 @@
     /* 見出し用：整った丸ゴシック（かわいく読みやすい） */
     --font-heading:"Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
     --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
+    --google-blue:#4285f4;
+    --google-blue-deep:#2f5fc4;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -293,6 +295,84 @@
   .profile-nick{ font-size:0.82rem; color:var(--sun-deep); font-weight:700; margin:2px 0 6px; }
   .profile-comment{ font-size:0.9rem; color:var(--ink-soft); line-height:1.65; }
 
+  /* ---------- スポット詳細機能（お気に入り・訪問済み・営業時間・距離・ナビ） ----------
+     data-spot="id" が付いたカードに、JSが自動でバッジ・情報・ボタンを追加します。
+     データ本体は script 内の SPOTS_META にまとまっています。 */
+  [data-spot]{ position:relative; }
+  .spot-badges{ position:absolute; top:12px; right:12px; z-index:5; display:flex; align-items:center; gap:6px; }
+  .fav-btn{
+    appearance:none; border:none; background:rgba(255,253,248,0.9); width:38px; height:38px; border-radius:50%;
+    font-size:1.15rem; line-height:1; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 8px rgba(60,50,30,0.2); cursor:pointer; padding:0;
+  }
+  .visited-chip{
+    display:flex; align-items:center; gap:5px; background:rgba(255,253,248,0.9); border-radius:999px;
+    padding:8px 12px; font-size:0.74rem; font-weight:700; color:var(--ink); box-shadow:0 3px 8px rgba(60,50,30,0.2);
+    cursor:pointer; user-select:none;
+  }
+  .visited-chip input{ width:15px; height:15px; accent-color:var(--leaf-deep); margin:0; }
+  .is-visited:not(.night){ background-color:rgba(127,160,106,0.12); }
+  .is-visited::before{
+    content:"✓ 訪問済み"; position:absolute; top:12px; left:12px; z-index:5;
+    background:var(--leaf-deep); color:#fff; font-size:0.7rem; font-weight:800;
+    padding:5px 11px; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,0.18);
+  }
+
+  .spot-info{ margin:12px 0; display:flex; flex-direction:column; gap:6px; }
+  .spot-info-row{ display:flex; align-items:baseline; gap:8px; font-size:0.88rem; }
+  .spot-info-k{ flex:0 0 auto; font-weight:700; color:var(--sun-deep); font-size:0.76rem; letter-spacing:0.02em; min-width:5.2em; }
+  .spot-info-v{ color:var(--ink); }
+  .card.night .spot-info-k{ color:var(--star); }
+  .card.night .spot-info-v{ color:#eaf3ee; }
+  .spot-phone{
+    display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-weight:700; font-size:0.86rem;
+    color:var(--leaf-deep); margin-top:2px;
+  }
+  .spot-btn-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .spot-btn-row .maplink{ margin:0; }
+  .nav-btn{ background:var(--google-blue); border-color:var(--google-blue); color:#fff; }
+  .nav-btn:active{ background:var(--google-blue-deep); }
+  .card.night .nav-btn{ border-color:var(--google-blue); }
+
+  /* ---------- スポット一覧（並び替え・フィルター・現在地） ---------- */
+  .spotbar{
+    display:flex; flex-wrap:wrap; gap:10px; margin:0 18px 14px; background:var(--white); border-radius:20px;
+    padding:14px 16px; box-shadow:var(--shadow); align-items:center;
+  }
+  .locate-btn{
+    appearance:none; border:none; border-radius:999px; background:var(--sea); color:#fff; font-weight:700;
+    font-size:0.86rem; padding:11px 18px; box-shadow:0 3px 8px rgba(47,108,124,0.3); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .locate-btn.located{ background:var(--leaf-deep); }
+  .sort-select{
+    appearance:none; border:1.5px solid var(--line); border-radius:999px; background:var(--sky-pale) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f6c7c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/14px;
+    color:var(--ink); font-size:0.84rem; font-weight:700; padding:10px 34px 10px 14px; flex:1 1 auto; min-width:150px;
+  }
+  .filter-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .filter-chip{
+    appearance:none; border:1.5px solid var(--sea); background:#fff; color:var(--sea-deep); font-weight:700;
+    font-size:0.8rem; padding:8px 14px; border-radius:999px; cursor:pointer;
+  }
+  .filter-chip.active{ background:var(--sea); color:#fff; }
+  .visited-counter{ margin:0 18px 16px; font-size:0.86rem; font-weight:700; color:var(--sea-deep); }
+
+  .spotlist{ display:flex; flex-direction:column; gap:12px; padding:0 18px; }
+  .spotlist-item{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:12px; background:var(--white);
+    border-radius:18px; padding:15px 16px; box-shadow:var(--shadow); position:relative;
+  }
+  .spotlist-item.is-visited{ background-color:rgba(127,160,106,0.12); }
+  .spotlist-main{ min-width:0; }
+  .spotlist-name{ font-weight:700; font-size:0.98rem; color:var(--ink); margin-bottom:4px; }
+  .spotlist-hours,.spotlist-dist{ font-size:0.78rem; color:var(--ink-soft); margin-bottom:2px; }
+  .spotlist-dist{ color:var(--sea-deep); font-weight:700; }
+  .spotlist-actions{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex:0 0 auto; }
+  .spotlist-actions .fav-btn{ position:static; width:32px; height:32px; font-size:1rem; box-shadow:none; background:var(--sky-pale); }
+  .spotlist-actions .visited-chip{ box-shadow:none; background:var(--sky-pale); padding:6px 10px; font-size:0.7rem; }
+  .spotlist-actions .maplink{ padding:8px 13px; font-size:0.74rem; min-height:auto; }
+  .spotlist-empty{ text-align:center; color:var(--ink-soft); font-size:0.88rem; padding:20px 0; }
+
   /* ---------- 持ち物チェックリスト ---------- */
   .checklist-wrap{ background:var(--white); border-radius:26px; padding:22px 20px 10px; box-shadow:var(--shadow); }
   .progress{ display:flex; align-items:center; gap:12px; margin-bottom:20px; }
@@ -375,6 +455,7 @@
       <a href="#overview">概要</a>
       <a href="#day1">DAY1</a>
       <a href="#day2">DAY2</a>
+      <a href="#spotlist">一覧</a>
       <a href="#checklist">持ち物</a>
     </div>
   </nav>
@@ -440,7 +521,12 @@
       <div>
         <div class="k"><svg class="ic" style="width:14px;height:14px;color:var(--sea);vertical-align:-2px;"><use href="#i-home"/></svg> 宿泊</div>
         <div class="v">旅荘あさひ荘 Casa ORITO</div>
-        <a class="maplink" style="margin-top:9px; padding:6px 12px; font-size:0.72rem;" href="https://www.google.com/maps/search/?api=1&query=旅荘あさひ荘 Casa ORITO 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宿泊場所を見る</a>
+        <div style="font-size:0.72rem; color:var(--ink-soft); margin-top:4px;">チェックイン 15:00〜20:00</div>
+        <a class="spot-phone" style="font-size:0.76rem; margin-top:6px;" href="tel:050-8883-8120">📞 050-8883-8120</a>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;">
+          <a class="maplink" style="margin:0; padding:6px 12px; font-size:0.72rem;" href="https://www.google.com/maps/search/?api=1&query=旅荘あさひ荘 Casa ORITO 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>宿泊場所を見る</a>
+          <a class="maplink" style="margin:0; padding:6px 12px; font-size:0.72rem;" href="https://asahisou-casaorito.com/" target="_blank" rel="noopener">🌐 公式サイト</a>
+        </div>
       </div>
     </div>
   </section>
@@ -467,7 +553,7 @@
       <div class="stop">
         <div class="time">10:47</div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="ryotsu">
           <div class="thumb-sm"><img src="images/ジェットフォイル.jpeg" alt="ジェットフォイル"></div>
           <h3>📍 両津港 到着</h3>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=両津港 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
@@ -488,7 +574,7 @@
       <div class="stop">
         <div class="time">11:20<small>頃</small></div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="rentacar">
           <h3><svg class="ic"><use href="#i-car"/></svg>24レンタカー佐渡両津港店 到着</h3>
           <div class="note"><svg class="ic"><use href="#i-alert"/></svg>両津港から徒歩約18分。荷物を持っての移動になるため、余裕を持って向かいましょう。<br>※こうきガンバ！💪</div>
           <ul class="list" style="margin-top:11px;">
@@ -511,7 +597,7 @@
           <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
           <div class="place-en">予約不可・当日の混雑状況で決定</div>
           <div class="pcard-list">
-            <div class="pcard">
+            <div class="pcard" data-spot="ishihara">
               <div class="pcard-thumb"><img src="images/いしはら寿し.jpeg" alt="いしはら寿司"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 ① いしはら寿司</div>
@@ -519,7 +605,7 @@
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=いしはら寿司 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
-            <div class="pcard">
+            <div class="pcard" data-spot="tenkoku">
               <div class="pcard-thumb"><img src="images/天國.jpeg" alt="味処 天國"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 ② 味処 天國</div>
@@ -527,7 +613,7 @@
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=味処天國 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
-            <div class="pcard">
+            <div class="pcard" data-spot="uohide">
               <div class="pcard-thumb"><img src="images/すしの魚秀.jpeg" alt="すしの魚秀"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 ③ すしの魚秀</div>
@@ -570,7 +656,7 @@
       <div class="stop">
         <div class="time">13:30</div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="futatsugame">
           <div class="thumb"><img src="images/二ツ亀.jpeg" alt="二ツ亀海水浴場"></div>
           <h3>📍 二ツ亀海水浴場 到着</h3>
           <div class="meta-row"><span class="chip">🕒 滞在 約20分</span></div>
@@ -584,7 +670,7 @@
       <div class="stop">
         <div class="time">14:00</div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="onogame">
           <div class="thumb"><img src="images/大野亀.jpeg" alt="大野亀"></div>
           <h3>📍 大野亀</h3>
           <div class="meta-row"><span class="chip">🕒 滞在 約30分</span></div>
@@ -598,7 +684,7 @@
       <div class="stop">
         <div class="time">15:30<small>頃</small></div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="ugawa">
           <div class="thumb"><img src="images/ugawa1.jpeg" alt="宇川家"></div>
           <h3><svg class="ic"><use href="#i-shell"/></svg>宇川家 海遊び</h3>
           <div class="place-en">15:30〜17:00頃</div>
@@ -618,7 +704,7 @@
       <div class="stop">
         <div class="time">17:30<small>頃〜</small></div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="bbq">
           <div class="thumb"><img src="images/BBQ.jpeg" alt="宇川家前BBQ"></div>
           <h3><svg class="ic"><use href="#i-food"/></svg>宇川家前 BBQ</h3>
           <ul class="list"><li>夕食</li><li>団らん</li></ul>
@@ -729,7 +815,7 @@
       <div class="stop minor">
         <div class="time">夜<small>プラン</small></div>
         <div class="dot"></div>
-        <div class="card night">
+        <div class="card night" data-spot="minamikatabe">
           <div class="chip" style="margin-bottom:9px;">第一候補</div>
           <h3><svg class="ic"><use href="#i-moon"/></svg>流星群観察</h3>
           <div class="place-en">場所：片辺山越え方面／住所：南片辺付近</div>
@@ -737,7 +823,7 @@
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=南片辺 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る（南片辺付近）</a>
 
           <!-- 追加候補：北沢浮遊選鉱場跡 -->
-          <div class="bonus-box">
+          <div class="bonus-box" data-spot="kitazawa">
             <div class="lbl">元気があれば・追加候補</div>
             <img src="images/北沢.jpeg" alt="北沢浮遊選鉱場跡">
             <h3 style="font-size:0.96rem; margin-bottom:6px;"><svg class="ic"><use href="#i-ruins"/></svg>国史跡 北沢浮遊選鉱場跡</h3>
@@ -811,7 +897,7 @@
       <div class="stop">
         <div class="time">ランチ前</div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="ameya">
           <h3><svg class="ic"><use href="#i-camera2"/></svg>あめやの桟橋</h3>
           <div class="thumb"><img src="images/あめやの桟橋.jpeg" alt="あめやの桟橋"></div>
           <ul class="list"><li>写真撮影</li><li>佐渡らしい海の景色を楽しむ</li></ul>
@@ -826,7 +912,7 @@
         <div class="card">
           <h3><svg class="ic"><use href="#i-food"/></svg>ランチ候補</h3>
           <div class="pcard-list">
-            <div class="pcard">
+            <div class="pcard" data-spot="shimafuumi">
               <div class="pcard-thumb"><img src="images/しまふうみ.jpg" alt="しまふうみ"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 ① しまふうみ</div>
@@ -834,7 +920,7 @@
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=しまふうみ 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
-            <div class="pcard">
+            <div class="pcard" data-spot="nagahama">
               <div class="pcard-thumb"><img src="images/長浜荘.jpeg" alt="長浜荘"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 ② 長浜荘</div>
@@ -852,7 +938,7 @@
       <div class="stop">
         <div class="time">午後</div>
         <div class="dot"></div>
-        <div class="card">
+        <div class="card" data-spot="gakkougura">
           <h3><svg class="ic"><use href="#i-sake"/></svg>尾畑酒造株式会社 学校蔵</h3>
           <div class="thumb"><img src="images/学校蔵.jpeg" alt="尾畑酒造 学校蔵"></div>
           <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約1時間</span></div>
@@ -869,7 +955,7 @@
           <h3><svg class="ic"><use href="#i-camera"/></svg>スイーツ休憩</h3>
           <div class="meta-row"><span class="chip">⏱ 時間を見て決定</span></div>
           <div class="pcard-list">
-            <div class="pcard">
+            <div class="pcard" data-spot="tagayasu">
               <div class="pcard-thumb"><img src="images/タガヤス堂.jpeg" alt="タガヤス堂ドーナツ"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 タガヤス堂ドーナツ</div>
@@ -878,7 +964,7 @@
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=タガヤス堂ドーナツ 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
             </div>
-            <div class="pcard">
+            <div class="pcard" data-spot="fruitscafe">
               <div class="pcard-thumb"><img src="images/フルーツカフェさいとう.jpeg" alt="フルーツカフェさいとう"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 フルーツカフェさいとう</div>
@@ -911,6 +997,37 @@
       </div>
 
     </div>
+  </section>
+
+  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
+  <!-- =====================
+    スポット一覧（現在地・並び替え・お気に入り・訪問済み）
+    データは script 内の SPOTS_META にまとまっています。
+  ===================== -->
+  <section class="section" id="spotlist">
+    <div class="section-head"><h2>スポット一覧</h2></div>
+    <p class="section-note">現在地からの距離で近い順に並び替えたり、お気に入り・訪問済みだけ表示できます。</p>
+
+    <div class="spotbar">
+      <button type="button" class="locate-btn" id="locate-btn">📍 現在地取得</button>
+      <select class="sort-select" id="sort-select">
+        <option value="order">並び替え：登録順</option>
+        <option value="near" id="sort-near-option" disabled>近い順（現在地取得後）</option>
+        <option value="favorite">並び替え：お気に入り優先</option>
+        <option value="visited">並び替え：訪問済み優先</option>
+        <option value="name">並び替え：名前順</option>
+      </select>
+      <div class="filter-chips">
+        <button type="button" class="filter-chip active" data-filter="all">すべて表示</button>
+        <button type="button" class="filter-chip" data-filter="favorite">お気に入り</button>
+        <button type="button" class="filter-chip" data-filter="visited">訪問済み</button>
+      </div>
+    </div>
+
+    <div class="visited-counter" id="visited-counter">訪問済み 0/0件</div>
+
+    <div class="spotlist" id="spotlist-items"></div>
   </section>
 
   <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
@@ -961,6 +1078,248 @@
   スクリプト（チェックリスト保存・ナビのハイライト）
 ===================== -->
 <script>
+  // =====================================================================
+  // スポット詳細データ（営業時間・座標・電話・公式サイト・滞在目安）
+  // ここを編集すると「スポット一覧」タブと各カードの表示が両方更新されます。
+  // lat/lng が無いスポット（私有地など）は距離・ナビ機能が自動的に非表示になります。
+  // =====================================================================
+  const SPOTS_META = {
+    ryotsu:       { name:'両津港',                 lat:38.0816,  lng:138.4381, hours:'5:00〜19:30',                                  duration:'到着後すぐ移動',      phone:'0259-27-5111',   website:'https://www.sadokisen.co.jp/access-map/terminal-guide-ryoutsu/' },
+    rentacar:     { name:'24レンタカー佐渡両津港店', lat:38.0712,  lng:138.4451, hours:'24時間（電話受付 8:30〜17:30）',                duration:'約20〜30分',          phone:'0259-23-3716',   website:'https://xn--lckwb3h2azcw013auzbw25h03bce.jp/' },
+    ishihara:     { name:'いしはら寿司',            lat:38.0800,  lng:138.4368, hours:'11:00〜14:00, 17:00〜23:00（火曜定休）',        duration:'45〜60分',            phone:'0259-27-2658' },
+    tenkoku:      { name:'味処 天國',               lat:38.0797,  lng:138.4364, hours:'11:30〜13:30, 17:00〜21:30（日曜定休）',        duration:'45〜60分',            phone:'0259-23-2714' },
+    uohide:       { name:'すしの魚秀',              lat:38.0807,  lng:138.4364, hours:'9:00〜14:00（夜は完全予約制・水曜定休）',       duration:'45〜60分',            phone:'0259-27-5610',   website:'https://sushi-uohide.com/' },
+    futatsugame:  { name:'二ツ亀海水浴場',          lat:38.3284,  lng:138.4868, hours:'見学自由（監視員在中 10:00〜17:00 夏季）',      duration:'約20分',              website:'https://www.visitsado.com/spot/detail0407/' },
+    onogame:      { name:'大野亀',                  lat:38.3210,  lng:138.4612, hours:'見学自由',                                      duration:'約30分',              website:'https://www.visitsado.com/spot/detail0133/' },
+    ugawa:        { name:'宇川家',                  lat:38.1570,  lng:138.2974, hours:null,                                            duration:'1〜1.5時間（素潜り）' },
+    bbq:          { name:'宇川家前BBQ',             lat:38.1570,  lng:138.2974, hours:null,                                            duration:'2〜3時間' },
+    minamikatabe: { name:'南片辺（流星群スポット）', lat:38.1504,  lng:138.3049, hours:'見学自由',                                      duration:'1〜2時間（星空観察）' },
+    kitazawa:     { name:'北沢浮遊選鉱場跡',        lat:38.0368,  lng:138.2423, hours:'見学自由',                                      duration:'20〜30分' },
+    ameya:        { name:'あめやの桟橋',            lat:37.9995,  lng:138.3237, hours:'見学自由',                                      duration:'15分' },
+    shimafuumi:   { name:'しまふうみ',              lat:37.9400,  lng:138.3073, hours:'9:30〜16:00（火・水定休）',                    duration:'約1時間',             phone:'0259-55-4545',   website:'https://www.primosado.jp/shimafumi/' },
+    nagahama:     { name:'長浜荘',                  lat:37.9379,  lng:138.3078, hours:'11:00〜13:30（L.O.）',                          duration:'45分',                phone:'0259-55-2511',   website:'http://nagahama.skr.jp/' },
+    gakkougura:   { name:'尾畑酒造 学校蔵',         lat:37.9054,  lng:138.2954, hours:'季節限定営業（公式サイト参照）',                duration:'約1時間',             phone:'090-4327-3614',  website:'https://www.obata-shuzo.com/home/gakkogura/' },
+    tagayasu:     { name:'タガヤス堂ドーナツ',      lat:37.8755,  lng:138.3367, hours:'10:00〜17:00（売切れ次第終了・火水定休）',      duration:'15分',                phone:'070-5266-2738' },
+    fruitscafe:   { name:'フルーツカフェさいとう',  lat:38.0238,  lng:138.4295, hours:'11:00〜16:00（月曜定休・季節営業）',            duration:'30〜45分',            phone:'0259-67-7088' },
+  };
+  const SPOT_ORDER = Object.keys(SPOTS_META);
+
+  // ---------- localStorage 共通ヘルパー（お気に入り・訪問済みはここに集約） ----------
+  function loadIdSet(key){
+    try{ return new Set(JSON.parse(localStorage.getItem(key)) || []); }
+    catch(e){ return new Set(); }
+  }
+  function saveIdSet(key, set){
+    try{ localStorage.setItem(key, JSON.stringify([...set])); }catch(e){ /* 保存できなくても表示は継続 */ }
+  }
+  const FAV_KEY = 'sado2026-favorites';
+  const VISITED_KEY = 'sado2026-visited';
+  let favorites = loadIdSet(FAV_KEY);
+  let visitedSet = loadIdSet(VISITED_KEY);
+
+  function toggleFavorite(id){
+    favorites.has(id) ? favorites.delete(id) : favorites.add(id);
+    saveIdSet(FAV_KEY, favorites);
+    syncSpotUI(id);
+    renderSpotList();
+  }
+  function toggleVisited(id){
+    visitedSet.has(id) ? visitedSet.delete(id) : visitedSet.add(id);
+    saveIdSet(VISITED_KEY, visitedSet);
+    syncSpotUI(id);
+    renderSpotList();
+    updateVisitedCounter();
+  }
+  // 同じスポットが複数箇所（タイムラインカード＋一覧）に出ている場合、両方の表示を揃える
+  function syncSpotUI(id){
+    document.querySelectorAll(`.fav-btn[data-id="${id}"]`).forEach(b=> b.textContent = favorites.has(id) ? '❤️' : '♡');
+    document.querySelectorAll(`.visited-chip[data-id="${id}"] input`).forEach(cb=> cb.checked = visitedSet.has(id));
+    document.querySelectorAll(`[data-spot="${id}"]`).forEach(card=> card.classList.toggle('is-visited', visitedSet.has(id)));
+  }
+
+  // ---------- 距離計算（Haversine） ----------
+  let currentLoc = null; // { lat, lng } 現在地取得後にセット
+  function haversineKm(lat1, lng1, lat2, lng2){
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+  function distanceTo(id){
+    if(!currentLoc) return null;
+    const m = SPOTS_META[id];
+    if(!m || m.lat == null) return null;
+    return haversineKm(currentLoc.lat, currentLoc.lng, m.lat, m.lng);
+  }
+  function distanceText(km){
+    const mins = Math.round(km / 40 * 60); // 車移動・平均時速40kmで概算
+    return `📍 約${km.toFixed(1)}km ／ 🚗 約${mins}分`;
+  }
+
+  function requestCurrentLocation(){
+    const btn = document.getElementById('locate-btn');
+    if(!navigator.geolocation){
+      alert('お使いの端末・ブラウザは現在地取得に対応していません。');
+      return;
+    }
+    if(btn){ btn.textContent = '📍 取得中…'; }
+    navigator.geolocation.getCurrentPosition(
+      pos=>{
+        currentLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        if(btn){ btn.textContent = '📍 現在地取得済み'; btn.classList.add('located'); }
+        const nearOpt = document.getElementById('sort-near-option');
+        if(nearOpt) nearOpt.disabled = false;
+        updateAllDistanceDisplays();
+        renderSpotList();
+      },
+      err=>{
+        if(btn){ btn.textContent = '📍 現在地取得'; }
+        alert('現在地を取得できませんでした。ブラウザの位置情報の利用を許可しているか確認してください。');
+      },
+      { enableHighAccuracy:true, timeout:10000 }
+    );
+  }
+  function updateAllDistanceDisplays(){
+    SPOT_ORDER.forEach(id=>{
+      const km = distanceTo(id);
+      document.querySelectorAll(`.spot-distance[data-id="${id}"]`).forEach(row=>{
+        if(km == null) return;
+        row.hidden = false;
+        row.querySelector('.spot-info-v').textContent = distanceText(km);
+      });
+    });
+  }
+
+  // ---------- タイムラインカードへバッジ・詳細情報・ボタンを自動追加 ----------
+  function enhanceSpotCards(){
+    document.querySelectorAll('[data-spot]').forEach(card=>{
+      const id = card.dataset.spot;
+      const meta = SPOTS_META[id];
+      if(!meta) return;
+
+      // お気に入り・訪問済みバッジ
+      const badges = document.createElement('div');
+      badges.className = 'spot-badges';
+      badges.innerHTML =
+        `<button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>` +
+        `<label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> 行った</label>`;
+      card.prepend(badges);
+      if(visitedSet.has(id)) card.classList.add('is-visited');
+
+      // 営業時間・滞在目安・現在地からの距離
+      const info = document.createElement('div');
+      info.className = 'spot-info';
+      let html = '';
+      if(meta.hours){ html += `<div class="spot-info-row"><span class="spot-info-k">営業時間</span><span class="spot-info-v">${meta.hours}</span></div>`; }
+      if(meta.duration){ html += `<div class="spot-info-row"><span class="spot-info-k">滞在目安</span><span class="spot-info-v">${meta.duration}</span></div>`; }
+      html += `<div class="spot-info-row spot-distance" data-id="${id}" hidden><span class="spot-info-k">現在地から</span><span class="spot-info-v"></span></div>`;
+      if(meta.phone){ html += `<a class="spot-phone" href="tel:${meta.phone.replace(/-/g,'')}">📞 ${meta.phone}</a>`; }
+      info.innerHTML = html;
+
+      const existingMapLink = card.querySelector('a.maplink');
+      if(existingMapLink){ existingMapLink.insertAdjacentElement('beforebegin', info); }
+      else{ card.appendChild(info); }
+
+      // Googleマップでナビ／公式サイトボタン
+      const btnRow = document.createElement('div');
+      btnRow.className = 'spot-btn-row';
+      if(meta.lat != null){
+        btnRow.innerHTML += `<a class="maplink nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${meta.lat},${meta.lng}" target="_blank" rel="noopener">📍 Googleマップで開く</a>`;
+      }
+      if(meta.website){
+        btnRow.innerHTML += `<a class="maplink web-btn" href="${meta.website}" target="_blank" rel="noopener">🌐 公式サイト</a>`;
+      }
+      if(btnRow.children.length){
+        if(existingMapLink){ existingMapLink.insertAdjacentElement('afterend', btnRow); }
+        else{ card.appendChild(btnRow); }
+      }
+    });
+  }
+
+  // ---------- スポット一覧タブ（並び替え・フィルター） ----------
+  let currentFilter = 'all';
+  let currentSort = 'order';
+
+  function renderSpotList(){
+    const wrap = document.getElementById('spotlist-items');
+    if(!wrap) return;
+    let ids = SPOT_ORDER.slice();
+
+    if(currentFilter === 'favorite') ids = ids.filter(id=> favorites.has(id));
+    if(currentFilter === 'visited') ids = ids.filter(id=> visitedSet.has(id));
+
+    if(currentSort === 'near' && currentLoc){
+      ids.sort((a,b)=>{
+        const da = distanceTo(a), db = distanceTo(b);
+        if(da == null) return 1;
+        if(db == null) return -1;
+        return da - db;
+      });
+    } else if(currentSort === 'favorite'){
+      ids.sort((a,b)=> (favorites.has(b)?1:0) - (favorites.has(a)?1:0));
+    } else if(currentSort === 'visited'){
+      ids.sort((a,b)=> (visitedSet.has(b)?1:0) - (visitedSet.has(a)?1:0));
+    } else if(currentSort === 'name'){
+      ids.sort((a,b)=> SPOTS_META[a].name.localeCompare(SPOTS_META[b].name, 'ja'));
+    }
+
+    if(!ids.length){
+      wrap.innerHTML = '<p class="spotlist-empty">該当するスポットがありません。</p>';
+      return;
+    }
+
+    wrap.innerHTML = ids.map(id=>{
+      const m = SPOTS_META[id];
+      const km = distanceTo(id);
+      return `
+        <div class="spotlist-item ${visitedSet.has(id) ? 'is-visited' : ''}">
+          <div class="spotlist-main">
+            <div class="spotlist-name">${m.name}</div>
+            ${m.hours ? `<div class="spotlist-hours">🕒 ${m.hours}</div>` : ''}
+            ${km != null ? `<div class="spotlist-dist">${distanceText(km)}</div>` : ''}
+          </div>
+          <div class="spotlist-actions">
+            <button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>
+            <label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> 行った</label>
+            ${m.lat != null ? `<a class="maplink nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lng}" target="_blank" rel="noopener">📍ナビ</a>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function updateVisitedCounter(){
+    const total = SPOT_ORDER.length;
+    const done = SPOT_ORDER.filter(id=> visitedSet.has(id)).length;
+    const el = document.getElementById('visited-counter');
+    if(el) el.textContent = `訪問済み ${done}/${total}件`;
+  }
+
+  // お気に入り・訪問済みの操作はイベント委譲でまとめて処理（タイムライン／一覧どちらでも動く）
+  document.addEventListener('click', e=>{
+    const favBtn = e.target.closest('.fav-btn');
+    if(favBtn){ toggleFavorite(favBtn.dataset.id); }
+  });
+  document.addEventListener('change', e=>{
+    const chip = e.target.closest('.visited-chip');
+    if(chip && e.target.type === 'checkbox'){ toggleVisited(chip.dataset.id); }
+  });
+  document.getElementById('locate-btn')?.addEventListener('click', requestCurrentLocation);
+  document.getElementById('sort-select')?.addEventListener('change', e=>{ currentSort = e.target.value; renderSpotList(); });
+  document.querySelectorAll('.filter-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      document.querySelectorAll('.filter-chip').forEach(c=> c.classList.remove('active'));
+      chip.classList.add('active');
+      currentFilter = chip.dataset.filter;
+      renderSpotList();
+    });
+  });
+
+  // 初期描画
+  enhanceSpotCards();
+  renderSpotList();
+  updateVisitedCounter();
+
   // 持ち物チェックリストのデータ。項目や注記を変えたい場合はここを編集。
   const GROUPS = [
     {name:'海遊び', items:[
