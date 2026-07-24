@@ -10,6 +10,8 @@
   ・セクションの境目には大きな見出しコメント（=====）を入れてあります。
     目的のセクションはブラウザのコード内検索（Ctrl+F）で見出し名を探すと早いです。
 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>佐渡島 夏旅 2026</title>
 <style>
   /* ---------- 配色・フォント・共通トークン ----------
@@ -122,6 +124,10 @@
   .ov-row .ic{ width:22px; height:22px; color:var(--sea); flex:0 0 auto; margin-top:2px; }
   .ov-row .k{ font-size:0.74rem; color:var(--ink-soft); letter-spacing:0.06em; margin-bottom:3px; }
   .ov-row .v{ font-size:1.02rem; font-weight:700; color:var(--ink); }
+  .member-row{ display:flex; justify-content:space-between; gap:8px; margin-top:2px; }
+  .member-item{ display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; min-width:0; }
+  .member-pic{ width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--white); box-shadow:0 3px 8px rgba(60,50,30,0.25); }
+  .member-name{ font-size:0.84rem; font-weight:700; color:var(--ink); }
   .stay-card{
     margin:16px 18px 0; background:var(--white); border-radius:22px; overflow:hidden;
     box-shadow:var(--shadow); display:flex; align-items:center; gap:14px;
@@ -229,11 +235,10 @@
   .feature-tags{ display:flex; flex-wrap:wrap; gap:8px; }
   .feature-tags span{ font-size:0.77rem; background:var(--sky-pale); color:var(--sea-deep); padding:6px 11px; border-radius:999px; font-weight:600; }
 
-  /* ---------- ルート地図（手描き風ミニマップ＋Google Mapボタン） ---------- */
-  .route-map{ margin-top:16px; background:var(--sky-pale); border-radius:18px; padding:16px 16px 18px; }
-  .route-map-label{ font-size:0.84rem; font-weight:800; color:var(--sea-deep); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
-  .route-map svg{ width:100%; height:auto; display:block; margin-bottom:12px; }
-  .route-map .maplink{ width:100%; justify-content:center; margin:0; }
+  /* ---------- ルート図（写真）：DAY1/DAY2の全体ルートを画像1枚で表示 ---------- */
+  .route-img-card{ margin:8px 18px 0; background:var(--white); border-radius:var(--radius); padding:18px 18px 20px; box-shadow:var(--shadow); }
+  .route-img-card h3{ font-size:1.04rem; margin:0 0 12px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+  .route-img-card .thumb{ margin-bottom:0; aspect-ratio:4/3; }
 
   .bonus-box{ background:rgba(255,255,255,0.07); border-radius:18px; padding:15px 16px; margin-top:16px; }
   .bonus-box .lbl{ font-size:0.72rem; font-weight:800; color:var(--sun); letter-spacing:0.08em; margin-bottom:9px; }
@@ -243,6 +248,8 @@
 
   .thumb{ width:100%; border-radius:18px; overflow:hidden; margin-bottom:15px; aspect-ratio:4/3; position:relative; }
   .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .thumb-sm{ width:112px; border-radius:14px; overflow:hidden; margin-bottom:13px; aspect-ratio:4/3; box-shadow:0 5px 12px -6px rgba(60,50,30,0.3); }
+  .thumb-sm img{ width:100%; height:100%; object-fit:cover; }
 
   .connector{ text-align:center; color:var(--ink-soft); font-size:0.8rem; margin:2px 0 22px 68px; display:flex; align-items:center; gap:8px; }
   .connector .ic{ width:15px; height:15px; color:var(--sea); }
@@ -403,6 +410,7 @@
   ===================== -->
   <section class="section" id="overview">
     <div class="section-head"><h2>旅行概要</h2></div>
+
     <div class="overview-card">
       <div class="ov-row">
         <svg class="ic"><use href="#i-clock"/></svg>
@@ -410,7 +418,15 @@
       </div>
       <div class="ov-row">
         <svg class="ic"><use href="#i-users"/></svg>
-        <div><div class="k">メンバー</div><div class="v">おたけ &amp; みき ／ こうき &amp; あかりん</div></div>
+        <div style="flex:1;">
+          <div class="k">メンバー</div>
+          <div class="member-row">
+            <div class="member-item"><img class="member-pic" src="images/たけ.jpg" alt="おたけ"><div class="member-name">おたけ</div></div>
+            <div class="member-item"><img class="member-pic" src="images/みき.jpg" alt="みき"><div class="member-name">みき</div></div>
+            <div class="member-item"><img class="member-pic" src="images/こうき.jpg" alt="こうき"><div class="member-name">こうき</div></div>
+            <div class="member-item"><img class="member-pic" src="images/あかりん.jpg" alt="あかりん"><div class="member-name">あかりん</div></div>
+          </div>
+        </div>
       </div>
       <div class="ov-row">
         <svg class="ic"><use href="#i-car"/></svg>
@@ -437,6 +453,12 @@
     <div class="day-head"><span class="day-badge">DAY 1</span><h2>8/12（水）</h2></div>
     <div class="day-sub">両津港到着 → 北部絶景 → 海遊び → BBQ → 流星群</div>
 
+    <!-- DAY1 ルート図：images/day1-route.jpg を差し替えてください -->
+    <div class="route-img-card">
+      <h3>🚗 DAY1 佐渡北部ドライブコース</h3>
+      <div class="thumb"><img src="images/day1-route.jpg" alt="DAY1 佐渡北部ドライブコース図"></div>
+    </div>
+
     <!-- 出発前のポイント -->
     <div class="tip-card">
       <div class="tip-head"><svg class="ic"><use href="#i-bag"/></svg><h3>出発前のポイント</h3></div>
@@ -451,7 +473,7 @@
         <div class="time">10:47</div>
         <div class="dot"></div>
         <div class="card">
-          <div class="thumb"><img src="images/ジェットフォイル.jpeg" alt="ジェットフォイル"></div>
+          <div class="thumb-sm"><img src="images/ジェットフォイル.jpeg" alt="ジェットフォイル"></div>
           <h3>📍 両津港 到着</h3>
           <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=両津港 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
         </div>
@@ -614,7 +636,7 @@
               </div>
             </div>
             <div class="profile-row">
-              <div class="profile-pic placeholder">👩</div>
+              <img class="profile-pic" src="images/孝子さん.jpg" alt="孝子">
               <div class="profile-info">
                 <div class="profile-name">孝子（70）</div>
                 <div class="profile-comment">宇川家のマリア様。<br>疲労困憊のため、冷たいビールか日本酒を注いであげてください🍺🍶</div>
@@ -644,7 +666,7 @@
               </div>
             </div>
             <div class="profile-row">
-              <div class="profile-pic placeholder">👨</div>
+              <img class="profile-pic" src="images/かずし.png" alt="かずし">
               <div class="profile-info">
                 <div class="profile-name">かずし（33）</div>
                 <div class="profile-nick">かっしぇ丸</div>
@@ -747,6 +769,12 @@
     <div class="day-head"><span class="day-badge d2">DAY 2</span><h2>8/13（木）</h2></div>
     <div class="day-sub">午前は2プランから選択・午後は酒蔵とスイーツで帰路へ</div>
 
+    <!-- DAY2 ルート図：images/day2-route.jpg を差し替えてください -->
+    <div class="route-img-card">
+      <h3>🚗 DAY2 佐渡観光ルート</h3>
+      <div class="thumb"><img src="images/day2-route.jpg" alt="DAY2 佐渡観光ルート図"></div>
+    </div>
+
     <!-- 午前プラン A案・B案 -->
     <div class="section" style="padding-top:6px;">
       <div class="section-head"><h2 style="font-size:1.08rem;">午前の過ごし方</h2><span class="tag">2案から選択</span></div>
@@ -757,19 +785,7 @@
         <div class="route-photos"><img src="images/ひまわり.jpeg" alt="小川のひまわり畑"><img src="images/尖閣湾.jpeg" alt="尖閣湾揚島遊園"></div>
         <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園</div>
         <div class="feature-tags"><span>夏らしい景色</span><span>海沿いドライブ</span><span>写真スポット</span></div>
-        <div class="route-map">
-          <div class="route-map-label">🗺 自然満喫ルート</div>
-          <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
-            <path d="M90,70 Q200,10 310,70" fill="none" style="stroke:var(--leaf)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-            <circle cx="90" cy="70" r="16" style="fill:var(--sea)"/>
-            <text x="90" y="75" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">1</text>
-            <text x="90" y="100" text-anchor="middle" style="fill:var(--ink)" font-size="11.5">小川のひまわり畑</text>
-            <circle cx="310" cy="70" r="16" style="fill:var(--sun)"/>
-            <text x="310" y="75" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">2</text>
-            <text x="310" y="100" text-anchor="middle" style="fill:var(--ink)" font-size="11.5">尖閣湾揚島遊園</text>
-          </svg>
-          <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=小川のひまわり畑 佐渡&destination=尖閣湾揚島遊園 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
-        </div>
+        <a class="maplink" style="width:100%; justify-content:center; margin-top:14px;" href="https://www.google.com/maps/dir/?api=1&origin=小川のひまわり畑 佐渡&destination=尖閣湾揚島遊園 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
       </div>
 
       <div class="or-divider">当日の天候・気分で選択</div>
@@ -780,22 +796,7 @@
         <div class="route-photos"><img src="images/北沢昼.jpeg" alt="北沢浮遊選鉱場跡"><img src="images/金山.jpeg" alt="相川金山"></div>
         <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山</div>
         <div class="feature-tags"><span>佐渡の歴史</span><span>世界遺産エリア散策</span></div>
-        <div class="route-map">
-          <div class="route-map-label">🗺 歴史探訪ルート</div>
-          <svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-            <path d="M75,110 Q140,30 200,40 Q265,50 325,110" fill="none" style="stroke:var(--leaf)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-            <circle cx="75" cy="110" r="15" style="fill:var(--sea)"/>
-            <text x="75" y="115" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">1</text>
-            <text x="75" y="140" text-anchor="middle" style="fill:var(--ink)" font-size="11">きらりうむ佐渡</text>
-            <circle cx="200" cy="40" r="15" style="fill:var(--sun)"/>
-            <text x="200" y="45" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">2</text>
-            <text x="200" y="70" text-anchor="middle" style="fill:var(--ink)" font-size="11">北沢浮遊選鉱場跡</text>
-            <circle cx="325" cy="110" r="15" style="fill:var(--leaf-deep)"/>
-            <text x="325" y="115" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700">3</text>
-            <text x="325" y="140" text-anchor="middle" style="fill:var(--ink)" font-size="11">相川金山</text>
-          </svg>
-          <a class="maplink" href="https://www.google.com/maps/dir/?api=1&origin=きらりうむ佐渡 佐渡&destination=相川金山 佐渡&waypoints=北沢浮遊選鉱場跡 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
-        </div>
+        <a class="maplink" style="width:100%; justify-content:center; margin-top:14px;" href="https://www.google.com/maps/dir/?api=1&origin=きらりうむ佐渡 佐渡&destination=相川金山 佐渡&waypoints=北沢浮遊選鉱場跡 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
       </div>
     </div>
 
@@ -945,8 +946,10 @@
   ===================== -->
   <footer>
     <div class="fmark">佐渡島 夏旅 2026</div>
-    <p>おたけ・みき・こうき・あかりん、4人でのんびり楽しみましょう。</p>
-    <p>この しおり はブラウザにブックマークすると便利です。</p>
+    <p>おたけ・みき・こうき・あかりん<br>4人でのんびり楽しみましょう。</p>
+    <p>このしおりはブラウザにブックマークすると便利です。</p>
+    <p style="margin-top:18px; font-weight:700; color:var(--sun-deep);">最高の夏の思い出になりますように。</p>
+    <p style="margin-top:14px;">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
   </footer>
 
 </div>
