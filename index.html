@@ -40,6 +40,10 @@
     --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Noto Sans JP",sans-serif;
     --google-blue:#4285f4;
     --google-blue-deep:#2f5fc4;
+    /* マスキングテープ風アクセント：紙繊維ノイズ＋2色のアイボリー系トーン */
+    --tape-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='24'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.8 0 0 0 0 0.72 0 0 0 0 0.54 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='60' height='24' filter='url(%23n)'/%3E%3C/svg%3E");
+    --tape-a:rgba(236,224,196,0.78);
+    --tape-b:rgba(247,239,220,0.62);
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -99,15 +103,15 @@
     background:linear-gradient(180deg, rgba(40,50,30,0.1) 0%, rgba(30,40,30,0.16) 45%, rgba(20,26,22,0.82) 100%);
   }
   .hero::before{
-    content:""; position:absolute; top:18px; left:24px; width:58px; height:20px; z-index:2;
-    background:rgba(255,253,247,0.65); border:1px solid rgba(255,255,255,0.5);
-    transform:rotate(-6deg); box-shadow:0 3px 6px rgba(40,30,15,0.18);
+    content:""; position:absolute; top:16px; left:22px; width:64px; height:23px; z-index:2;
+    background-color:var(--tape-a); background-image:var(--tape-noise); background-blend-mode:multiply;
+    transform:rotate(-5deg); box-shadow:0 3px 6px rgba(40,30,15,0.2);
+    clip-path:polygon(1% 10%, 98% 0%, 100% 88%, 3% 100%);
   }
   .hero-stamp{ position:absolute; top:20px; right:22px; width:78px; height:78px; z-index:2; transform:rotate(6deg); filter:drop-shadow(0 3px 5px rgba(20,20,10,0.3)); }
   .hero-stamp svg{ width:100%; height:100%; display:block; }
   .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:0 24px 26px; color:#fff; text-align:center; }
-  .hero-text .eyebrow{ font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--star); margin-bottom:10px; }
-  .hero-text h1{ font-size:clamp(2.1rem,9.5vw,2.85rem); margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
+  .hero-text h1{ font-size:clamp(1.9rem,8.6vw,2.6rem); line-height:1.18; letter-spacing:0.03em; margin:0 0 10px; text-wrap:balance; text-shadow:0 3px 14px rgba(0,0,0,0.35); }
   .hero-text .sub{ font-size:0.98rem; color:#f5f7ec; opacity:0.95; }
 
   /* ---------- 見出し共通 ---------- */
@@ -144,9 +148,10 @@
   .day-banner img{ width:100%; height:100%; object-fit:cover; }
   .day-banner::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(30,40,30,0.08), rgba(20,26,22,0.76)); }
   .day-banner::before{
-    content:""; position:absolute; top:14px; left:20px; width:54px; height:19px; z-index:2;
-    background:rgba(255,253,247,0.6); border:1px solid rgba(255,255,255,0.5);
-    transform:rotate(-5deg); box-shadow:0 2px 5px rgba(40,30,15,0.16);
+    content:""; position:absolute; top:12px; left:18px; width:60px; height:22px; z-index:2;
+    background-color:var(--tape-a); background-image:var(--tape-noise); background-blend-mode:multiply;
+    transform:rotate(-5deg); box-shadow:0 2px 5px rgba(40,30,15,0.18);
+    clip-path:polygon(1% 10%, 98% 0%, 100% 88%, 3% 100%);
   }
   .day-banner .txt{ position:absolute; left:20px; bottom:16px; color:#fff; }
   .day-banner .badge{ display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.14em; background:var(--sun); color:#fff; padding:4px 12px; border-radius:999px; margin-bottom:8px; }
@@ -233,7 +238,6 @@
   .route-photos img:nth-child(2){ transform:rotate(2deg); }
   .plan-card .route{ display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin:8px 0 4px; font-size:0.92rem; font-weight:600; color:var(--ink); }
   .plan-card .route .arrow{ color:var(--leaf-deep); font-weight:400; }
-  .route-note{ font-size:0.8rem; color:var(--ink-soft); margin:0 0 10px; }
   .feature-tags{ display:flex; flex-wrap:wrap; gap:8px; }
   .feature-tags span{ font-size:0.77rem; background:var(--sky-pale); color:var(--sea-deep); padding:6px 11px; border-radius:999px; font-weight:600; }
 
@@ -272,11 +276,25 @@
   .pcard-list .pcard:nth-child(odd){ transform:rotate(-0.5deg); }
   .pcard-list .pcard:nth-child(even){ transform:rotate(0.5deg); }
 
-  /* 写真つきカードのワッシャーテープ風アクセント */
+  /* 写真つきカードのマスキングテープ風アクセント（スクラップブックに貼ったような2枚重ね） */
+  .thumb::before,.pcard-thumb::before,
+  .thumb::after,.pcard-thumb::after{
+    content:""; position:absolute; z-index:3; pointer-events:none;
+    background-color:var(--tape-a); background-image:var(--tape-noise); background-blend-mode:multiply;
+  }
   .thumb::before,.pcard-thumb::before{
-    content:""; position:absolute; top:10px; left:16px; width:50px; height:18px; z-index:2;
-    background:rgba(255,253,247,0.62); border:1px solid rgba(255,255,255,0.5);
-    transform:rotate(-6deg); box-shadow:0 2px 5px rgba(60,50,30,0.16); pointer-events:none;
+    top:4px; left:10px; width:60px; height:22px;
+    transform:rotate(-5deg) translateX(6px);
+    clip-path:polygon(1% 12%, 97% 0%, 100% 86%, 4% 100%);
+    box-shadow:0 3px 5px rgba(60,50,30,0.18);
+  }
+  .thumb::after,.pcard-thumb::after{
+    top:9px; left:16px; width:56px; height:20px;
+    background-color:var(--tape-b);
+    transform:rotate(4deg) translateX(-10px) translateY(3px);
+    clip-path:polygon(2% 0%, 100% 14%, 96% 100%, 0% 90%);
+    box-shadow:0 2px 3px rgba(60,50,30,0.12);
+    opacity:0.9;
   }
 
   /* ---------- 宇川家メンバー紹介（家族アルバム風プロフィールカード） ---------- */
@@ -481,8 +499,7 @@
       </svg>
     </div>
     <div class="hero-text">
-      <div class="eyebrow">Sado Island · Summer Trip</div>
-      <h1>佐渡島 夏旅 2026</h1>
+      <h1>SADO ISLAND<br>SUMMER TRIP 2026</h1>
       <div class="sub">海・絶景・BBQ・星空・日本酒を楽しむ2日間</div>
     </div>
   </div>
@@ -1225,7 +1242,7 @@
       const btnRow = document.createElement('div');
       btnRow.className = 'spot-btn-row';
       if(meta.lat != null){
-        btnRow.innerHTML += `<a class="maplink nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${meta.lat},${meta.lng}" target="_blank" rel="noopener">📍 Googleマップで開く</a>`;
+        btnRow.innerHTML += `<a class="maplink nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${meta.lat},${meta.lng}" target="_blank" rel="noopener">📍 現在地</a>`;
       }
       if(meta.website){
         btnRow.innerHTML += `<a class="maplink web-btn" href="${meta.website}" target="_blank" rel="noopener">🌐 公式サイト</a>`;
