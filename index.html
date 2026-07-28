@@ -18,16 +18,16 @@
      夏の佐渡らしい、少し柔らかい色合いに調整
      （海のブルー / 砂浜のベージュ / 自然のグリーン / アプリコット） */
   :root{
-    --sea:#4f93a3;
-    --sea-deep:#2f6c7c;
+    --sea:#4a8a9b;
+    --sea-deep:#2b6376;
     --sky-pale:#eef6f3;
     --sand:#f3e9d2;
     --sand-deep:#e0cd9d;
-    --leaf:#7fa06a;
-    --leaf-deep:#5d7d4c;
+    --leaf:#7c9760;
+    --leaf-deep:#5a7548;
     --white:#fffdf8;
-    --sun:#e2925c;
-    --sun-deep:#c66f3a;
+    --sun:#dd8a52;
+    --sun-deep:#bd6c37;
     --ink:#3c3226;
     --ink-soft:#8a7d68;
     --night:#243530;
@@ -63,9 +63,15 @@
   .wrap{ max-width:480px; margin:0 auto; position:relative; padding-bottom:64px; }
 
   /* ---------- 波線ディバイダー（旅ノート風の仕切り） ---------- */
-  .wave-divider{ padding:6px 22px; color:var(--sea); opacity:0.55; }
+  .wave-divider{ padding:6px 22px; color:var(--sea); opacity:0.55; position:relative; }
   .wave-divider svg{ width:100%; height:14px; display:block; }
   .wave-divider.dusk{ color:var(--sun-deep); opacity:0.7; }
+  .wave-divider .wd-icon{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    background:var(--sky-pale); width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:0.85rem;
+    box-shadow:0 2px 4px rgba(60,50,38,0.18);
+  }
 
   /* ---------- 見出しの手書き風アンダーライン ---------- */
   .section-head h2{ position:relative; display:inline-block; }
@@ -122,9 +128,28 @@
   .section-head .tag{ font-size:0.7rem; letter-spacing:0.14em; color:var(--sun-deep); text-transform:uppercase; font-weight:700; }
   .section-note{ color:var(--ink-soft); font-size:0.88rem; margin:-8px 0 18px; }
 
+  /* ---------- 手書き風の一言（旅の始まりを演出） ---------- */
+  .handwritten-note{
+    text-align:center; font-family:var(--font-heading); font-style:italic; color:var(--sea-deep);
+    font-size:0.94rem; margin:0 20px 16px; opacity:0.85; transform:rotate(-0.6deg);
+  }
+
+  /* ---------- 旅行チケット風ヘッダー（旅行概要カードの上部に接続） ---------- */
+  .ticket-stub{
+    margin:0 18px; background:linear-gradient(135deg, var(--sea-deep), var(--sea));
+    color:#fdf8ec; border-radius:22px 22px 0 0; padding:13px 20px 15px;
+    display:flex; justify-content:space-between; align-items:center; gap:10px; position:relative;
+  }
+  .ticket-stub .tt-label{ font-size:0.76rem; font-weight:800; letter-spacing:0.03em; }
+  .ticket-stub .tt-date{ font-size:0.72rem; font-weight:700; font-variant-numeric:tabular-nums; opacity:0.92; white-space:nowrap; }
+  .ticket-stub::after{
+    content:""; position:absolute; left:16px; right:16px; bottom:0;
+    border-bottom:2px dashed rgba(253,248,236,0.45);
+  }
+
   /* ---------- 旅行基本情報カード ---------- */
   .overview-card{
-    margin:0 18px; background:var(--white); border-radius:24px; padding:22px 22px 20px;
+    margin:0 18px; background:var(--white); border-radius:0 0 24px 24px; padding:22px 22px 20px;
     box-shadow:var(--shadow); display:flex; flex-direction:column; gap:18px;
   }
   .ov-row{ display:flex; align-items:flex-start; gap:14px; }
@@ -162,6 +187,7 @@
   .day-badge{ font-family:var(--font-heading); font-weight:700; font-size:0.9rem; color:#fff; background:var(--sea); padding:7px 14px; border-radius:999px; }
   .day-badge.d2{ background:var(--sun); }
   .day-head h2{ margin:0; font-size:1.36rem; color:var(--ink); }
+  .day-tagline{ padding:0 18px 4px; font-family:var(--font-heading); font-weight:700; color:var(--sun-deep); font-size:1rem; }
   .day-sub{ padding:0 18px 12px; color:var(--ink-soft); font-size:0.9rem; }
 
   /* ---------- 出発前のポイント（Tipカード） ---------- */
@@ -378,7 +404,14 @@
     font-size:0.8rem; padding:8px 14px; border-radius:999px; cursor:pointer;
   }
   .filter-chip.active{ background:var(--sea); color:#fff; }
-  .visited-counter{ margin:0 18px 16px; font-size:0.86rem; font-weight:700; color:var(--sea-deep); }
+  .visited-counter{
+    margin:0 18px 16px; font-size:0.94rem; font-weight:800; color:var(--sea-deep);
+    background:var(--white); display:inline-block; padding:9px 16px; border-radius:999px; box-shadow:var(--shadow);
+  }
+  @keyframes bump-pop{ 0%{ transform:scale(1); } 40%{ transform:scale(1.08); } 100%{ transform:scale(1); } }
+  .visited-counter.bump{ animation:bump-pop .35s ease; }
+  @keyframes check-pop{ 0%{ transform:scale(1); } 45%{ transform:scale(1.3); } 100%{ transform:scale(1); } }
+  .visited-chip.just-checked{ animation:check-pop .3s ease; }
 
   .spotlist{ display:flex; flex-direction:column; gap:18px; padding:0 18px; }
   .spotlist-item{
@@ -429,6 +462,14 @@
 
   footer{ text-align:center; padding:44px 24px 12px; color:var(--ink-soft); }
   footer .fmark{ font-family:var(--font-heading); font-size:1.2rem; color:var(--sea-deep); margin-bottom:8px; }
+  .closing-seal{ display:flex; justify-content:center; margin:24px 0 18px; }
+  .closing-seal-ring{
+    width:136px; height:136px; border-radius:50%; border:2px dashed var(--sun-deep);
+    display:flex; align-items:center; justify-content:center; padding:16px;
+    transform:rotate(-4deg); position:relative;
+  }
+  .closing-seal-ring::before{ content:""; position:absolute; inset:9px; border-radius:50%; border:1px solid var(--sun-deep); opacity:0.4; }
+  .closing-seal-text{ font-family:var(--font-heading); font-weight:700; color:var(--sun-deep); font-size:0.86rem; line-height:1.55; text-align:center; }
   footer p{ font-size:0.84rem; opacity:0.9; margin:5px 0; }
 
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
@@ -520,7 +561,12 @@
   ===================== -->
   <section class="section" id="overview">
     <div class="section-head"><h2>旅行概要</h2></div>
+    <p class="handwritten-note">さあ、佐渡島への旅がはじまります 🌊</p>
 
+    <div class="ticket-stub">
+      <span class="tt-label">🎫 SADO ISLAND TRIP</span>
+      <span class="tt-date">AUG 12–13, 2026</span>
+    </div>
     <div class="overview-card">
       <div class="ov-row">
         <svg class="ic"><use href="#i-clock"/></svg>
@@ -559,13 +605,14 @@
     </div>
   </section>
 
-  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="wave-divider" aria-hidden="true"><span class="wd-icon">⛴</span><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     DAY1 スケジュール
   ===================== -->
   <section id="day1">
     <div class="day-head"><span class="day-badge">DAY 1</span><h2>8/12（水）</h2></div>
+    <div class="day-tagline">「海と星空を楽しむ日」</div>
     <div class="day-sub">両津港到着 → 北部絶景 → 海遊び → BBQ → 流星群</div>
 
     <!-- 出発前のポイント -->
@@ -875,7 +922,7 @@
     </div>
   </section>
 
-  <div class="wave-divider dusk" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="wave-divider dusk" aria-hidden="true"><span class="wd-icon">🌙</span><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     DAY2 スケジュール
@@ -886,12 +933,13 @@
       <div class="txt"><span class="badge">DAY 2</span><div class="ttl">佐渡観光 → スイーツ → 両津港</div></div>
     </div>
     <div class="day-head"><span class="day-badge d2">DAY 2</span><h2>8/13（木）</h2></div>
+    <div class="day-tagline">「佐渡を巡る日」</div>
     <div class="day-sub">午前は2プランから選択・午後はスイーツを楽しんで帰路へ</div>
 
     <!-- DAY2 ルート図 -->
     <div class="route-img-card">
       <h3>🚗 DAY2 佐渡観光ルート</h3>
-      <div class="thumb"><img src="images/day2.jpeg" alt="DAY2 佐渡観光ルート図"></div>
+      <div class="thumb"><img src="images/day2.jpg" alt="DAY2 佐渡観光ルート図"></div>
     </div>
 
     <!-- 午前プラン A案・B案 -->
@@ -1012,7 +1060,7 @@
     </div>
   </section>
 
-  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="wave-divider" aria-hidden="true"><span class="wd-icon">📍</span><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     スポット一覧（現在地・並び替え・お気に入り・訪問済み）
@@ -1038,12 +1086,12 @@
       </div>
     </div>
 
-    <div class="visited-counter" id="visited-counter">訪問済み 0/0件</div>
+    <div class="visited-counter" id="visited-counter">🏁 0 / 0 スポット訪問</div>
 
     <div class="spotlist" id="spotlist-items"></div>
   </section>
 
-  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="wave-divider" aria-hidden="true"><span class="wd-icon">🎒</span><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     持ち物チェックリスト
@@ -1081,8 +1129,12 @@
   ===================== -->
   <footer>
     <div class="fmark">佐渡島 夏旅 2026</div>
-    <p style="margin-top:18px; font-weight:700; color:var(--sun-deep);">最高の夏の思い出になりますように。</p>
-    <p style="margin-top:14px;">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
+    <div class="closing-seal">
+      <div class="closing-seal-ring">
+        <div class="closing-seal-text">最高の夏の<br>思い出に<br>なりますように</div>
+      </div>
+    </div>
+    <p style="margin-top:6px;">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
   </footer>
 
 </div>
@@ -1136,11 +1188,19 @@
     renderSpotList();
   }
   function toggleVisited(id){
-    visitedSet.has(id) ? visitedSet.delete(id) : visitedSet.add(id);
+    const nowVisited = !visitedSet.has(id);
+    nowVisited ? visitedSet.add(id) : visitedSet.delete(id);
     saveIdSet(VISITED_KEY, visitedSet);
     syncSpotUI(id);
     renderSpotList();
     updateVisitedCounter();
+    if(nowVisited){
+      // チェックした瞬間に軽くポップするアニメーション
+      document.querySelectorAll(`.visited-chip[data-id="${id}"]`).forEach(chip=>{
+        chip.classList.add('just-checked');
+        setTimeout(()=> chip.classList.remove('just-checked'), 320);
+      });
+    }
   }
   // 未訪問／訪問済みの表示文言をここで一元管理
   function visitedLabel(id){ return visitedSet.has(id) ? '☑ 訪問済み' : '☐ 未訪問'; }
@@ -1311,7 +1371,10 @@
     const total = SPOT_ORDER.length;
     const done = SPOT_ORDER.filter(id=> visitedSet.has(id)).length;
     const el = document.getElementById('visited-counter');
-    if(el) el.textContent = `訪問済み ${done}/${total}件`;
+    if(el){
+      el.textContent = `🏁 ${done} / ${total} スポット訪問`;
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); // 更新のたびに軽くアニメーション
+    }
   }
 
   // お気に入り・訪問済みの操作はイベント委譲でまとめて処理（タイムライン／一覧どちらでも動く）
