@@ -354,12 +354,15 @@
     font-size:1.15rem; line-height:1; display:flex; align-items:center; justify-content:center;
     box-shadow:0 3px 8px rgba(60,50,30,0.2); cursor:pointer; padding:0;
   }
-  .visited-chip{
-    display:flex; align-items:center; gap:5px; background:rgba(255,253,248,0.9); border-radius:999px;
-    padding:8px 12px; font-size:0.74rem; font-weight:700; color:var(--ink); box-shadow:0 3px 8px rgba(60,50,30,0.2);
-    cursor:pointer; user-select:none;
+  /* 訪問済みチェックは1つの丸ボタンに統一（カード右上の小さな○/✓） */
+  .visited-dot{
+    appearance:none; border:none; width:38px; height:38px; border-radius:50%; padding:0; cursor:pointer;
+    background:rgba(255,253,248,0.9); box-shadow:0 3px 8px rgba(60,50,30,0.2);
+    font-size:1.05rem; font-weight:700; color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s ease, color .2s ease;
   }
-  .visited-chip input{ width:15px; height:15px; accent-color:var(--leaf-deep); margin:0; }
+  .visited-dot.checked{ background:var(--leaf-deep); color:#fff; }
   .is-visited:not(.night){ background-color:rgba(127,160,106,0.12); }
   .is-visited::before{
     content:"✓ 訪問済み"; position:absolute; top:12px; left:12px; z-index:5;
@@ -411,7 +414,18 @@
   @keyframes bump-pop{ 0%{ transform:scale(1); } 40%{ transform:scale(1.08); } 100%{ transform:scale(1); } }
   .visited-counter.bump{ animation:bump-pop .35s ease; }
   @keyframes check-pop{ 0%{ transform:scale(1); } 45%{ transform:scale(1.3); } 100%{ transform:scale(1); } }
-  .visited-chip.just-checked{ animation:check-pop .3s ease; }
+  .visited-dot.just-checked,.visited-toggle.just-checked{ animation:check-pop .3s ease; }
+
+  /* スポット一覧用：ステータス表示と操作を1つにまとめたトグルボタン */
+  .visited-toggle{
+    appearance:none; border:1.5px solid var(--line); background:var(--sky-pale); color:var(--ink-soft);
+    font-family:inherit; font-size:0.86rem; font-weight:700; padding:8px 15px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer; margin-bottom:6px;
+    transition:background .2s ease, color .2s ease, border-color .2s ease, opacity .2s ease;
+  }
+  .visited-toggle.checked{
+    background:rgba(127,160,106,0.22); color:var(--leaf-deep); border-color:rgba(127,160,106,0.45); opacity:0.92;
+  }
 
   .spotlist{ display:flex; flex-direction:column; gap:18px; padding:0 18px; }
   .spotlist-item{
@@ -423,15 +437,11 @@
   .spotlist-thumb img{ width:100%; height:100%; object-fit:cover; }
   .spotlist-main{ padding:16px 18px 6px; }
   .spotlist-item.no-thumb .spotlist-main{ padding-top:40px; }
-  .spotlist-name{ font-weight:700; font-size:1.05rem; color:var(--ink); margin-bottom:7px; }
-  .spotlist-status{ font-size:0.86rem; font-weight:700; color:var(--ink-soft); margin-bottom:5px; }
-  .spotlist-item.is-visited .spotlist-status{ color:var(--leaf-deep); }
+  .spotlist-name{ font-weight:700; font-size:1.05rem; color:var(--ink); margin-bottom:8px; }
   .spotlist-hours,.spotlist-dist{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:3px; }
   .spotlist-dist{ color:var(--sea-deep); font-weight:700; }
   .spotlist-actions{ display:flex; align-items:center; gap:10px; padding:12px 18px 18px; }
   .spotlist-actions .fav-btn{ position:static; width:38px; height:38px; font-size:1.1rem; box-shadow:none; background:var(--sky-pale); }
-  .spotlist-actions .visited-chip{ box-shadow:none; background:var(--sky-pale); padding:0; width:38px; height:38px; border-radius:10px; justify-content:center; }
-  .spotlist-actions .visited-chip input{ width:19px; height:19px; }
   .spotlist-actions .maplink{ padding:9px 15px; font-size:0.78rem; min-height:auto; margin-left:auto; }
   .spotlist-empty{ text-align:center; color:var(--ink-soft); font-size:0.88rem; padding:20px 0; }
 
@@ -460,16 +470,24 @@
   .info-card{ background:var(--white); border-radius:20px; padding:19px 20px; box-shadow:var(--shadow); }
   .info-card h3{ color:var(--ink); font-size:1.04rem; margin:0 0 10px; }
 
-  footer{ text-align:center; padding:44px 24px 12px; color:var(--ink-soft); }
-  footer .fmark{ font-family:var(--font-heading); font-size:1.2rem; color:var(--sea-deep); margin-bottom:8px; }
-  .closing-seal{ display:flex; justify-content:center; margin:24px 0 18px; }
+  /* ---------- フッター：夕日で旅を締めくくる余韻ページ ---------- */
+  footer{
+    text-align:center; padding:8px 24px 20px; color:var(--ink-soft); position:relative; overflow:hidden;
+    background:linear-gradient(180deg, transparent 0%, rgba(221,138,82,0.14) 35%, rgba(221,138,82,0.26) 100%);
+  }
+  .footer-wave{ width:100%; height:30px; display:block; color:var(--sun-deep); opacity:0.4; }
+  footer .fmark{ font-family:var(--font-heading); font-size:1.2rem; color:var(--sea-deep); margin:18px 0 8px; }
+  .closing-seal{ display:flex; justify-content:center; margin:24px 0 18px; position:relative; }
   .closing-seal-ring{
-    width:136px; height:136px; border-radius:50%; border:2px dashed var(--sun-deep);
+    width:140px; height:140px; border-radius:50%; border:2px dashed var(--sun-deep);
     display:flex; align-items:center; justify-content:center; padding:16px;
-    transform:rotate(-4deg); position:relative;
+    transform:rotate(-4deg); position:relative; background:rgba(255,253,248,0.5);
   }
   .closing-seal-ring::before{ content:""; position:absolute; inset:9px; border-radius:50%; border:1px solid var(--sun-deep); opacity:0.4; }
   .closing-seal-text{ font-family:var(--font-heading); font-weight:700; color:var(--sun-deep); font-size:0.86rem; line-height:1.55; text-align:center; }
+  .seal-deco{ position:absolute; font-size:1.15rem; opacity:0.75; filter:drop-shadow(0 1px 2px rgba(60,50,30,0.15)); }
+  .seal-deco.star{ top:-2px; left:6px; transform:rotate(-16deg); }
+  .seal-deco.camera{ bottom:2px; right:2px; transform:rotate(12deg); }
   footer p{ font-size:0.84rem; opacity:0.9; margin:5px 0; }
 
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
@@ -552,7 +570,7 @@
     </div>
     <div class="hero-text">
       <h1>SADO ISLAND<br>SUMMER TRIP 2026</h1>
-      <div class="sub">海・絶景・BBQ・星空・日本酒を楽しむ2日間</div>
+      <div class="sub">海・絶景・BBQ・星空を楽しむ2日間</div>
     </div>
   </div>
 
@@ -950,7 +968,7 @@
         <span class="plan-tag">A案</span>
         <h3><svg class="ic" style="width:16px;height:16px;color:var(--sea);vertical-align:-2px;"><use href="#i-flower"/></svg> 自然を楽しむプラン</h3>
         <div class="route-photos"><img src="images/ひまわり.jpeg" alt="小川のひまわり畑"><img src="images/尖閣湾.jpeg" alt="尖閣湾揚島遊園"></div>
-        <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園</div>
+        <div class="route">小川のひまわり畑<span class="arrow">→</span>尖閣湾揚島遊園<span class="arrow">→</span>ランチ<span class="arrow">→</span>あめやの桟橋</div>
         <div class="feature-tags"><span>夏らしい景色</span><span>海沿いドライブ</span><span>写真スポット</span></div>
         <a class="maplink" style="width:100%; justify-content:center; margin-top:14px;" href="https://www.google.com/maps/dir/?api=1&origin=小川のひまわり畑 佐渡&destination=尖閣湾揚島遊園 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
       </div>
@@ -961,25 +979,13 @@
         <span class="plan-tag b">B案</span>
         <h3><svg class="ic" style="width:16px;height:16px;color:var(--sun-deep);vertical-align:-2px;"><use href="#i-ruins"/></svg> 歴史を楽しむプラン</h3>
         <div class="route-photos"><img src="images/北沢昼.jpeg" alt="北沢浮遊選鉱場跡"><img src="images/金山.jpeg" alt="相川金山"></div>
-        <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山</div>
+        <div class="route">きらりうむ佐渡<span class="arrow">→</span>カフェ休憩<span class="arrow">→</span>北沢浮遊選鉱場跡<span class="arrow">→</span>相川金山<span class="arrow">→</span>ランチ<span class="arrow">→</span>あめやの桟橋</div>
         <div class="feature-tags"><span>佐渡の歴史</span><span>世界遺産エリア散策</span></div>
         <a class="maplink" style="width:100%; justify-content:center; margin-top:14px;" href="https://www.google.com/maps/dir/?api=1&origin=きらりうむ佐渡 佐渡&destination=相川金山 佐渡&waypoints=北沢浮遊選鉱場跡 佐渡&travelmode=driving" target="_blank" rel="noopener">📍 ルートを見る</a>
       </div>
     </div>
 
     <div class="timeline" style="padding-top:16px;">
-
-      <!-- あめやの桟橋（A案・B案共通、ランチ前に立ち寄り） -->
-      <div class="stop">
-        <div class="time">ランチ前</div>
-        <div class="dot"></div>
-        <div class="card" data-spot="ameya">
-          <h3><svg class="ic"><use href="#i-camera2"/></svg>あめやの桟橋</h3>
-          <div class="thumb"><img src="images/あめやの桟橋.jpeg" alt="あめやの桟橋"></div>
-          <ul class="list"><li>写真撮影</li><li>佐渡らしい海の景色を楽しむ</li></ul>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=あめやの桟橋 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
-        </div>
-      </div>
 
       <!-- ランチ候補（DAY2） -->
       <div class="stop">
@@ -1005,6 +1011,18 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- あめやの桟橋（A案・B案共通、ランチ後に立ち寄り） -->
+      <div class="stop">
+        <div class="time">ランチ後</div>
+        <div class="dot"></div>
+        <div class="card" data-spot="ameya">
+          <h3><svg class="ic"><use href="#i-camera2"/></svg>あめやの桟橋</h3>
+          <div class="thumb"><img src="images/あめやの桟橋.jpeg" alt="あめやの桟橋"></div>
+          <ul class="list"><li>写真撮影</li><li>佐渡らしい海の景色を楽しむ</li></ul>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=あめやの桟橋 佐渡" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
         </div>
       </div>
 
@@ -1128,10 +1146,13 @@
     フッター
   ===================== -->
   <footer>
+    <svg class="footer-wave" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0,15 Q25,3 50,15 T100,15 T150,15 T200,15 T250,15 T300,15 T350,15 T400,15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
     <div class="fmark">佐渡島 夏旅 2026</div>
     <div class="closing-seal">
       <div class="closing-seal-ring">
+        <span class="seal-deco star">⭐</span>
         <div class="closing-seal-text">最高の夏の<br>思い出に<br>なりますように</div>
+        <span class="seal-deco camera">📷</span>
       </div>
     </div>
     <p style="margin-top:6px;">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
@@ -1196,20 +1217,29 @@
     updateVisitedCounter();
     if(nowVisited){
       // チェックした瞬間に軽くポップするアニメーション
-      document.querySelectorAll(`.visited-chip[data-id="${id}"]`).forEach(chip=>{
-        chip.classList.add('just-checked');
-        setTimeout(()=> chip.classList.remove('just-checked'), 320);
+      document.querySelectorAll(`.visited-dot[data-id="${id}"],.visited-toggle[data-id="${id}"]`).forEach(el=>{
+        el.classList.add('just-checked');
+        setTimeout(()=> el.classList.remove('just-checked'), 320);
       });
     }
   }
-  // 未訪問／訪問済みの表示文言をここで一元管理
-  function visitedLabel(id){ return visitedSet.has(id) ? '☑ 訪問済み' : '☐ 未訪問'; }
+  // 未訪問／訪問済みの表示文言・記号をここで一元管理（1つのボタンで表示と操作を兼ねる）
+  function visitedLabel(id){ return visitedSet.has(id) ? '✓ 訪問済み' : '○ 未訪問'; }
+  function visitedSymbol(id){ return visitedSet.has(id) ? '✓' : '○'; }
 
   // 同じスポットが複数箇所（タイムラインカード＋一覧）に出ている場合、両方の表示を揃える
   function syncSpotUI(id){
     document.querySelectorAll(`.fav-btn[data-id="${id}"]`).forEach(b=> b.textContent = favorites.has(id) ? '❤️' : '♡');
-    document.querySelectorAll(`.visited-chip[data-id="${id}"] input`).forEach(cb=> cb.checked = visitedSet.has(id));
-    document.querySelectorAll(`.visited-chip[data-id="${id}"] .visited-label`).forEach(l=> l.textContent = visitedLabel(id));
+    document.querySelectorAll(`.visited-dot[data-id="${id}"]`).forEach(b=>{
+      b.textContent = visitedSymbol(id);
+      b.classList.toggle('checked', visitedSet.has(id));
+      b.setAttribute('aria-pressed', visitedSet.has(id));
+    });
+    document.querySelectorAll(`.visited-toggle[data-id="${id}"]`).forEach(b=>{
+      b.textContent = visitedLabel(id);
+      b.classList.toggle('checked', visitedSet.has(id));
+      b.setAttribute('aria-pressed', visitedSet.has(id));
+    });
     document.querySelectorAll(`[data-spot="${id}"]`).forEach(card=> card.classList.toggle('is-visited', visitedSet.has(id)));
   }
 
@@ -1279,7 +1309,7 @@
       badges.className = 'spot-badges';
       badges.innerHTML =
         `<button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>` +
-        `<label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> <span class="visited-label">${visitedLabel(id)}</span></label>`;
+        `<button type="button" class="visited-dot ${visitedSet.has(id) ? 'checked' : ''}" data-id="${id}" aria-pressed="${visitedSet.has(id)}" aria-label="訪問済みにする">${visitedSymbol(id)}</button>`;
       card.prepend(badges);
       if(visitedSet.has(id)) card.classList.add('is-visited');
 
@@ -1354,13 +1384,12 @@
           ${m.img ? `<div class="spotlist-thumb"><img src="${m.img}" alt="${m.name}" loading="lazy"></div>` : ''}
           <div class="spotlist-main">
             <div class="spotlist-name">📍 ${m.name}</div>
-            <div class="spotlist-status">ステータス：<span class="visited-label">${visitedLabel(id)}</span></div>
+            <button type="button" class="visited-toggle ${visited ? 'checked' : ''}" data-id="${id}" aria-pressed="${visited}">${visitedLabel(id)}</button>
             ${m.hours ? `<div class="spotlist-hours">🕒 ${m.hours}</div>` : ''}
             ${km != null ? `<div class="spotlist-dist">${distanceText(km)}</div>` : ''}
           </div>
           <div class="spotlist-actions">
             <button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>
-            <label class="visited-chip" data-id="${id}"><input type="checkbox" ${visited ? 'checked' : ''}></label>
             <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.name+' 佐渡')}" target="_blank" rel="noopener">🗺 地図を見る</a>
           </div>
         </div>`;
@@ -1380,11 +1409,9 @@
   // お気に入り・訪問済みの操作はイベント委譲でまとめて処理（タイムライン／一覧どちらでも動く）
   document.addEventListener('click', e=>{
     const favBtn = e.target.closest('.fav-btn');
-    if(favBtn){ toggleFavorite(favBtn.dataset.id); }
-  });
-  document.addEventListener('change', e=>{
-    const chip = e.target.closest('.visited-chip');
-    if(chip && e.target.type === 'checkbox'){ toggleVisited(chip.dataset.id); }
+    if(favBtn){ toggleFavorite(favBtn.dataset.id); return; }
+    const visitedBtn = e.target.closest('.visited-dot, .visited-toggle');
+    if(visitedBtn){ toggleVisited(visitedBtn.dataset.id); }
   });
   document.getElementById('locate-btn')?.addEventListener('click', requestCurrentLocation);
   document.getElementById('sort-select')?.addEventListener('change', e=>{ currentSort = e.target.value; renderSpotList(); });
