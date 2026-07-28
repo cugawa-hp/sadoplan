@@ -65,6 +65,7 @@
   /* ---------- 波線ディバイダー（旅ノート風の仕切り） ---------- */
   .wave-divider{ padding:6px 22px; color:var(--sea); opacity:0.55; }
   .wave-divider svg{ width:100%; height:14px; display:block; }
+  .wave-divider.dusk{ color:var(--sun-deep); opacity:0.7; }
 
   /* ---------- 見出しの手書き風アンダーライン ---------- */
   .section-head h2{ position:relative; display:inline-block; }
@@ -115,7 +116,7 @@
   .hero-text .sub{ font-size:0.98rem; color:#f5f7ec; opacity:0.95; }
 
   /* ---------- 見出し共通 ---------- */
-  .section{ padding:46px 18px 8px; }
+  .section{ padding:52px 20px 8px; }
   .section-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:22px; }
   .section-head h2{ font-size:1.52rem; color:var(--sea-deep); margin:0; }
   .section-head .tag{ font-size:0.7rem; letter-spacing:0.14em; color:var(--sun-deep); text-transform:uppercase; font-weight:700; }
@@ -189,7 +190,7 @@
   .stop.minor .dot{ background:var(--sea); box-shadow:0 0 0 4px rgba(79,147,163,0.18); width:9px; height:9px; margin-left:-4.5px; }
   .stop.minor .time{ color:var(--ink-soft); font-size:0.84rem; padding-top:13px; }
 
-  .card{ background:var(--white); border-radius:var(--radius); padding:21px 20px 20px; box-shadow:var(--shadow); }
+  .card{ background:var(--white); border-radius:var(--radius); padding:24px 22px 22px; box-shadow:var(--shadow); }
   .card h3{ margin:0 0 5px; font-size:1.14rem; display:flex; align-items:center; gap:8px; }
   .card h3 .ic{ width:19px; height:19px; color:var(--sun-deep); flex:0 0 auto; }
   .card .place-en{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:12px; }
@@ -253,7 +254,11 @@
   .bonus-tags{ display:flex; flex-wrap:wrap; gap:8px; }
   .bonus-tags span{ font-size:0.78rem; background:rgba(255,255,255,0.08); border:1px solid rgba(243,227,184,0.3); color:var(--star); padding:7px 12px; border-radius:999px; font-weight:600; }
 
-  .thumb{ width:100%; border-radius:18px; overflow:hidden; margin-bottom:15px; aspect-ratio:4/3; position:relative; }
+  .thumb{
+    width:100%; border-radius:18px; overflow:hidden; margin-bottom:17px; aspect-ratio:4/3; position:relative;
+    box-shadow:0 0 0 6px var(--white), 0 10px 22px -12px rgba(60,50,30,0.4);
+    transform:rotate(-0.4deg);
+  }
   .thumb img{ width:100%; height:100%; object-fit:cover; }
   .thumb-sm{ width:112px; border-radius:14px; overflow:hidden; margin-bottom:13px; aspect-ratio:4/3; box-shadow:0 5px 12px -6px rgba(60,50,30,0.3); }
   .thumb-sm img{ width:100%; height:100%; object-fit:cover; }
@@ -269,7 +274,7 @@
   .pcard{ background:var(--sky-pale); border-radius:18px; overflow:hidden; }
   .pcard-thumb{ width:100%; aspect-ratio:4/3; overflow:hidden; position:relative; }
   .pcard-thumb img{ width:100%; height:100%; object-fit:cover; }
-  .pcard-body{ padding:14px 16px 16px; }
+  .pcard-body{ padding:16px 18px 18px; }
   .pcard-name{ font-weight:700; font-size:1.02rem; color:var(--ink); margin-bottom:6px; }
   .pcard-meta{ font-size:0.84rem; color:var(--ink-soft); margin-bottom:4px; }
   .pcard-body .maplink{ margin-top:10px; }
@@ -375,20 +380,26 @@
   .filter-chip.active{ background:var(--sea); color:#fff; }
   .visited-counter{ margin:0 18px 16px; font-size:0.86rem; font-weight:700; color:var(--sea-deep); }
 
-  .spotlist{ display:flex; flex-direction:column; gap:12px; padding:0 18px; }
+  .spotlist{ display:flex; flex-direction:column; gap:18px; padding:0 18px; }
   .spotlist-item{
-    display:flex; justify-content:space-between; align-items:flex-start; gap:12px; background:var(--white);
-    border-radius:18px; padding:15px 16px; box-shadow:var(--shadow); position:relative;
+    display:flex; flex-direction:column; background:var(--white);
+    border-radius:22px; overflow:hidden; box-shadow:var(--shadow); position:relative;
   }
-  .spotlist-item.is-visited{ background-color:rgba(127,160,106,0.12); }
-  .spotlist-main{ min-width:0; }
-  .spotlist-name{ font-weight:700; font-size:0.98rem; color:var(--ink); margin-bottom:4px; }
-  .spotlist-hours,.spotlist-dist{ font-size:0.78rem; color:var(--ink-soft); margin-bottom:2px; }
+  .spotlist-item.is-visited{ background-color:rgba(127,160,106,0.14); }
+  .spotlist-thumb{ width:100%; aspect-ratio:16/9; overflow:hidden; }
+  .spotlist-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .spotlist-main{ padding:16px 18px 6px; }
+  .spotlist-item.no-thumb .spotlist-main{ padding-top:40px; }
+  .spotlist-name{ font-weight:700; font-size:1.05rem; color:var(--ink); margin-bottom:7px; }
+  .spotlist-status{ font-size:0.86rem; font-weight:700; color:var(--ink-soft); margin-bottom:5px; }
+  .spotlist-item.is-visited .spotlist-status{ color:var(--leaf-deep); }
+  .spotlist-hours,.spotlist-dist{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:3px; }
   .spotlist-dist{ color:var(--sea-deep); font-weight:700; }
-  .spotlist-actions{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex:0 0 auto; }
-  .spotlist-actions .fav-btn{ position:static; width:32px; height:32px; font-size:1rem; box-shadow:none; background:var(--sky-pale); }
-  .spotlist-actions .visited-chip{ box-shadow:none; background:var(--sky-pale); padding:6px 10px; font-size:0.7rem; }
-  .spotlist-actions .maplink{ padding:8px 13px; font-size:0.74rem; min-height:auto; }
+  .spotlist-actions{ display:flex; align-items:center; gap:10px; padding:12px 18px 18px; }
+  .spotlist-actions .fav-btn{ position:static; width:38px; height:38px; font-size:1.1rem; box-shadow:none; background:var(--sky-pale); }
+  .spotlist-actions .visited-chip{ box-shadow:none; background:var(--sky-pale); padding:0; width:38px; height:38px; border-radius:10px; justify-content:center; }
+  .spotlist-actions .visited-chip input{ width:19px; height:19px; }
+  .spotlist-actions .maplink{ padding:9px 15px; font-size:0.78rem; min-height:auto; margin-left:auto; }
   .spotlist-empty{ text-align:center; color:var(--ink-soft); font-size:0.88rem; padding:20px 0; }
 
   /* ---------- 持ち物チェックリスト ---------- */
@@ -864,7 +875,7 @@
     </div>
   </section>
 
-  <div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="wave-divider dusk" aria-hidden="true"><svg viewBox="0 0 400 24" preserveAspectRatio="none"><path d="M0,12 Q25,2 50,12 T100,12 T150,12 T200,12 T250,12 T300,12 T350,12 T400,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
 
   <!-- =====================
     DAY2 スケジュール
@@ -872,10 +883,10 @@
   <section id="day2">
     <div class="day-banner">
       <img src="images/尖閣湾.jpeg" alt="尖閣湾">
-      <div class="txt"><span class="badge">DAY 2</span><div class="ttl">佐渡観光 → 酒蔵 → スイーツ → 両津港</div></div>
+      <div class="txt"><span class="badge">DAY 2</span><div class="ttl">佐渡観光 → スイーツ → 両津港</div></div>
     </div>
     <div class="day-head"><span class="day-badge d2">DAY 2</span><h2>8/13（木）</h2></div>
-    <div class="day-sub">午前は2プランから選択・午後は酒蔵とスイーツで帰路へ</div>
+    <div class="day-sub">午前は2プランから選択・午後はスイーツを楽しんで帰路へ</div>
 
     <!-- DAY2 ルート図 -->
     <div class="route-img-card">
@@ -949,21 +960,6 @@
         </div>
       </div>
 
-      <div class="connector"><svg class="ic"><use href="#i-car"/></svg>移動 約10分</div>
-
-      <!-- 学校蔵 -->
-      <div class="stop">
-        <div class="time">午後</div>
-        <div class="dot"></div>
-        <div class="card" data-spot="gakkougura">
-          <h3><svg class="ic"><use href="#i-sake"/></svg>尾畑酒造株式会社 学校蔵</h3>
-          <div class="thumb"><img src="images/学校蔵.jpeg" alt="尾畑酒造 学校蔵"></div>
-          <div class="meta-row"><span class="chip"><svg class="ic"><use href="#i-clock"/></svg>滞在 約1時間</span></div>
-          <ul class="list"><li>酒蔵見学</li><li>日本酒文化体験</li><li>お土産購入</li></ul>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=尾畑酒造 学校蔵" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>地図を見る</a>
-        </div>
-      </div>
-
       <!-- スイーツ休憩 -->
       <div class="stop">
         <div class="time">休憩</div>
@@ -976,7 +972,7 @@
               <div class="pcard-thumb"><img src="images/タガヤス堂.jpeg" alt="タガヤス堂ドーナツ"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 タガヤス堂ドーナツ</div>
-                <div class="pcard-meta">🚗 学校蔵→約10分／両津まで約1時間</div>
+                <div class="pcard-meta">🚗 両津まで約1時間</div>
                 <div class="pcard-meta">✨ テイクアウト向き</div>
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=タガヤス堂ドーナツ 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
@@ -985,7 +981,7 @@
               <div class="pcard-thumb"><img src="images/フルーツカフェさいとう.jpeg" alt="フルーツカフェさいとう"></div>
               <div class="pcard-body">
                 <div class="pcard-name">📍 フルーツカフェさいとう</div>
-                <div class="pcard-meta">🚗 学校蔵→約30分／両津まで約15分</div>
+                <div class="pcard-meta">🚗 両津まで約15分</div>
                 <div class="pcard-meta">✨ フルーツ削り・パフェ・イートイン</div>
                 <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=フルーツカフェさいとう 佐渡" target="_blank" rel="noopener">🗺 地図を見る</a>
               </div>
@@ -1101,23 +1097,22 @@
   // lat/lng が無いスポット（私有地など）は距離・ナビ機能が自動的に非表示になります。
   // =====================================================================
   const SPOTS_META = {
-    ryotsu:       { name:'両津港',                 lat:38.0816,  lng:138.4381, hours:'5:00〜19:30',                                  duration:'到着後すぐ移動',      phone:'0259-27-5111',   website:'https://www.sadokisen.co.jp/access-map/terminal-guide-ryoutsu/' },
-    rentacar:     { name:'24レンタカー佐渡両津港店', lat:38.0712,  lng:138.4451, hours:'24時間（電話受付 8:30〜17:30）',                duration:'約20〜30分',          phone:'0259-23-3716',   website:'https://xn--lckwb3h2azcw013auzbw25h03bce.jp/' },
-    ishihara:     { name:'いしはら寿司',            lat:38.0800,  lng:138.4368, hours:'11:00〜14:00, 17:00〜23:00（火曜定休）',        duration:'45〜60分',            phone:'0259-27-2658' },
-    tenkoku:      { name:'味処 天國',               lat:38.0797,  lng:138.4364, hours:'11:30〜13:30, 17:00〜21:30（日曜定休）',        duration:'45〜60分',            phone:'0259-23-2714' },
-    uohide:       { name:'すしの魚秀',              lat:38.0807,  lng:138.4364, hours:'9:00〜14:00（夜は完全予約制・水曜定休）',       duration:'45〜60分',            phone:'0259-27-5610',   website:'https://sushi-uohide.com/' },
-    futatsugame:  { name:'二ツ亀海水浴場',          lat:38.3284,  lng:138.4868, hours:'見学自由（監視員在中 10:00〜17:00 夏季）',      duration:'約20分',              website:'https://www.visitsado.com/spot/detail0407/' },
-    onogame:      { name:'大野亀',                  lat:38.3210,  lng:138.4612, hours:'見学自由',                                      duration:'約30分',              website:'https://www.visitsado.com/spot/detail0133/' },
-    ugawa:        { name:'宇川家',                  lat:38.1570,  lng:138.2974, hours:null,                                            duration:'1〜1.5時間（素潜り）' },
-    bbq:          { name:'宇川家前BBQ',             lat:38.1570,  lng:138.2974, hours:null,                                            duration:'2〜3時間' },
-    minamikatabe: { name:'南片辺（流星群スポット）', lat:38.1504,  lng:138.3049, hours:'見学自由',                                      duration:'約30分' },
-    kitazawa:     { name:'北沢浮遊選鉱場跡',        lat:38.0368,  lng:138.2423, hours:'見学自由',                                      duration:'20〜30分' },
-    ameya:        { name:'あめやの桟橋',            lat:37.9995,  lng:138.3237, hours:'見学自由',                                      duration:'15分' },
-    shimafuumi:   { name:'しまふうみ',              lat:37.9400,  lng:138.3073, hours:'9:30〜16:00（火・水定休）',                    duration:'約1時間',             phone:'0259-55-4545',   website:'https://www.primosado.jp/shimafumi/' },
-    nagahama:     { name:'長浜荘',                  lat:37.9379,  lng:138.3078, hours:'11:00〜13:30（L.O.）',                          duration:'45分',                phone:'0259-55-2511',   website:'http://nagahama.skr.jp/' },
-    gakkougura:   { name:'尾畑酒造 学校蔵',         lat:37.9054,  lng:138.2954, hours:'季節限定営業（公式サイト参照）',                duration:'約1時間',             phone:'090-4327-3614',  website:'https://www.obata-shuzo.com/home/gakkogura/' },
-    tagayasu:     { name:'タガヤス堂ドーナツ',      lat:37.8755,  lng:138.3367, hours:'10:00〜17:00（売切れ次第終了・火水定休）',      duration:'15分',                phone:'070-5266-2738' },
-    fruitscafe:   { name:'フルーツカフェさいとう',  lat:38.0238,  lng:138.4295, hours:'11:00〜16:00（月曜定休・季節営業）',            duration:'30〜45分',            phone:'0259-67-7088' },
+    ryotsu:       { name:'両津港',                 img:'images/ジェットフォイル.jpeg',     lat:38.0816,  lng:138.4381, hours:'5:00〜19:30',                                  duration:'到着後すぐ移動',      phone:'0259-27-5111',   website:'https://www.sadokisen.co.jp/access-map/terminal-guide-ryoutsu/' },
+    rentacar:     { name:'24レンタカー佐渡両津港店', img:null,                              lat:38.0712,  lng:138.4451, hours:'24時間（電話受付 8:30〜17:30）',                duration:'約20〜30分',          phone:'0259-23-3716',   website:'https://xn--lckwb3h2azcw013auzbw25h03bce.jp/' },
+    ishihara:     { name:'いしはら寿司',            img:'images/いしはら寿し.jpeg',         lat:38.0800,  lng:138.4368, hours:'11:00〜14:00, 17:00〜23:00（火曜定休）',        duration:'45〜60分',            phone:'0259-27-2658' },
+    tenkoku:      { name:'味処 天國',               img:'images/天國.jpeg',                 lat:38.0797,  lng:138.4364, hours:'11:30〜13:30, 17:00〜21:30（日曜定休）',        duration:'45〜60分',            phone:'0259-23-2714' },
+    uohide:       { name:'すしの魚秀',              img:'images/すしの魚秀.jpeg',           lat:38.0807,  lng:138.4364, hours:'9:00〜14:00（夜は完全予約制・水曜定休）',       duration:'45〜60分',            phone:'0259-27-5610',   website:'https://sushi-uohide.com/' },
+    futatsugame:  { name:'二ツ亀海水浴場',          img:'images/二ツ亀.jpeg',               lat:38.3284,  lng:138.4868, hours:'見学自由（監視員在中 10:00〜17:00 夏季）',      duration:'約20分',              website:'https://www.visitsado.com/spot/detail0407/' },
+    onogame:      { name:'大野亀',                  img:'images/大野亀.jpeg',               lat:38.3210,  lng:138.4612, hours:'見学自由',                                      duration:'約30分',              website:'https://www.visitsado.com/spot/detail0133/' },
+    ugawa:        { name:'宇川家',                  img:'images/ugawa1.jpeg',               lat:38.1570,  lng:138.2974, hours:null,                                            duration:'1〜1.5時間（素潜り）' },
+    bbq:          { name:'宇川家前BBQ',             img:'images/BBQ.jpeg',                  lat:38.1570,  lng:138.2974, hours:null,                                            duration:'2〜3時間' },
+    minamikatabe: { name:'南片辺（流星群スポット）', img:null,                              lat:38.1504,  lng:138.3049, hours:'見学自由',                                      duration:'約30分' },
+    kitazawa:     { name:'北沢浮遊選鉱場跡',        img:'images/北沢.jpeg',                 lat:38.0368,  lng:138.2423, hours:'見学自由',                                      duration:'20〜30分' },
+    ameya:        { name:'あめやの桟橋',            img:'images/あめやの桟橋.jpeg',         lat:37.9995,  lng:138.3237, hours:'見学自由',                                      duration:'15分' },
+    shimafuumi:   { name:'しまふうみ',              img:'images/しまふうみ.jpg',            lat:37.9400,  lng:138.3073, hours:'9:30〜16:00（火・水定休）',                    duration:'約1時間',             phone:'0259-55-4545',   website:'https://www.primosado.jp/shimafumi/' },
+    nagahama:     { name:'長浜荘',                  img:'images/長浜荘.jpeg',               lat:37.9379,  lng:138.3078, hours:'11:00〜13:30（L.O.）',                          duration:'45分',                phone:'0259-55-2511',   website:'http://nagahama.skr.jp/' },
+    tagayasu:     { name:'タガヤス堂ドーナツ',      img:'images/タガヤス堂.jpeg',           lat:37.8755,  lng:138.3367, hours:'10:00〜17:00（売切れ次第終了・火水定休）',      duration:'15分',                phone:'070-5266-2738' },
+    fruitscafe:   { name:'フルーツカフェさいとう',  img:'images/フルーツカフェさいとう.jpeg', lat:38.0238,  lng:138.4295, hours:'11:00〜16:00（月曜定休・季節営業）',            duration:'30〜45分',            phone:'0259-67-7088' },
   };
   const SPOT_ORDER = Object.keys(SPOTS_META);
 
@@ -1147,10 +1142,14 @@
     renderSpotList();
     updateVisitedCounter();
   }
+  // 未訪問／訪問済みの表示文言をここで一元管理
+  function visitedLabel(id){ return visitedSet.has(id) ? '☑ 訪問済み' : '☐ 未訪問'; }
+
   // 同じスポットが複数箇所（タイムラインカード＋一覧）に出ている場合、両方の表示を揃える
   function syncSpotUI(id){
     document.querySelectorAll(`.fav-btn[data-id="${id}"]`).forEach(b=> b.textContent = favorites.has(id) ? '❤️' : '♡');
     document.querySelectorAll(`.visited-chip[data-id="${id}"] input`).forEach(cb=> cb.checked = visitedSet.has(id));
+    document.querySelectorAll(`.visited-chip[data-id="${id}"] .visited-label`).forEach(l=> l.textContent = visitedLabel(id));
     document.querySelectorAll(`[data-spot="${id}"]`).forEach(card=> card.classList.toggle('is-visited', visitedSet.has(id)));
   }
 
@@ -1220,7 +1219,7 @@
       badges.className = 'spot-badges';
       badges.innerHTML =
         `<button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>` +
-        `<label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> 行った</label>`;
+        `<label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> <span class="visited-label">${visitedLabel(id)}</span></label>`;
       card.prepend(badges);
       if(visitedSet.has(id)) card.classList.add('is-visited');
 
@@ -1289,17 +1288,20 @@
     wrap.innerHTML = ids.map(id=>{
       const m = SPOTS_META[id];
       const km = distanceTo(id);
+      const visited = visitedSet.has(id);
       return `
-        <div class="spotlist-item ${visitedSet.has(id) ? 'is-visited' : ''}">
+        <div class="spotlist-item ${visited ? 'is-visited' : ''} ${m.img ? '' : 'no-thumb'}">
+          ${m.img ? `<div class="spotlist-thumb"><img src="${m.img}" alt="${m.name}" loading="lazy"></div>` : ''}
           <div class="spotlist-main">
-            <div class="spotlist-name">${m.name}</div>
+            <div class="spotlist-name">📍 ${m.name}</div>
+            <div class="spotlist-status">ステータス：<span class="visited-label">${visitedLabel(id)}</span></div>
             ${m.hours ? `<div class="spotlist-hours">🕒 ${m.hours}</div>` : ''}
             ${km != null ? `<div class="spotlist-dist">${distanceText(km)}</div>` : ''}
           </div>
           <div class="spotlist-actions">
             <button type="button" class="fav-btn" data-id="${id}" aria-label="お気に入り">${favorites.has(id) ? '❤️' : '♡'}</button>
-            <label class="visited-chip" data-id="${id}"><input type="checkbox" ${visitedSet.has(id) ? 'checked' : ''}> 行った</label>
-            ${m.lat != null ? `<a class="maplink nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lng}" target="_blank" rel="noopener">📍ナビ</a>` : ''}
+            <label class="visited-chip" data-id="${id}"><input type="checkbox" ${visited ? 'checked' : ''}></label>
+            <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.name+' 佐渡')}" target="_blank" rel="noopener">🗺 地図を見る</a>
           </div>
         </div>`;
     }).join('');
