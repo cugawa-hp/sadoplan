@@ -472,23 +472,27 @@
 
   /* ---------- フッター：夕日で旅を締めくくる余韻ページ ---------- */
   footer{
-    text-align:center; padding:8px 24px 20px; color:var(--ink-soft); position:relative; overflow:hidden;
-    background:linear-gradient(180deg, transparent 0%, rgba(221,138,82,0.14) 35%, rgba(221,138,82,0.26) 100%);
+    text-align:center; padding:8px 24px 26px; color:var(--ink-soft); position:relative; overflow:hidden;
+    background:linear-gradient(180deg, transparent 0%, rgba(221,138,82,0.1) 25%, rgba(221,138,82,0.22) 60%, rgba(189,108,55,0.28) 100%);
   }
-  .footer-wave{ width:100%; height:30px; display:block; color:var(--sun-deep); opacity:0.4; }
-  footer .fmark{ font-family:var(--font-heading); font-size:1.2rem; color:var(--sea-deep); margin:18px 0 8px; }
-  .closing-seal{ display:flex; justify-content:center; margin:24px 0 18px; position:relative; }
-  .closing-seal-ring{
-    width:140px; height:140px; border-radius:50%; border:2px dashed var(--sun-deep);
-    display:flex; align-items:center; justify-content:center; padding:16px;
-    transform:rotate(-4deg); position:relative; background:rgba(255,253,248,0.5);
+  .footer-wave{ width:100%; height:30px; display:block; color:var(--sun-deep); opacity:0.35; }
+  .closing-page{ position:relative; max-width:270px; margin:30px auto 4px; padding:14px 0 2px; }
+  .closing-page::before{
+    content:""; position:absolute; top:50%; left:50%; width:220px; height:220px; z-index:0;
+    transform:translate(-50%,-52%) rotate(-6deg); border-radius:50%;
+    border:1px dashed rgba(189,108,55,0.28); pointer-events:none;
   }
-  .closing-seal-ring::before{ content:""; position:absolute; inset:9px; border-radius:50%; border:1px solid var(--sun-deep); opacity:0.4; }
-  .closing-seal-text{ font-family:var(--font-heading); font-weight:700; color:var(--sun-deep); font-size:0.86rem; line-height:1.55; text-align:center; }
-  .seal-deco{ position:absolute; font-size:1.15rem; opacity:0.75; filter:drop-shadow(0 1px 2px rgba(60,50,30,0.15)); }
-  .seal-deco.star{ top:-2px; left:6px; transform:rotate(-16deg); }
-  .seal-deco.camera{ bottom:2px; right:2px; transform:rotate(12deg); }
-  footer p{ font-size:0.84rem; opacity:0.9; margin:5px 0; }
+  .closing-spark{ position:relative; z-index:1; display:block; font-size:0.95rem; color:var(--sun-deep); opacity:0.7; margin-bottom:16px; }
+  .closing-headline{
+    position:relative; z-index:1; font-family:var(--font-heading); font-weight:700; font-size:1.3rem; line-height:1.7;
+    color:var(--ink); letter-spacing:0.02em; margin:0 0 16px;
+  }
+  .closing-brush{ position:relative; z-index:1; width:104px; height:12px; color:var(--sun-deep); opacity:0.5; margin:0 auto 14px; display:block; }
+  .closing-logo{
+    position:relative; z-index:1; font-family:var(--font-heading); font-weight:700; font-size:0.64rem; letter-spacing:0.2em;
+    color:var(--sun-deep); opacity:0.75; text-transform:uppercase; margin:0;
+  }
+  footer .closing-note{ font-size:0.84rem; opacity:0.9; margin:26px 0 0; }
 
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
 </style>
@@ -838,7 +842,7 @@
               <div class="profile-info">
                 <div class="profile-name">よしき（38）</div>
                 <div class="profile-nick">よーたん</div>
-                <div class="profile-comment">13日から帰省のため不在。<br>髪型が孝子さんと一緒。</div>
+                <div class="profile-comment">髪型が孝子さんと一緒。<br>ビール大好き🍺</div>
               </div>
             </div>
             <div class="profile-row">
@@ -1147,15 +1151,13 @@
   ===================== -->
   <footer>
     <svg class="footer-wave" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0,15 Q25,3 50,15 T100,15 T150,15 T200,15 T250,15 T300,15 T350,15 T400,15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-    <div class="fmark">佐渡島 夏旅 2026</div>
-    <div class="closing-seal">
-      <div class="closing-seal-ring">
-        <span class="seal-deco star">⭐</span>
-        <div class="closing-seal-text">最高の夏の<br>思い出に<br>なりますように</div>
-        <span class="seal-deco camera">📷</span>
-      </div>
+    <div class="closing-page">
+      <span class="closing-spark">✦</span>
+      <p class="closing-headline">最高の夏の<br>思い出になりますように。</p>
+      <svg class="closing-brush" viewBox="0 0 140 14" aria-hidden="true"><path d="M4,7 Q40,1 70,7 T136,6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <p class="closing-logo">SADO ISLAND SUMMER TRIP · 2026</p>
     </div>
-    <p style="margin-top:6px;">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
+    <p class="closing-note">今回は弾丸ツアーのため予定を詰め込んでいます。<br>時間と気分によってスポット（！）を省いたり、<br>カフェで休憩したりしてね。</p>
   </footer>
 
 </div>
